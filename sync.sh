@@ -22,10 +22,8 @@ function sync() {
   local host=$1
   local ip=10.98.217.93
   local stage=install
-  local prefix=/
 
   if [[ $stage == install ]]; then
-    prefix=/mnt/
     rdo sgdisk --clear /dev/nvme0n1 \
       --new=1:0:+1024M \
       --typecode=1:ef00 \
@@ -35,46 +33,48 @@ function sync() {
     rdo mkfs.fat -F 32 -n boot /dev/nvme0n1p1
     rdo mkfs.ext4 -L root /dev/nvme0n1p2
 
-    rdo mount /dev/nvme0n1p2 $prefix
-    rdo mount --mkdir /dev/nvme0n1p1 $prefix/boot
+    rdo mount /dev/nvme0n1p2 /mnt
+    rdo mount --mkdir /dev/nvme0n1p1 /mnt/boot
 
-    rdo pacstrap -K $prefix base linux linux-firmware amd-ucode
+    rdo pacstrap -K /mnt base linux linux-firmware iptables-nft mkinitcpio amd-ucode
 
-    rdo arch-chroot $prefix pacman -S --noconfirm sudo
+    rdo arch-chroot /mnt pacman --noconfirm -S sudo
 
-    rdo arch-chroot $prefix groupadd adam -g 1000
-    rdo arch-chroot $prefix useradd adam -u 1000 -g 1000 -m -G wheel
+    rdo arch-chroot /mnt groupadd adam -g 1000
+    rdo arch-chroot /mnt useradd adam -u 1000 -g 1000 -m -G wheel
 
     systemd-ask-password "Password for user 'adam'" \
-      | rdo passwd --root $prefix --stdin adam
+      | rdo passwd --root /mnt --stdin adam
   fi
 
-  sudo mkdir tmp
-  sudo cp -r *$host*/* tmp
-  sudo chmod 0440 tmp/etc/sudoers.d/wheel
+  mkdir tmp
+  cp -r *$host*/* tmp
+  chmod 0440 tmp/etc/sudoers.d/wheel
 
-  sudo chmod 0700 tmp/home/adam
-  sudo chown -R 1000:1000 tmp/home/adam
-  sudo chmod 0700 tmp/home/adam/.ssh
-
-  sudo rsync -rpgoIv -e "sudo -u adam ssh ${ssh_args[*]}" tmp/ root@$ip:$prefix
-  sudo rm -rf tmp
+  chmod 0700 tmp/home/adam
+  chmod 0700 tmp/home/adam/.ssh
 
   if [[ $stage == install ]]; then
-    rdo arch-chroot $prefix locale-gen
-    rdo arch-chroot $prefix bootctl install
-    rdo arch-chroot $prefix mkinitcpio -P
-    rdo arch-chroot $prefix ln -sf /usr/share/zoneinfo/Europe/Prague /etc/localtime
+    rsync -rpv -e "ssh ${ssh_args[*]}" --exclude="/home/adam" tmp/ root@$ip:/mnt
+    rsync -rpv -e "ssh ${ssh_args[*]}" tmp/home/adam/ --chown=1000:1000 root@$ip:/mnt/home/adam
+  fi
+
+  rm -rf tmp
+
+  if [[ $stage == install ]]; then
+    rdo arch-chroot /mnt locale-gen
+    rdo arch-chroot /mnt bootctl install
+    rdo arch-chroot /mnt mkinitcpio -P
+    rdo arch-chroot /mnt ln -sf /usr/share/zoneinfo/Europe/Prague /etc/localtime
     rdo ln -sf ../run/systemd/resolve/stub-resolv.conf /mnt/etc/resolv.conf
 
-    rdo arch-chroot $prefix systemctl enable \
-      systemd-timesyncd.service \
-      systemd-boot-update.service \
-      systemd-networkd.service \
-      systemd-resolved.service
+    rdo arch-chroot /mnt systemctl enable systemd-timesyncd.service
+    rdo arch-chroot /mnt systemctl enable systemd-boot-update.service
+    rdo arch-chroot /mnt systemctl enable systemd-networkd.service
+    rdo arch-chroot /mnt systemctl enable systemd-resolved.service
 
-    rdo arch-chroot $prefix pacman -S --noconfirm openssh
-    rdo arch-chroot $prefix systemctl enable sshd.service
+    rdo arch-chroot /mnt pacman --noconfirm -S openssh
+    rdo arch-chroot /mnt systemctl enable sshd.service
   fi
 }
 
