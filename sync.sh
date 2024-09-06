@@ -36,6 +36,7 @@ function sync() {
     rdo mount --mkdir /dev/nvme0n1p1 /mnt/boot
 
     rdo pacstrap -K /mnt \
+      man-db \
       rsync \
       openssh \
       polkit \
