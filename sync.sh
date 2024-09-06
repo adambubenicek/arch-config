@@ -11,7 +11,7 @@ ssh_args=(
 function rdo() {
   local user=root
   if [[ $1 == --user ]]; then
-    user_name=adam
+    user=adam
     shift
   fi
 
