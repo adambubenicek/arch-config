@@ -39,6 +39,7 @@ function sync() {
     rdo pacstrap -K /mnt \
       rsync \
       openssh \
+      polkit \
       base \
       linux \
       linux-firmware \
