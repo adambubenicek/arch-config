@@ -9,10 +9,9 @@ ssh_args=(
 )
 
 function rdo() {
-  local user=root
-  if [[ $1 == --user ]]; then
-    user=adam
-    shift
+  local user=adam
+  if [[ $stage == install ]]; then
+    user=root
   fi
 
   ssh ${ssh_args[@]} $user@$ip $@
