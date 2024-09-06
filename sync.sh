@@ -63,6 +63,9 @@ function sync() {
   if [[ $stage == install ]]; then
     rsync -rpv -e "ssh ${ssh_args[*]}" --exclude="/home/adam" tmp/ root@$ip:/mnt
     rsync -rpv -e "ssh ${ssh_args[*]}" tmp/home/adam/ --chown=1000:1000 root@$ip:/mnt/home/adam
+  else
+    rsync -rpv -e "ssh ${ssh_args[*]}" --exclude="/home/adam" --rsync-path="sudo /usr/bin/rsync" tmp/ adam@$ip:/
+    rsync -rpv -e "ssh ${ssh_args[*]}" tmp/home/adam/ adam@$ip:/home/adam
   fi
 
   rm -rf tmp
