@@ -36,9 +36,15 @@ function sync() {
     rdo mount /dev/nvme0n1p2 /mnt
     rdo mount --mkdir /dev/nvme0n1p1 /mnt/boot
 
-    rdo pacstrap -K /mnt base linux linux-firmware iptables-nft mkinitcpio amd-ucode
-
-    rdo arch-chroot /mnt pacman --noconfirm -S sudo
+    rdo pacstrap -K /mnt \
+      rsync \
+      openssh \
+      base \
+      linux \
+      linux-firmware \
+      iptables-nft \
+      mkinitcpio \
+      amd-ucode
 
     rdo arch-chroot /mnt groupadd adam -g 1000
     rdo arch-chroot /mnt useradd adam -u 1000 -g 1000 -m -G wheel
@@ -72,8 +78,6 @@ function sync() {
     rdo arch-chroot /mnt systemctl enable systemd-boot-update.service
     rdo arch-chroot /mnt systemctl enable systemd-networkd.service
     rdo arch-chroot /mnt systemctl enable systemd-resolved.service
-
-    rdo arch-chroot /mnt pacman --noconfirm -S openssh
     rdo arch-chroot /mnt systemctl enable sshd.service
   fi
 }
