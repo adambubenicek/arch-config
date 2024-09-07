@@ -13,14 +13,13 @@ function rdo() {
   if [[ $stage == install ]]; then
     user=root
   fi
-
   ssh ${ssh_args[@]} $user@$ip $@
 }
 
 function sync() {
   local host=$1
+  local stage=$2
   local ip=10.98.217.93
-  local stage=install
 
   if [[ $stage == install ]]; then
     rdo sgdisk --clear /dev/nvme0n1 \
@@ -84,6 +83,22 @@ function sync() {
     rdo arch-chroot /mnt systemctl enable systemd-resolved.service
     rdo arch-chroot /mnt systemctl enable sshd.service
   fi
+
+  if [[ $stage == firstboot ]]; then
+    rdo sudo pacman -S \
+      helix \
+      noto-fonts \
+      sway \
+      foot \
+      fuzzel \
+      pipewire \
+      pipewire-pulse \
+      pipewire-jack \
+      xdg-desktop-portal \
+      xdg-desktop-portal-gtk \
+      xdg-desktop-portal-wlr \
+      firefox
+  fi
 }
 
-sync kangaroo
+sync kangaroo firstboot
