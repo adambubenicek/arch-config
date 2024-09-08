@@ -48,12 +48,25 @@ function sync() {
       | rdo passwd --root /mnt --stdin adam
   fi
 
-  mkdir tmp
-  cp -r *$host*/* tmp
+  rm -rf tmp && mkdir tmp
+
+  for dir in *$host*; do
+    cd $dir
+    for file in **; do
+      if [[ -d $file ]]; then
+        mkdir ../tmp/$file
+      elif [[ -f $file ]]; then
+        envsubst < $file > ../tmp/$file
+      fi
+    done
+    cd ..
+  done
+
   chmod 0440 tmp/etc/sudoers.d/wheel
 
   chmod 0700 tmp/home/adam
   chmod 0700 tmp/home/adam/.ssh
+  chmod 0600 tmp/home/adam/.ssh/id_ed25519
 
   if [[ $stage == install ]]; then
     rsync -rpv -e "ssh ${ssh_args[*]}" --exclude="/home/adam" tmp/ root@$ip:/mnt
@@ -62,8 +75,6 @@ function sync() {
     rsync -rpv -e "ssh ${ssh_args[*]}" --exclude="/home/adam" --rsync-path="sudo /usr/bin/rsync" tmp/ adam@$ip:/
     rsync -rpv -e "ssh ${ssh_args[*]}" tmp/home/adam/ adam@$ip:/home/adam
   fi
-
-  rm -rf tmp
 
   if [[ $stage == install ]]; then
     rdo arch-chroot /mnt locale-gen
@@ -102,4 +113,10 @@ function sync() {
   fi
 }
 
-sync kangaroo firstboot
+set -a
+source .env
+set +a
+
+shopt -s globstar dotglob
+
+sync kangaroo normal
