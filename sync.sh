@@ -21,7 +21,7 @@ function rdo() {
 function sync() {
   local host=$1
   local stage=$2
-  local ip=10.98.217.93
+  local ip=$3
 
   if [[ $stage == install ]]; then
     rdo sgdisk --clear /dev/nvme0n1 \
@@ -119,4 +119,4 @@ function sync() {
   fi
 }
 
-sync kangaroo normal
+sync kangaroo normal 10.98.217.93
