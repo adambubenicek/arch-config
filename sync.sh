@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-set -ue
+set -uea
+shopt -s globstar dotglob
+source .env
 
 ssh_args=(
   -o ControlPath=$XDG_RUNTIME_DIR/ssh-%C
@@ -111,12 +113,10 @@ function sync() {
       firefox \
       amd-ucode
   fi
+
+  if [[ $stage == normal ]]; then
+    :
+  fi
 }
-
-set -a
-source .env
-set +a
-
-shopt -s globstar dotglob
 
 sync kangaroo normal
