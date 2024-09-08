@@ -95,8 +95,8 @@ function sync() {
   fi
 
   if [[ $stage == firstboot ]]; then
-    rdo sudo pacman -S \
-      helix \
+    rdo sudo pacman --noconfirm -S \
+      vim \
       noto-fonts \
       polkit \
       sway \
