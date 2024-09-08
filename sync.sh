@@ -35,16 +35,11 @@ function sync() {
     rdo mount --mkdir /dev/nvme0n1p1 /mnt/boot
 
     rdo pacstrap -K /mnt \
-      man-db \
-      rsync \
-      openssh \
-      polkit \
       base \
       linux \
       linux-firmware \
       iptables-nft \
-      mkinitcpio \
-      amd-ucode
+      mkinitcpio
 
     rdo arch-chroot /mnt groupadd adam -g 1000
     rdo arch-chroot /mnt useradd adam -u 1000 -g 1000 -m -G wheel
@@ -81,6 +76,8 @@ function sync() {
     rdo arch-chroot /mnt systemctl enable systemd-boot-update.service
     rdo arch-chroot /mnt systemctl enable systemd-networkd.service
     rdo arch-chroot /mnt systemctl enable systemd-resolved.service
+
+    rdo arch-chroot /mnt sudo pacman -S openssh
     rdo arch-chroot /mnt systemctl enable sshd.service
   fi
 
@@ -88,7 +85,10 @@ function sync() {
     rdo sudo pacman -S \
       helix \
       noto-fonts \
+      polkit \
       sway \
+      man-db \
+      rsync \
       foot \
       fuzzel \
       pipewire \
@@ -97,7 +97,8 @@ function sync() {
       xdg-desktop-portal \
       xdg-desktop-portal-gtk \
       xdg-desktop-portal-wlr \
-      firefox
+      firefox \
+      amd-ucode
   fi
 }
 
