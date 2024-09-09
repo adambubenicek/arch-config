@@ -90,7 +90,7 @@ function sync() {
     rdo arch-chroot /mnt systemctl enable systemd-networkd.service
     rdo arch-chroot /mnt systemctl enable systemd-resolved.service
 
-    rdo arch-chroot /mnt sudo pacman -S openssh
+    rdo arch-chroot /mnt pacman -S sudo rsync openssh
     rdo arch-chroot /mnt systemctl enable sshd.service
   fi
 
@@ -101,7 +101,6 @@ function sync() {
       polkit \
       sway \
       man-db \
-      rsync \
       foot \
       fuzzel \
       pipewire \
