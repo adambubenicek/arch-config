@@ -56,7 +56,7 @@ function sync() {
     cd $dir
     for file in **; do
       if [[ -d $file ]]; then
-        mkdir ../tmp/$file
+        mkdir -p ../tmp/$file
       elif [[ -f $file ]]; then
         envsubst < $file > ../tmp/$file
       fi
