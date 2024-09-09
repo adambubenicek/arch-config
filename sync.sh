@@ -92,6 +92,7 @@ function sync() {
 
     rdo arch-chroot /mnt pacman -S sudo rsync openssh
     rdo arch-chroot /mnt systemctl enable sshd.service
+    rdo reboot
   fi
 
   if [[ $stage == firstboot ]]; then
@@ -111,11 +112,12 @@ function sync() {
       xdg-desktop-portal-wlr \
       firefox \
       amd-ucode
+
+    rdo reboot
   fi
 
-  if [[ $stage == normal ]]; then
-    :
-  fi
+  # if [[ $stage == normal ]]; then
+  # fi
 }
 
 sync kangaroo normal 10.98.217.93
