@@ -1,0 +1,11 @@
+[user]
+	name = Adam B
+	email = git@adamb.cz
+[init]
+	defaultBranch = main
+[push]
+	autoSetupRemote = true
+[pull]
+	rebase = true
+[bash]
+	showInformativeStatus = true
