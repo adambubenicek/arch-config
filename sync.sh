@@ -98,13 +98,18 @@ function sync() {
   if [[ $stage == firstboot ]]; then
     rdo sudo pacman --noconfirm -S \
       vim \
+      fzf \
       git \
       noto-fonts \
+      noto-fonts-emoji \
       polkit \
       sway \
+      sway-bg \
+      i3status-rust \
+      playerctl \
+      xorg-xwayland \
       man-db \
       foot \
-      fuzzel \
       pipewire \
       pipewire-pulse \
       pipewire-jack \
@@ -112,13 +117,20 @@ function sync() {
       xdg-desktop-portal-gtk \
       xdg-desktop-portal-wlr \
       firefox \
+      keyd \
+      mesa \
+      libva-mesa-driver \
+      vulcan-radeon \
+      lib32-vulcan-radeon \
       amd-ucode
 
     rdo reboot
   fi
 
-  # if [[ $stage == normal ]]; then
-  # fi
+  if [[ $stage == normal ]]; then
+    curl -fLo ~/.config/vim/autoload/plug.vim --create-dirs \
+      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  fi
 }
 
 sync kangaroo normal 10.98.217.93
