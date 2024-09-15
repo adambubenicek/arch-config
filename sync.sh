@@ -10,12 +10,16 @@ ssh_args=(
   -o ControlPersist=60
 )
 
-function rdo() {
-  local user=adam
-  if [[ $stage == install ]]; then
-    user=root
-  fi
-  ssh ${ssh_args[@]} $user@$ip $@
+function cmd() {
+  :
+}
+
+function file() {
+  :
+}
+
+function dir() {
+  :
 }
 
 function sync() {
@@ -23,113 +27,155 @@ function sync() {
   local stage=$2
   local ip=$3
 
-  if [[ $stage == install ]]; then
-    rdo sgdisk --clear /dev/nvme0n1 \
-      --new=1:0:+1024M \
-      --typecode=1:ef00 \
-      --new=2:0:0 \
-      --typecode=2:8304 # 8309 for LUKS
+  # Installation
+  cmd_stages=( install )
+  file_stages=( install )
+  dir_stages=( install )
 
-    rdo mkfs.fat -F 32 -n boot /dev/nvme0n1p1
-    rdo mkfs.ext4 -L root /dev/nvme0n1p2
+  # Partition drives
+  cmd sgdisk --clear /dev/nvme0n1 \
+    --new=1:0:+1024M \
+    --typecode=1:ef00 \
+    --new=2:0:0 \
+    --typecode=2:8304 # 8309 for LUKS
 
-    rdo mount /dev/nvme0n1p2 /mnt
-    rdo mount --mkdir /dev/nvme0n1p1 /mnt/boot
+  # Format partitions
+  cmd mkfs.fat -F 32 -n boot /dev/nvme0n1p1
+  cmd mkfs.ext4 -L root /dev/nvme0n1p2
 
-    rdo pacstrap -K /mnt \
-      base \
-      linux \
-      linux-firmware \
-      iptables-nft \
-      mkinitcpio
+  # Mount partitions
+  cmd mount /dev/nvme0n1p2 /mnt
+  cmd mount --mkdir /dev/nvme0n1p1 /mnt/boot
 
-    rdo arch-chroot /mnt groupadd adam -g 1000
-    rdo arch-chroot /mnt useradd adam -u 1000 -g 1000 -m -G wheel
+  # Bootstrap system
+  cmd pacstrap -K /mnt \
+    base \
+    linux \
+    linux-firmware \
+    iptables-nft \
+    mkinitcpio
 
-    systemd-ask-password "Password for user 'adam'" \
-      | rdo passwd --root /mnt --stdin adam
+
+  # Chroot
+  cmd_stages=( chroot )
+  file_stages=( chroot firstboot regularboot )
+  dir_stages=( chroot )
+
+  # Fstab
+  file /etc/fstab
+
+  # Hostname
+  file /etc/hostname
+
+  # Utilities
+  cmd pacman -S \
+    man-db \
+    tree
+
+  # Drivers and microcode
+  cmd pacman -S \
+    mesa \
+    libva-mesa-driver \
+    vulcan-radeon \
+    lib32-vulcan-radeon \
+    amd-ucode
+
+  # Network
+  file /etc/systemd/network/90-dhcp.network
+  cmd systemctl enable systemd-networkd.service
+
+  # Locale
+  file /etc/locale.gen
+  file /etc/locale.conf
+
+  cmd locale-gen
+
+  # Timezone
+  cmd ln -sf /usr/share/zoneinfo/Europe/Prague /etc/localtime
+  cmd systemctl enable systemd-timesyncd.service
+
+  # Bootloader
+  cmd bootctl install
+  cmd systemctl enable systemd-boot-update.service
+  file /boot/loader/loader.conf
+  file /boot/loader/entries/arch.conf
+
+  # Initramfs
+  file /etc/mkinitcpio.conf.d/systemd.conf
+  cmd mkinitcpio -P
+
+  # Sudo
+  cmd pacman -S sudo
+  file --mode 440 /etc/sudoers.d/wheel
+
+  # User
+  # TODO automate adding password
+  cmd useradd -m -G wheel adam
+
+  # Polkit
+  cmd pacman -S polkit
+
+  # SSH
+  cmd pacman -S openssh
+  cmd systemctl enable sshd.service
+
+  dir --mode 700 /home/adam/.ssh
+  file --template --mode 600 --user /home/adam/.ssh/authorized_keys
+
+  if [[ $host == "hippo" || $host == "kangaroo" ]]; then
+    file --template --mode 600 --user /home/adam/.ssh/id_ed25519
+    file --template --mode 644 --user /home/adam/.ssh/id_ed25519.pub
   fi
 
-  rm -rf tmp && mkdir tmp
 
-  for dir in *$host*; do
-    cd $dir
-    for file in **; do
-      if [[ -d $file ]]; then
-        mkdir -p ../tmp/$file
-      elif [[ -f $file ]]; then
-        envsubst < $file > ../tmp/$file
-      fi
-    done
-    cd ..
-  done
+  # Boot
+  cmd_stages=( firstboot )
+  file_stages=( firstboot regularboot )
+  dir_stages=( firstboot )
 
-  chmod 0440 tmp/etc/sudoers.d/wheel
+  # DNS
+  cmd systemctl enable systemd-resolved.service
+  cmd ln -sf ../run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 
-  chmod 0700 tmp/home/adam
-  chmod 0700 tmp/home/adam/.ssh
-  chmod 0600 tmp/home/adam/.ssh/id_ed25519
+  if [[ $host == "hippo" || $host == "kangaroo" ]]; then
+    # Git
+    cmd pacman -S git
+    dir --user /home/adam/.config/git
+    file --user /home/adam/.config/git/config
 
-  if [[ $stage == install ]]; then
-    rsync -rpv -e "ssh ${ssh_args[*]}" --exclude="/home/adam" tmp/ root@$ip:/mnt
-    rsync -rpv -e "ssh ${ssh_args[*]}" --chown=1000:1000 tmp/home/adam/ root@$ip:/mnt/home/adam
-  else
-    rsync -rpv -e "ssh ${ssh_args[*]}" --exclude="/home/adam" --rsync-path="sudo /usr/bin/rsync" tmp/ adam@$ip:/
-    rsync -rpv -e "ssh ${ssh_args[*]}" tmp/home/adam/ adam@$ip:/home/adam
-  fi
+    # Vim
+    cmd pacman -S vim fzf
+    cmd --user curl -fLo ~/.config/vim/autoload/plug.vim --create-dirs \
+      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-  if [[ $stage == install ]]; then
-    rdo arch-chroot /mnt locale-gen
-    rdo arch-chroot /mnt bootctl install
-    rdo arch-chroot /mnt mkinitcpio -P
-    rdo arch-chroot /mnt ln -sf /usr/share/zoneinfo/Europe/Prague /etc/localtime
-    rdo ln -sf ../run/systemd/resolve/stub-resolv.conf /mnt/etc/resolv.conf
-
-    rdo arch-chroot /mnt systemctl enable systemd-timesyncd.service
-    rdo arch-chroot /mnt systemctl enable systemd-boot-update.service
-    rdo arch-chroot /mnt systemctl enable systemd-networkd.service
-    rdo arch-chroot /mnt systemctl enable systemd-resolved.service
-
-    rdo arch-chroot /mnt pacman -S sudo rsync openssh
-    rdo arch-chroot /mnt systemctl enable sshd.service
-    rdo reboot
-  fi
-
-  if [[ $stage == firstboot ]]; then
-    rdo sudo pacman --noconfirm -S \
-      vim \
-      fzf \
-      git \
+    # Sway
+    cmd pacman -S \
       noto-fonts \
       noto-fonts-emoji \
-      polkit \
       sway \
       sway-bg \
       i3status-rust \
       playerctl \
       xorg-xwayland \
-      man-db \
       foot \
       pipewire \
       pipewire-pulse \
       pipewire-jack \
       xdg-desktop-portal \
       xdg-desktop-portal-gtk \
-      xdg-desktop-portal-wlr \
-      firefox \
-      keyd \
-      mesa \
-      libva-mesa-driver \
-      vulcan-radeon \
-      lib32-vulcan-radeon \
-      amd-ucode
+      xdg-desktop-portal-wlr
 
-    rdo reboot
-  fi
+    # Keyd
+    cmd pacman -S keyd
+    file /etc/keyd/default.conf
 
-  if [[ $stage == normal ]]; then
-    curl -fLo ~/.config/vim/autoload/plug.vim --create-dirs \
-      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    # Firefox
+    cmd pacman -S firefox
+    dir /usr/lib/firefox/
+    file /usr/lib/firefox/firefox.cfg
+    dir /usr/lib/firefox/defaults
+    dir /usr/lib/firefox/defaults/pref
+    file /usr/lib/firefox/defaults/pref/autoconfig.js
   fi
 }
 
