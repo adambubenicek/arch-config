@@ -59,7 +59,7 @@ function sync() {
   # Chroot
   cmd_stages=( chroot )
   file_stages=( chroot firstboot regularboot )
-  dir_stages=( chroot )
+  dir_stages=( chroot firstboot regularboot )
 
   # Fstab
   file /etc/fstab
@@ -131,7 +131,7 @@ function sync() {
   # Boot
   cmd_stages=( firstboot )
   file_stages=( firstboot regularboot )
-  dir_stages=( firstboot )
+  dir_stages=( firstboot regularboot )
 
   # DNS
   cmd systemctl enable systemd-resolved.service
