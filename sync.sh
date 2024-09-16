@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -ueax
+set -uea
 shopt -s globstar dotglob
 source .env
 
@@ -11,9 +11,58 @@ ssh_args=(
 )
 
 function cmd() {
-  if [[ "$boot" == "$cmd_boots" ]]; then
-    echo "Running $@"
+  # Check if command should be run during this boot.
+  if [[ " ${cmd_boots[*]} " != *" $boot "* ]]; then
+    # Nothing to do, exit early.
+    return 0 
   fi
+
+  local user="root"
+  local ssh_user
+  local ssh_command
+
+  # Parse options
+  while true; do
+    case "$1" in
+      --user=*) user="${i#*=}"; shift;;
+      --user) user="adam"; shift;;
+      *) break;;
+    esac
+  done
+
+  if [[ "$boot" == "install" ]]; then
+    ssh_user="root"
+    ssh_command="$@"
+
+    if [[ "$user" != "$ssh_user" ]]; then
+      echo "Only root can be used to execute commands during install."
+      exit 1
+    fi 
+  fi
+
+  if [[ "$boot" == "install-chroot" ]]; then
+    ssh_user="root"
+
+    if [[ "$user" == "$ssh_user" ]]; then
+      ssh_command="arch-chroot /mnt $@"
+    else
+      ssh_command="arch-chroot -u $user /mnt $@"
+    fi 
+  fi
+
+  if [[ "$boot" == "first" || "$boot" == "regular" ]]; then
+    ssh_user="adam"
+
+    if [[ "$user" == "$ssh_user" ]]; then
+      ssh_command="$@"
+    elif [[ "$user" == "root" ]]; then
+      ssh_command="sudo $@"
+    else
+      ssh_command="sudo -u $user $@"
+    fi 
+  fi
+
+  ssh ${ssh_args[@]} "$ssh_user@$ssh_host" "$ssh_command"
 }
 
 function file() {
@@ -27,7 +76,7 @@ function dir() {
 function sync() {
   local host=$1
   local boot=$2
-  local ip=$3
+  local ssh_host=$3
 
   # Installation
   cmd_boots=( install )
@@ -185,4 +234,4 @@ function sync() {
   fi
 }
 
-sync kangaroo normal 10.98.217.93
+sync kangaroo install 10.98.217.93
