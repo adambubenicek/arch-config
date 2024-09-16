@@ -287,8 +287,8 @@ function sync() {
   cmd pacman -S \
     mesa \
     libva-mesa-driver \
-    vulcan-radeon \
-    lib32-vulcan-radeon \
+    vulkan-radeon \
+    lib32-vulkan-radeon \
     amd-ucode
 
   # Network
