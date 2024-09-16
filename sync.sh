@@ -313,6 +313,8 @@ function sync() {
 
   # Initramfs
   file /etc/mkinitcpio.conf.d/systemd.conf
+  file /etc/vconsole.conf
+
   cmd mkinitcpio -P
 
   # Sudo
