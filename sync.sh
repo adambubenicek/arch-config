@@ -322,8 +322,11 @@ function sync() {
   file --mode=440 /etc/sudoers.d/wheel
 
   # User
-  # TODO automate adding password
-  cmd useradd -m -G wheel adam
+  cmd useradd \
+    --create-home \
+    --groups wheel \
+    --password \'"$user_password_encrypted"\' \
+    adam
 
   # Polkit
   cmd pacman -S polkit
