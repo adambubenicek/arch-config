@@ -168,7 +168,65 @@ function file() {
 }
 
 function dir() {
-  :
+  local force=false
+  local user="root"
+  local mode=755
+  local owner
+  local group
+
+  # Parse options
+  while true; do
+    case "$1" in
+      --user=*) user="${1#*=}"; shift;;
+      --user) user="adam"; shift;;
+      --mode=*) mode="${1#*=}"; shift;;
+      --owner=*) owner="${1#*=}"; shift;;
+      --group=*) group="${1#*=}"; shift;;
+      --force) force=true; shift;;
+      *) break;;
+    esac
+  done
+
+  # Check if file should be installed during this boot.
+  if [[ " ${dir_boots[*]} " != *" $boot "* && "$force" == false ]]; then
+    # Nothing to do, exit early.
+    return 0 
+  fi
+
+  owner="${owner:-$user}"
+  group="${group:-$user}"
+  cmd_args=( --user="$user" --force )
+
+  local path="$1"
+
+  # Check if directory already exists on remote.
+  if cmd ${cmd_args[@]} test -d "$path"; then
+    local remote_stat=( $(cmd ${cmd_args[@]} stat -c \'%a %U %G\' "$path") )
+
+    if [[ "${remote_stat[0]}" != "$mode" ]]; then
+      if confirm "Change mode of $path from ${remote_stat[0]} to $mode?"; then
+        cmd ${cmd_args[@]} chmod "$mode" "$path"
+      fi
+    fi
+
+    if [[ "${remote_stat[1]}" != "$owner" ]]; then
+      if confirm "Change owner of $path from ${remote_stat[1]} to $owner?"; then
+        cmd ${cmd_args[@]} chown "$owner" "$path"
+      fi
+    fi
+
+    if [[ "${remote_stat[2]}" != "$group" ]]; then
+      if confirm "Change group of $path from ${remote_stat[2]} to $group?"; then
+        cmd ${cmd_args[@]} chown "$group" "$path"
+      fi
+    fi
+  else
+    cmd ${cmd_args[@]} "mkdir -p $path"
+    cmd ${cmd_args[@]} "chmod $mode $path"
+    cmd ${cmd_args[@]} "chown $owner $path"
+    cmd ${cmd_args[@]} "chgrp $group $path"
+  fi
+
 }
 
 function sync() {
@@ -272,7 +330,7 @@ function sync() {
   cmd pacman -S openssh
   cmd systemctl enable sshd.service
 
-  dir --mode=700 /home/adam/.ssh
+  dir --user --mode=700 /home/adam/.ssh
   file --template --mode=644 --user /home/adam/.ssh/authorized_keys
 
   if [[ $host == "hippo" || $host == "kangaroo" ]]; then
@@ -324,9 +382,10 @@ function sync() {
 
     # Firefox
     cmd pacman -S firefox
+
     dir /usr/lib/firefox/
     file /usr/lib/firefox/firefox.cfg
-    dir /usr/lib/firefox/defaults
+
     dir /usr/lib/firefox/defaults/pref
     file /usr/lib/firefox/defaults/pref/autoconfig.js
   fi
