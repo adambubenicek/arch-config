@@ -24,13 +24,13 @@ function dir() {
 
 function sync() {
   local host=$1
-  local stage=$2
+  local boot=$2
   local ip=$3
 
   # Installation
-  cmd_stages=( install )
-  file_stages=( install )
-  dir_stages=( install )
+  cmd_boots=( install )
+  file_boots=( install )
+  dir_boots=( install )
 
   # Partition drives
   cmd sgdisk --clear /dev/nvme0n1 \
@@ -57,9 +57,9 @@ function sync() {
 
 
   # Chroot
-  cmd_stages=( chroot )
-  file_stages=( chroot firstboot regularboot )
-  dir_stages=( chroot firstboot regularboot )
+  cmd_boots=( install-chroot )
+  file_boots=( install-chroot first regular )
+  dir_boots=( install-chroot first regular )
 
   # Fstab
   file /etc/fstab
@@ -129,9 +129,9 @@ function sync() {
 
 
   # Boot
-  cmd_stages=( firstboot )
-  file_stages=( firstboot regularboot )
-  dir_stages=( firstboot regularboot )
+  cmd_boots=( first )
+  file_boots=( first regular )
+  dir_boots=( first regular )
 
   # DNS
   cmd systemctl enable systemd-resolved.service
