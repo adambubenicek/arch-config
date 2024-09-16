@@ -276,15 +276,15 @@ function sync() {
 
   # Pacman
   file /etc/pacman.conf
-  cmd pacman -Syu
+  cmd pacman -Syu --noconfirm
 
   # Utilities
-  cmd pacman -S \
+  cmd pacman -S --noconfirm \
     man-db \
     tree
 
   # Drivers and microcode
-  cmd pacman -S \
+  cmd pacman -S --noconfirm \
     mesa \
     libva-mesa-driver \
     vulkan-radeon \
@@ -318,7 +318,7 @@ function sync() {
   cmd mkinitcpio -P
 
   # Sudo
-  cmd pacman -S sudo
+  cmd pacman -S --noconfirm sudo
   file --mode=440 /etc/sudoers.d/wheel
 
   # User
@@ -329,10 +329,10 @@ function sync() {
     adam
 
   # Polkit
-  cmd pacman -S polkit
+  cmd pacman -S --noconfirm polkit
 
   # SSH
-  cmd pacman -S openssh
+  cmd pacman -S --noconfirm openssh
   cmd systemctl enable sshd.service
 
   dir --user --mode=700 /home/adam/.ssh
@@ -355,17 +355,17 @@ function sync() {
 
   if [[ $host == "hippo" || $host == "kangaroo" ]]; then
     # Git
-    cmd pacman -S git
+    cmd pacman -S --noconfirm git
     dir --user /home/adam/.config/git
     file --user /home/adam/.config/git/config
 
     # Vim
-    cmd pacman -S vim fzf
+    cmd pacman -S --noconfirm vim fzf
     cmd --user curl -fLo ~/.config/vim/autoload/plug.vim --create-dirs \
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
     # Sway
-    cmd pacman -S \
+    cmd pacman -S --noconfirm \
       noto-fonts \
       noto-fonts-emoji \
       sway \
@@ -382,11 +382,11 @@ function sync() {
       xdg-desktop-portal-wlr
 
     # Keyd
-    cmd pacman -S keyd
+    cmd pacman -S --noconfirm keyd
     file /etc/keyd/default.conf
 
     # Firefox
-    cmd pacman -S firefox
+    cmd pacman -S --noconfirm firefox
 
     dir /usr/lib/firefox/
     file /usr/lib/firefox/firefox.cfg
@@ -396,4 +396,7 @@ function sync() {
   fi
 }
 
-sync kangaroo install 10.98.217.93
+sync kangaroo first 10.98.217.99
+# sync kangaroo install-chroot 10.98.217.93
+# sync kangaroo first 10.98.217.93
+# sync kangaroo regular 10.98.217.93
