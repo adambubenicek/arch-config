@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -uea
+set -ueax
 shopt -s globstar dotglob
 source .env
 
@@ -11,7 +11,9 @@ ssh_args=(
 )
 
 function cmd() {
-  :
+  if [[ "$boot" == "$cmd_boots" ]]; then
+    echo "Running $@"
+  fi
 }
 
 function file() {
@@ -66,6 +68,10 @@ function sync() {
 
   # Hostname
   file /etc/hostname
+
+  # Pacman
+  file /etc/pacman.conf
+  cmd pacman -Syu
 
   # Utilities
   cmd pacman -S \
