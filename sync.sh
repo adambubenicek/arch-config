@@ -27,12 +27,7 @@ function confirm() {
 }
 
 function cmd() {
-  # Check if command should be run during this boot.
-  if [[ " ${cmd_boots[*]} " != *" $boot "* ]]; then
-    # Nothing to do, exit early.
-    return 0 
-  fi
-
+  local force=false
   local user="root"
   local ssh_user
   local ssh_command
@@ -42,9 +37,17 @@ function cmd() {
     case "$1" in
       --user=*) user="${1#*=}"; shift;;
       --user) user="adam"; shift;;
+      --force) force=true; shift;;
       *) break;;
     esac
   done
+
+  # Check if command should be run during this boot.
+  if [[ " ${cmd_boots[*]} " != *" $boot "* && "$force" == false ]]; then
+    # Nothing to do, exit early.
+    return 0 
+  fi
+
 
   if [[ "$boot" == "install" ]]; then
     ssh_user="root"
@@ -82,13 +85,7 @@ function cmd() {
 }
 
 function file() {
-  # Check if file should be installed during this boot.
-  if [[ " ${file_boots[*]} " != *" $boot "* ]]; then
-    # Nothing to do, exit early.
-    return 0 
-  fi
-
-  local cmd_boots=${file_boots[@]}
+  local force=false
   local user="root"
   local template=false
   local mode=644
@@ -104,12 +101,20 @@ function file() {
       --owner=*) owner="${1#*=}"; shift;;
       --group=*) group="${1#*=}"; shift;;
       --template) template=true; shift;;
+      --force) force=true; shift;;
       *) break;;
     esac
   done
 
+  # Check if file should be installed during this boot.
+  if [[ " ${file_boots[*]} " != *" $boot "* && "$force" == false ]]; then
+    # Nothing to do, exit early.
+    return 0 
+  fi
+
   owner="${owner:-$user}"
   group="${group:-$user}"
+  cmd_args=( --user="$user" --force )
 
   local path="$1"
   local local_copy_path="$(mktemp)"
@@ -121,42 +126,42 @@ function file() {
   fi
 
   # Check if file already exists on remote.
-  if cmd --user="$user" test -f "$path"; then
+  if cmd ${cmd_args[@]} test -f "$path"; then
     local remote_copy_path="$(mktemp)"
-    local remote_stat=( $(cmd --user="$user" stat -c \'%a %U %G\' "$path") )
+    local remote_stat=( $(cmd ${cmd_args[@]} stat -c \'%a %U %G\' "$path") )
 
-    cmd --user="$user" "cat $path" > "$remote_copy_path"
+    cmd ${cmd_args[@]} "cat $path" > "$remote_copy_path"
     
     if ! diff --color "$remote_copy_path" "$local_copy_path"; then
       if confirm "Overwrite changes?"; then
-        cmd --user="$user" "tee $path >/dev/null" < "$local_copy_path"
+        cmd ${cmd_args[@]} "tee $path >/dev/null" < "$local_copy_path"
       fi
     fi
 
     if [[ "${remote_stat[0]}" != "$mode" ]]; then
       if confirm "Change mode of $path from ${remote_stat[0]} to $mode?"; then
-        cmd --user="$user" chmod "$mode" "$path"
+        cmd ${cmd_args[@]} chmod "$mode" "$path"
       fi
     fi
 
     if [[ "${remote_stat[1]}" != "$owner" ]]; then
       if confirm "Change owner of $path from ${remote_stat[1]} to $owner?"; then
-        cmd --user="$user" chown "$owner" "$path"
+        cmd ${cmd_args[@]} chown "$owner" "$path"
       fi
     fi
 
     if [[ "${remote_stat[2]}" != "$group" ]]; then
       if confirm "Change group of $path from ${remote_stat[2]} to $group?"; then
-        cmd --user="$user" chown "$group" "$path"
+        cmd ${cmd_args[@]} chown "$group" "$path"
       fi
     fi
 
     rm "$remote_copy_path"
   else
-    cmd --user="$user" "tee $path >/dev/null" < "$local_copy_path"
-    cmd --user="$user" "chmod $mode $path"
-    cmd --user="$user" "chown $owner $path"
-    cmd --user="$user" "chgrp $group $path"
+    cmd ${cmd_args[@]} "tee $path >/dev/null" < "$local_copy_path"
+    cmd ${cmd_args[@]} "chmod $mode $path"
+    cmd ${cmd_args[@]} "chown $owner $path"
+    cmd ${cmd_args[@]} "chgrp $group $path"
   fi
 
   rm "$local_copy_path"
