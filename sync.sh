@@ -10,6 +10,22 @@ ssh_args=(
   -o ControlPersist=60
 )
 
+function confirm() {
+  local prompt="$1"
+  local answer
+  local result
+
+  while true; do
+    read -p "$prompt [yn]" answer
+
+    case "$answer" in
+      y|Y) result=0; break;;
+      n|N) result=1; break;;
+      *) continue;; 
+    esac
+  done
+}
+
 function cmd() {
   # Check if command should be run during this boot.
   if [[ " ${cmd_boots[*]} " != *" $boot "* ]]; then
@@ -24,7 +40,7 @@ function cmd() {
   # Parse options
   while true; do
     case "$1" in
-      --user=*) user="${i#*=}"; shift;;
+      --user=*) user="${1#*=}"; shift;;
       --user) user="adam"; shift;;
       *) break;;
     esac
@@ -66,7 +82,84 @@ function cmd() {
 }
 
 function file() {
-  :
+  # Check if file should be installed during this boot.
+  if [[ " ${file_boots[*]} " != *" $boot "* ]]; then
+    # Nothing to do, exit early.
+    return 0 
+  fi
+
+  local cmd_boots=${file_boots[@]}
+  local user="root"
+  local template=false
+  local mode=644
+  local owner
+  local group
+
+  # Parse options
+  while true; do
+    case "$1" in
+      --user=*) user="${1#*=}"; shift;;
+      --user) user="adam"; shift;;
+      --mode=*) mode="${1#*=}"; shift;;
+      --owner=*) owner="${1#*=}"; shift;;
+      --group=*) group="${1#*=}"; shift;;
+      --template) template=true; shift;;
+      *) break;;
+    esac
+  done
+
+  owner="${owner:-$user}"
+  group="${group:-$user}"
+
+  local path="$1"
+  local local_copy_path="$(mktemp)"
+
+  if [[ "$template" == true ]]; then
+    envsubst < *$host*"$path" > "$local_copy_path"
+  else
+    cat *$host*"$path" > "$local_copy_path"
+  fi
+
+  # Check if file already exists on remote.
+  if cmd --user="$user" test -f "$path"; then
+    local remote_copy_path="$(mktemp)"
+    local remote_stat=( $(cmd --user="$user" stat -c \'%a %U %G\' "$path") )
+
+    cmd --user="$user" "cat $path" > "$remote_copy_path"
+    
+    if ! diff --color "$remote_copy_path" "$local_copy_path"; then
+      if confirm "Overwrite changes?"; then
+        cmd --user="$user" "tee $path >/dev/null" < "$local_copy_path"
+      fi
+    fi
+
+    if [[ "${remote_stat[0]}" != "$mode" ]]; then
+      if confirm "Change mode of $path from ${remote_stat[0]} to $mode?"; then
+        cmd --user="$user" chmod "$mode" "$path"
+      fi
+    fi
+
+    if [[ "${remote_stat[1]}" != "$owner" ]]; then
+      if confirm "Change owner of $path from ${remote_stat[1]} to $owner?"; then
+        cmd --user="$user" chown "$owner" "$path"
+      fi
+    fi
+
+    if [[ "${remote_stat[2]}" != "$group" ]]; then
+      if confirm "Change group of $path from ${remote_stat[2]} to $group?"; then
+        cmd --user="$user" chown "$group" "$path"
+      fi
+    fi
+
+    rm "$remote_copy_path"
+  else
+    cmd --user="$user" "tee $path >/dev/null" < "$local_copy_path"
+    cmd --user="$user" "chmod $mode $path"
+    cmd --user="$user" "chown $owner $path"
+    cmd --user="$user" "chgrp $group $path"
+  fi
+
+  rm "$local_copy_path"
 }
 
 function dir() {
@@ -152,8 +245,8 @@ function sync() {
   # Bootloader
   cmd bootctl install
   cmd systemctl enable systemd-boot-update.service
-  file /boot/loader/loader.conf
-  file /boot/loader/entries/arch.conf
+  file --mode=755 /boot/loader/loader.conf
+  file --mode=755 /boot/loader/entries/arch.conf
 
   # Initramfs
   file /etc/mkinitcpio.conf.d/systemd.conf
@@ -161,7 +254,7 @@ function sync() {
 
   # Sudo
   cmd pacman -S sudo
-  file --mode 440 /etc/sudoers.d/wheel
+  file --mode=440 /etc/sudoers.d/wheel
 
   # User
   # TODO automate adding password
@@ -174,12 +267,12 @@ function sync() {
   cmd pacman -S openssh
   cmd systemctl enable sshd.service
 
-  dir --mode 700 /home/adam/.ssh
-  file --template --mode 600 --user /home/adam/.ssh/authorized_keys
+  dir --mode=700 /home/adam/.ssh
+  file --template --mode=644 --user /home/adam/.ssh/authorized_keys
 
   if [[ $host == "hippo" || $host == "kangaroo" ]]; then
-    file --template --mode 600 --user /home/adam/.ssh/id_ed25519
-    file --template --mode 644 --user /home/adam/.ssh/id_ed25519.pub
+    file --template --mode=600 --user /home/adam/.ssh/id_ed25519
+    file --template --mode=644 --user /home/adam/.ssh/id_ed25519.pub
   fi
 
 
