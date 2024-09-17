@@ -1,3 +1,5 @@
+icons_format = "<span color='#7c6f64'>{icon}</span>"
+
 [theme]
 theme = "native"
 
@@ -36,6 +38,7 @@ step_width = 1
 [[block]]
 block = "backlight"
 step_width = 1
+missing_format = " NA "
 
 [[block]]
 block = "keyboard_layout"
