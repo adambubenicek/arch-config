@@ -1,3 +1,5 @@
+vim9script
+
 call plug#begin()
 
 Plug 'tpope/vim-sensible'
@@ -7,6 +9,7 @@ Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
+Plug 'yegappan/lsp'
 
 call plug#end()
 
@@ -19,7 +22,22 @@ set background=dark
 
 colorscheme gruvbox-material
 
-let mapleader = " "
+var mapleader = " "
 nnoremap <leader>g :Git<CR>
 nnoremap <leader>f :Files<CR>
 nnoremap <leader>b :Buffers<CR>
+nnoremap ]d :LspDiagNext<CR>
+nnoremap [d :LspDiagPrev<CR>
+
+autocmd User LspSetup call LspOptionsSet({autoHighlightDiags: v:true})
+
+var lspServers = [
+  {
+    name: 'bashls',
+    filetype: ['sh'],
+    path: '/usr/bin/bash-language-server',
+    args: ['start']
+  }
+]
+
+autocmd User LspSetup call LspAddServer(lspServers)

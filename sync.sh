@@ -386,7 +386,11 @@ function sync() {
     file --user /home/adam/.config/git/config
 
     # Vim
-    cmd pacman -S --noconfirm vim fzf
+    cmd pacman -S --noconfirm \
+      shellcheck \
+      bash-language-server \
+      vim \
+      fzf
 
     dir --user /home/adam/.config/vim
     file --user /home/adam/.config/vim/vimrc
