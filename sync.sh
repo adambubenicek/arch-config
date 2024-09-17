@@ -348,6 +348,12 @@ function sync() {
     file --template --mode=644 --user /home/adam/.ssh/id_ed25519.pub
   fi
 
+  if [[ $host == "kangaroo" ]]; then
+    # Wifi
+    cmd pacman -S --noconfirm iwd
+    cmd systemctl enable iwd.service
+  fi
+
 
   # Boot
   cmd_boots=( first )
