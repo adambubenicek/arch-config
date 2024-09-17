@@ -403,6 +403,7 @@ function sync() {
 
     # Keyd
     cmd pacman -S --noconfirm keyd
+    cmd systemctl enable keyd
     file /etc/keyd/default.conf
 
     # Firefox
