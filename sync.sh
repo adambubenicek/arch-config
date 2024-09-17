@@ -16,10 +16,10 @@ function confirm() {
   local result
 
   while true; do
-    read -p "$prompt [yn]" answer
+    read -p "$prompt [Yn] " answer
 
     case "$answer" in
-      y|Y) result=0; break;;
+      y|Y|'') result=0; break;;
       n|N) result=1; break;;
       *) continue;; 
     esac
