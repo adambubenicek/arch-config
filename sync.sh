@@ -416,6 +416,9 @@ function sync() {
 
     dir /usr/lib/firefox/defaults/pref
     file /usr/lib/firefox/defaults/pref/autoconfig.js
+
+    # GTK
+    cmd --user gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
   fi
 }
 
