@@ -22,7 +22,7 @@ set background=dark
 
 colorscheme gruvbox-material
 
-var mapleader = " "
+g:mapleader = " "
 nnoremap <leader>g :Git<CR>
 nnoremap <leader>f :Files<CR>
 nnoremap <leader>b :Buffers<CR>

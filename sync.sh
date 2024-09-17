@@ -5,7 +5,7 @@ shopt -s globstar dotglob
 source .env
 
 ssh_args=(
-  -o ControlPath=$XDG_RUNTIME_DIR/ssh-%C
+  -o ControlPath="$XDG_RUNTIME_DIR/ssh-%C"
   -o ControlMaster=auto 
   -o ControlPersist=60
 )
@@ -16,7 +16,7 @@ function confirm() {
   local result
 
   while true; do
-    read -p "$prompt [Yn] " answer
+    read -r -p "$prompt [Yn] " answer
 
     case "$answer" in
       y|Y|'') result=0; break;;
@@ -53,7 +53,7 @@ function cmd() {
 
   if [[ "$boot" == "install" ]]; then
     ssh_user="root"
-    ssh_command="$@"
+    ssh_command="$*"
 
     if [[ "$user" != "$ssh_user" ]]; then
       echo "Only root can be used to execute commands during install."
@@ -65,9 +65,9 @@ function cmd() {
     ssh_user="root"
 
     if [[ "$user" == "$ssh_user" ]]; then
-      ssh_command="arch-chroot /mnt $@"
+      ssh_command="arch-chroot /mnt $*"
     else
-      ssh_command="arch-chroot -u $user /mnt $@"
+      ssh_command="arch-chroot -u $user /mnt $*"
     fi 
   fi
 
@@ -75,15 +75,16 @@ function cmd() {
     ssh_user="adam"
 
     if [[ "$user" == "$ssh_user" ]]; then
-      ssh_command="$@"
+      ssh_command="$*"
     elif [[ "$user" == "root" ]]; then
-      ssh_command="sudo $@"
+      ssh_command="sudo $*"
     else
-      ssh_command="sudo -u $user $@"
+      ssh_command="sudo -u $user $*"
     fi 
   fi
 
-  ssh ${ssh_args[@]} "$ssh_user@$ssh_host" "$ssh_command"
+  # shellcheck disable=SC2029
+  ssh "${ssh_args[@]}" "$ssh_user@$ssh_host" "$ssh_command"
 }
 
 function file() {
@@ -121,57 +122,62 @@ function file() {
   local src_path=".$dest_path"
 
   if [[ ! -f "$src_path" ]]; then
-    src_path="$(dirname "$src_path")/*$host*/$(basename $src_path)"
+    src_path="$(dirname "$src_path")/*$host*/$(basename "$src_path")"
   fi
 
-  local src_copy_path="$(mktemp)"
+  local src_copy_path
+  src_copy_path="$(mktemp)"
   chmod 600 "$src_copy_path"
 
   if [[ "$template" == true ]]; then
+    # shellcheck disable=SC2086
     cat $src_path | envsubst > "$src_copy_path"
   else
+    # shellcheck disable=SC2086
     cat $src_path > "$src_copy_path"
   fi
 
   # Check if file already exists on remote.
-  if cmd ${cmd_args[@]} test -f "$dest_path"; then
-    local dest_copy_path="$(mktemp)"
+  if cmd "${cmd_args[@]}" test -f "$dest_path"; then
+    local dest_copy_path
+    dest_copy_path="$(mktemp)"
     chmod 600 "$dest_copy_path"
 
-    local remote_stat=( $(cmd ${cmd_args[@]} stat -c \'%a %U %G\' "$dest_path") )
+    local remote_stat
+    read -r -a remote_stat < <(cmd "${cmd_args[@]}" stat -c \'%a %U %G\' "$dest_path")
 
-    cmd ${cmd_args[@]} "cat $dest_path" > "$dest_copy_path"
+    cmd "${cmd_args[@]}" "cat $dest_path" > "$dest_copy_path"
     
     if ! diff --color "$dest_copy_path" "$src_copy_path"; then
       if confirm "Overwrite changes?"; then
-        cmd ${cmd_args[@]} "tee $dest_path >/dev/null" < "$src_copy_path"
+        cmd "${cmd_args[@]}" "tee $dest_path >/dev/null" < "$src_copy_path"
       fi
     fi
 
     if [[ "${remote_stat[0]}" != "$mode" ]]; then
       if confirm "Change mode of $dest_path from ${remote_stat[0]} to $mode?"; then
-        cmd ${cmd_args[@]} chmod "$mode" "$dest_path"
+        cmd "${cmd_args[@]}" chmod "$mode" "$dest_path"
       fi
     fi
 
     if [[ "${remote_stat[1]}" != "$owner" ]]; then
       if confirm "Change owner of $dest_path from ${remote_stat[1]} to $owner?"; then
-        cmd ${cmd_args[@]} chown "$owner" "$dest_path"
+        cmd "${cmd_args[@]}" chown "$owner" "$dest_path"
       fi
     fi
 
     if [[ "${remote_stat[2]}" != "$group" ]]; then
       if confirm "Change group of $dest_path from ${remote_stat[2]} to $group?"; then
-        cmd ${cmd_args[@]} chown "$group" "$dest_path"
+        cmd "${cmd_args[@]}" chown "$group" "$dest_path"
       fi
     fi
 
     rm "$dest_copy_path"
   else
-    cmd ${cmd_args[@]} "tee $dest_path >/dev/null" < "$src_copy_path"
-    cmd ${cmd_args[@]} "chmod $mode $dest_path"
-    cmd ${cmd_args[@]} "chown $owner $dest_path"
-    cmd ${cmd_args[@]} "chgrp $group $dest_path"
+    cmd "${cmd_args[@]}" "tee $dest_path >/dev/null" < "$src_copy_path"
+    cmd "${cmd_args[@]}" "chmod $mode $dest_path"
+    cmd "${cmd_args[@]}" "chown $owner $dest_path"
+    cmd "${cmd_args[@]}" "chgrp $group $dest_path"
   fi
 
   rm "$src_copy_path"
@@ -210,31 +216,32 @@ function dir() {
   local dest_path="$1"
 
   # Check if directory already exists on remote.
-  if cmd ${cmd_args[@]} test -d "$dest_path"; then
-    local remote_stat=( $(cmd ${cmd_args[@]} stat -c \'%a %U %G\' "$dest_path") )
+  if cmd "${cmd_args[@]}" test -d "$dest_path"; then
+    local remote_stat
+    read -r -a remote_stat < <(cmd "${cmd_args[@]}" stat -c \'%a %U %G\' "$dest_path")
 
     if [[ "${remote_stat[0]}" != "$mode" ]]; then
       if confirm "Change mode of $dest_path from ${remote_stat[0]} to $mode?"; then
-        cmd ${cmd_args[@]} chmod "$mode" "$dest_path"
+        cmd "${cmd_args[@]}" chmod "$mode" "$dest_path"
       fi
     fi
 
     if [[ "${remote_stat[1]}" != "$owner" ]]; then
       if confirm "Change owner of $dest_path from ${remote_stat[1]} to $owner?"; then
-        cmd ${cmd_args[@]} chown "$owner" "$dest_path"
+        cmd "${cmd_args[@]}" chown "$owner" "$dest_path"
       fi
     fi
 
     if [[ "${remote_stat[2]}" != "$group" ]]; then
       if confirm "Change group of $dest_path from ${remote_stat[2]} to $group?"; then
-        cmd ${cmd_args[@]} chown "$group" "$dest_path"
+        cmd "${cmd_args[@]}" chown "$group" "$dest_path"
       fi
     fi
   else
-    cmd ${cmd_args[@]} "mkdir -p $dest_path"
-    cmd ${cmd_args[@]} "chmod $mode $dest_path"
-    cmd ${cmd_args[@]} "chown $owner $dest_path"
-    cmd ${cmd_args[@]} "chgrp $group $dest_path"
+    cmd "${cmd_args[@]}" "mkdir -p $dest_path"
+    cmd "${cmd_args[@]}" "chmod $mode $dest_path"
+    cmd "${cmd_args[@]}" "chown $owner $dest_path"
+    cmd "${cmd_args[@]}" "chgrp $group $dest_path"
   fi
 
 }
