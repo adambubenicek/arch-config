@@ -353,6 +353,9 @@ function sync() {
   cmd systemctl enable systemd-resolved.service
   cmd ln -sf ../run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 
+  # Bash
+  file --user /home/adam/.bashrc 
+
   if [[ $host == "hippo" || $host == "kangaroo" ]]; then
     # Git
     cmd pacman -S --noconfirm git
@@ -361,25 +364,40 @@ function sync() {
 
     # Vim
     cmd pacman -S --noconfirm vim fzf
+
+    dir --user /home/adam/.config/vim
+    file --user /home/adam/.config/vim/vimrc
+
     cmd --user curl -fLo ~/.config/vim/autoload/plug.vim --create-dirs \
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-    # Sway
+    # Desktop
     cmd pacman -S --noconfirm \
       noto-fonts \
       noto-fonts-emoji \
-      sway \
-      sway-bg \
-      i3status-rust \
       playerctl \
       xorg-xwayland \
-      foot \
       pipewire \
       pipewire-pulse \
       pipewire-jack \
       xdg-desktop-portal \
       xdg-desktop-portal-gtk \
       xdg-desktop-portal-wlr
+
+    # Sway
+    cmd pacman -S --noconfirm sway swaybg
+    dir --user /home/adam/.config/sway
+    file --user /home/adam/.config/sway/config
+
+    # i3status-rust
+    cmd pacman -S --noconfirm i3status-rust
+    dir --user /home/adam/.config/i3status-rust
+    file --user /home/adam/.config/i3status-rust/config.toml
+
+    # Foot
+    cmd pacman -S --noconfirm foot
+    dir --user /home/adam/.config/foot
+    file --user /home/adam/.config/foot/foot.ini
 
     # Keyd
     cmd pacman -S --noconfirm keyd

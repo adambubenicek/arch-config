@@ -1,0 +1,118 @@
+set $mod Mod4
+set $term foot
+set $menu fuzzel | xargs swaymsg exec --
+set $menu foot --title launch --app-id fzf-launcher bash -c 'compgen -c | sort -u | fzf | xargs swaymsg exec --'
+for_window [app_id="^fzf-launcher$"] floating enable
+for_window [app_id="firefox" title="Picture-in-Picture"] floating enable
+
+output * bg #1b1b1b solid_color
+output "Dell Inc. AW3423DWF 4PY52S3" mode 3440x1440@164.900Hz 
+
+input type:keyboard {
+	xkb_layout us,cz(qwerty)
+	xkb_options grp:win_space_toggle
+}
+
+input type:pointer {
+	natural_scroll enabled
+}
+
+bindsym $mod+Return exec $term
+bindsym $mod+Shift+q kill
+bindsym $mod+d exec $menu
+floating_modifier $mod normal
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+e exit
+bindsym $mod+Shift+s exec systemctl suspend
+
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+
+bindsym $mod+b splith
+bindsym $mod+v splitv
+
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+bindsym $mod+f fullscreen
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+bindsym $mod+a focus parent
+
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+
+bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_SINK@ 1%+
+bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_SINK@ 1%-
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
+mode "resize" {
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+bar {
+    position top
+
+    status_command i3status-rs
+    gaps 5 8
+
+    colors {
+        statusline #d4be98
+        background #1b1b1b
+        separator #32302f
+        inactive_workspace #1b1b1b #1b1b1b #5a524c
+        focused_workspace  #1b1b1b #1b1b1b #d4be98
+        urgent_workspace   #1b1b1b #1b1b1b #ea6962 
+    }
+}
+
+gaps inner 5
+default_border normal 1
+default_floating_border normal 1
+font Noto Sans Mono 9
+titlebar_padding 8 5
+
+client.focused          #45403d #32302f #d4be98 #d8a657 #45403d
+client.unfocused        #32302f #282828 #928374 #d8a657 #32302f 
+client.focused_inactive #32302f #282828 #928374 #d8a657 #32302f 
+client.urgent           #ea6962 #32302f #d4be98 #d8a657 #ea6962
+
+include /etc/sway/config.d/*
