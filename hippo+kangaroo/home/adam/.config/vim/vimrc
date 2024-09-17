@@ -18,3 +18,8 @@ set number
 set background=dark
 
 colorscheme gruvbox-material
+
+let mapleader = " "
+nnoremap <leader>g :Git<CR>
+nnoremap <leader>f :Files<CR>
+nnoremap <leader>b :Buffers<CR>
