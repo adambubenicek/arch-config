@@ -117,56 +117,64 @@ function file() {
   owner="${owner:-$user}"
   group="${group:-$user}"
   cmd_args=( --user="$user" --force )
+  local dest_path="$1"
+  local src_path=".$dest_path"
 
-  local path="$1"
-  local local_copy_path="$(mktemp)"
+  if [[ ! -f "$src_path" ]]; then
+    src_path="$(dirname "$src_path")/*$host*/$(basename $src_path)"
+  fi
+
+  local src_copy_path="$(mktemp)"
+  chmod 600 "$src_copy_path"
 
   if [[ "$template" == true ]]; then
-    envsubst < *$host*"$path" > "$local_copy_path"
+    cat $src_path | envsubst > "$src_copy_path"
   else
-    cat *$host*"$path" > "$local_copy_path"
+    cat $src_path > "$src_copy_path"
   fi
 
   # Check if file already exists on remote.
-  if cmd ${cmd_args[@]} test -f "$path"; then
-    local remote_copy_path="$(mktemp)"
-    local remote_stat=( $(cmd ${cmd_args[@]} stat -c \'%a %U %G\' "$path") )
+  if cmd ${cmd_args[@]} test -f "$dest_path"; then
+    local dest_copy_path="$(mktemp)"
+    chmod 600 "$dest_copy_path"
 
-    cmd ${cmd_args[@]} "cat $path" > "$remote_copy_path"
+    local remote_stat=( $(cmd ${cmd_args[@]} stat -c \'%a %U %G\' "$dest_path") )
+
+    cmd ${cmd_args[@]} "cat $dest_path" > "$dest_copy_path"
     
-    if ! diff --color "$remote_copy_path" "$local_copy_path"; then
+    if ! diff --color "$dest_copy_path" "$src_copy_path"; then
       if confirm "Overwrite changes?"; then
-        cmd ${cmd_args[@]} "tee $path >/dev/null" < "$local_copy_path"
+        cmd ${cmd_args[@]} "tee $dest_path >/dev/null" < "$src_copy_path"
       fi
     fi
 
     if [[ "${remote_stat[0]}" != "$mode" ]]; then
-      if confirm "Change mode of $path from ${remote_stat[0]} to $mode?"; then
-        cmd ${cmd_args[@]} chmod "$mode" "$path"
+      if confirm "Change mode of $dest_path from ${remote_stat[0]} to $mode?"; then
+        cmd ${cmd_args[@]} chmod "$mode" "$dest_path"
       fi
     fi
 
     if [[ "${remote_stat[1]}" != "$owner" ]]; then
-      if confirm "Change owner of $path from ${remote_stat[1]} to $owner?"; then
-        cmd ${cmd_args[@]} chown "$owner" "$path"
+      if confirm "Change owner of $dest_path from ${remote_stat[1]} to $owner?"; then
+        cmd ${cmd_args[@]} chown "$owner" "$dest_path"
       fi
     fi
 
     if [[ "${remote_stat[2]}" != "$group" ]]; then
-      if confirm "Change group of $path from ${remote_stat[2]} to $group?"; then
-        cmd ${cmd_args[@]} chown "$group" "$path"
+      if confirm "Change group of $dest_path from ${remote_stat[2]} to $group?"; then
+        cmd ${cmd_args[@]} chown "$group" "$dest_path"
       fi
     fi
 
-    rm "$remote_copy_path"
+    rm "$dest_copy_path"
   else
-    cmd ${cmd_args[@]} "tee $path >/dev/null" < "$local_copy_path"
-    cmd ${cmd_args[@]} "chmod $mode $path"
-    cmd ${cmd_args[@]} "chown $owner $path"
-    cmd ${cmd_args[@]} "chgrp $group $path"
+    cmd ${cmd_args[@]} "tee $dest_path >/dev/null" < "$src_copy_path"
+    cmd ${cmd_args[@]} "chmod $mode $dest_path"
+    cmd ${cmd_args[@]} "chown $owner $dest_path"
+    cmd ${cmd_args[@]} "chgrp $group $dest_path"
   fi
 
-  rm "$local_copy_path"
+  rm "$src_copy_path"
 }
 
 function dir() {
@@ -199,34 +207,34 @@ function dir() {
   group="${group:-$user}"
   cmd_args=( --user="$user" --force )
 
-  local path="$1"
+  local dest_path="$1"
 
   # Check if directory already exists on remote.
-  if cmd ${cmd_args[@]} test -d "$path"; then
-    local remote_stat=( $(cmd ${cmd_args[@]} stat -c \'%a %U %G\' "$path") )
+  if cmd ${cmd_args[@]} test -d "$dest_path"; then
+    local remote_stat=( $(cmd ${cmd_args[@]} stat -c \'%a %U %G\' "$dest_path") )
 
     if [[ "${remote_stat[0]}" != "$mode" ]]; then
-      if confirm "Change mode of $path from ${remote_stat[0]} to $mode?"; then
-        cmd ${cmd_args[@]} chmod "$mode" "$path"
+      if confirm "Change mode of $dest_path from ${remote_stat[0]} to $mode?"; then
+        cmd ${cmd_args[@]} chmod "$mode" "$dest_path"
       fi
     fi
 
     if [[ "${remote_stat[1]}" != "$owner" ]]; then
-      if confirm "Change owner of $path from ${remote_stat[1]} to $owner?"; then
-        cmd ${cmd_args[@]} chown "$owner" "$path"
+      if confirm "Change owner of $dest_path from ${remote_stat[1]} to $owner?"; then
+        cmd ${cmd_args[@]} chown "$owner" "$dest_path"
       fi
     fi
 
     if [[ "${remote_stat[2]}" != "$group" ]]; then
-      if confirm "Change group of $path from ${remote_stat[2]} to $group?"; then
-        cmd ${cmd_args[@]} chown "$group" "$path"
+      if confirm "Change group of $dest_path from ${remote_stat[2]} to $group?"; then
+        cmd ${cmd_args[@]} chown "$group" "$dest_path"
       fi
     fi
   else
-    cmd ${cmd_args[@]} "mkdir -p $path"
-    cmd ${cmd_args[@]} "chmod $mode $path"
-    cmd ${cmd_args[@]} "chown $owner $path"
-    cmd ${cmd_args[@]} "chgrp $group $path"
+    cmd ${cmd_args[@]} "mkdir -p $dest_path"
+    cmd ${cmd_args[@]} "chmod $mode $dest_path"
+    cmd ${cmd_args[@]} "chown $owner $dest_path"
+    cmd ${cmd_args[@]} "chgrp $group $dest_path"
   fi
 
 }
@@ -274,7 +282,7 @@ function sync() {
   file /etc/fstab
 
   # Hostname
-  file /etc/hostname
+  file --template /etc/hostname
 
   # Pacman
   file /etc/pacman.conf
