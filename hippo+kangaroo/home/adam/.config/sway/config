@@ -9,18 +9,18 @@ output * bg #1b1b1b solid_color
 output "Dell Inc. AW3423DWF 4PY52S3" mode 3440x1440@164.900Hz 
 
 input type:keyboard {
-	xkb_layout us,cz(qwerty)
-	xkb_options grp:win_space_toggle
+  xkb_layout us,cz(qwerty)
+  xkb_options grp:win_space_toggle
 }
 
 input type:pointer {
-	natural_scroll enabled
+  natural_scroll enabled
 }
 
 input type:touchpad {
-	natural_scroll enabled
-	tap enabled
-	dwt enabled
+  natural_scroll enabled
+  tap enabled
+  dwt enabled
 }
 
 bindsym $mod+Return exec $term
@@ -86,30 +86,30 @@ bindsym XF86MonBrightnessDown exec brightnessctl set 1%-
 bindsym XF86MonBrightnessUp exec brightnessctl set 1%+
 
 mode "resize" {
-    bindsym Left resize shrink width 10px
-    bindsym Down resize grow height 10px
-    bindsym Up resize shrink height 10px
-    bindsym Right resize grow width 10px
+  bindsym Left resize shrink width 10px
+  bindsym Down resize grow height 10px
+  bindsym Up resize shrink height 10px
+  bindsym Right resize grow width 10px
 
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
 
 bar {
-    position top
+  position top
 
-    status_command i3status-rs
-    gaps 5 8
+  status_command i3status-rs
+  gaps 5 8
 
-    colors {
-        statusline #d4be98
-        background #1b1b1b
-        separator #32302f
-        inactive_workspace #1b1b1b #1b1b1b #5a524c
-        focused_workspace  #1b1b1b #1b1b1b #d4be98
-        urgent_workspace   #1b1b1b #1b1b1b #ea6962 
-    }
+  colors {
+    statusline #d4be98
+    background #1b1b1b
+    separator #32302f
+    inactive_workspace #1b1b1b #1b1b1b #5a524c
+    focused_workspace  #1b1b1b #1b1b1b #d4be98
+    urgent_workspace   #1b1b1b #1b1b1b #ea6962 
+  }
 }
 
 gaps inner 5

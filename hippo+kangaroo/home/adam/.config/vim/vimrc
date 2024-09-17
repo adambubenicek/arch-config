@@ -11,7 +11,7 @@ Plug 'tpope/vim-fugitive'
 call plug#end()
 
 if has('termguicolors')
-	set termguicolors
+  set termguicolors
 endif
 
 set number
