@@ -408,6 +408,12 @@ function sync() {
     cmd systemctl enable keyd
     file /etc/keyd/default.conf
 
+    # Mpv
+    cmd pacman -S --noconfirm mpv
+
+    dir --user /home/adam/.config/mpv
+    file --user /home/adam/.config/mpv/mpv.conf
+
     # Firefox
     cmd pacman -S --noconfirm firefox
 
