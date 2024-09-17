@@ -352,6 +352,10 @@ function sync() {
     # Wifi
     cmd pacman -S --noconfirm iwd
     cmd systemctl enable iwd.service
+
+    # Power management
+    cmd pacman -S --noconfirm tlp
+    cmd systemctl enable tlp.service
   fi
 
 
