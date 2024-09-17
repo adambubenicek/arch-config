@@ -17,6 +17,12 @@ input type:pointer {
 	natural_scroll enabled
 }
 
+input type:touchpad {
+	natural_scroll enabled
+	tap enabled
+	dwt enabled
+}
+
 bindsym $mod+Return exec $term
 bindsym $mod+Shift+q kill
 bindsym $mod+d exec $menu
