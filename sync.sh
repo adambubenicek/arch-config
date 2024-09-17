@@ -295,6 +295,9 @@ function sync() {
   file /etc/systemd/network/90-dhcp.network
   cmd systemctl enable systemd-networkd.service
 
+  # DNS
+  cmd systemctl enable systemd-resolved.service
+
   # Locale
   file /etc/locale.gen
   file /etc/locale.conf
@@ -350,7 +353,6 @@ function sync() {
   dir_boots=( first regular )
 
   # DNS
-  cmd systemctl enable systemd-resolved.service
   cmd ln -sf ../run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 
   # Bash
