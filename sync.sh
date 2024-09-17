@@ -24,6 +24,8 @@ function confirm() {
       *) continue;; 
     esac
   done
+
+  return $result
 }
 
 function cmd() {
