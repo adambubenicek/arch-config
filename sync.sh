@@ -383,6 +383,7 @@ function sync() {
 
     # Desktop
     cmd pacman -S --noconfirm \
+      brightnessctl \
       noto-fonts \
       noto-fonts-emoji \
       playerctl \

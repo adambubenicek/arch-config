@@ -27,6 +27,10 @@ block = "sound"
 step_width = 1
 
 [[block]]
+block = "backlight"
+step_width = 1
+
+[[block]]
 block = "keyboard_layout"
 driver = "sway"
 
