@@ -23,6 +23,13 @@ format = " $icon $mem_total_used_percents.eng(w:2) "
 format_alt = " $icon_swap $swap_used_percents.eng(w:2) "
 
 [[block]]
+block = "battery"
+format = " $icon $percentage "
+not_charging_format = " $icon $percentage "
+full_format = " $icon $percentage "
+missing_format = " $icon none "
+
+[[block]]
 block = "sound"
 step_width = 1
 
