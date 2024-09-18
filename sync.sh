@@ -382,6 +382,7 @@ function sync() {
   cmd pacman -S crun podman
 
   # Bash
+  cmd pacman -S bash-completion
   file --user /home/adam/.bashrc 
 
   if [[ $host == "hippo" || $host == "kangaroo" ]]; then
