@@ -2,7 +2,6 @@
 
 set -uea
 shopt -s globstar dotglob
-source .env
 
 ssh_args=(
   -o ControlPath="$XDG_RUNTIME_DIR/ssh-%C"
@@ -33,6 +32,8 @@ function cmd() {
   local user="root"
   local ssh_user
   local ssh_command
+  local ssh_host_var="${host}_ip"
+  local ssh_host="${!ssh_host_var}"
 
   # Parse options
   while true; do
@@ -49,7 +50,6 @@ function cmd() {
     # Nothing to do, exit early.
     return 0 
   fi
-
 
   if [[ "$boot" == "install" ]]; then
     ssh_user="root"
@@ -247,10 +247,6 @@ function dir() {
 }
 
 function sync() {
-  local host=$1
-  local boot=$2
-  local ssh_host=$3
-
   # Installation
   cmd_boots=( install )
   file_boots=( install )
@@ -459,7 +455,22 @@ function sync() {
   fi
 }
 
-sync kangaroo first 10.98.217.99
-# sync kangaroo install-chroot 10.98.217.93
-# sync kangaroo first 10.98.217.93
-# sync kangaroo regular 10.98.217.93
+source .env
+
+boot=regular
+while [[ "$#" -gt 0 ]]; do
+  case "$1" in
+    --boot=*) boot="${1#*=}"; shift;;
+    *) break;;
+  esac
+done
+
+if [[ "$#" -gt 0 ]]; then
+  hosts=( "$@" )
+else
+  hosts=( hippo kangaroo )
+fi
+
+for host in "${hosts[@]}"; do
+  sync
+done
