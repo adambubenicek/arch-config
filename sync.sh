@@ -415,9 +415,15 @@ function sync() {
       xdg-desktop-portal-wlr
 
     # Sway
-    cmd pacman -S --noconfirm sway swaybg
+    cmd pacman -S --noconfirm sway swaybg swayidle swaylock
     dir --user /home/adam/.config/sway
     file --user /home/adam/.config/sway/config
+
+    dir --user /home/adam/.config/swayidle
+    file --user /home/adam/.config/swayidle/config
+
+    dir --user /home/adam/.config/swaylock
+    file --user /home/adam/.config/swaylock/config
 
     # i3status-rust
     cmd pacman -S --noconfirm i3status-rust

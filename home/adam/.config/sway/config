@@ -5,6 +5,8 @@ set $menu foot --title launch --app-id fzf-launcher bash -c 'compgen -c | sort -
 for_window [app_id="^fzf-launcher$"] floating enable
 for_window [app_id="firefox" title="Picture-in-Picture"] floating enable
 
+exec swayidle -w
+
 output * bg #1b1b1b solid_color
 output "Dell Inc. AW3423DWF 4PY52S3" mode 3440x1440@164.900Hz 
 
