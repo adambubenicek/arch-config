@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 set -uea
-shopt -s globstar dotglob
 
 ssh_args=(
   -o ControlPath="$XDG_RUNTIME_DIR/ssh-%C"
