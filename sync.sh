@@ -378,6 +378,9 @@ function sync() {
   # DNS
   cmd ln -sf ../run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 
+  # Podman
+  cmd pacman -S crun podman
+
   # Bash
   file --user /home/adam/.bashrc 
 
