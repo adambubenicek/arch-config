@@ -382,6 +382,9 @@ function sync() {
   file --user /home/adam/.bashrc 
 
   if [[ $host == "hippo" || $host == "kangaroo" ]]; then
+    # Udev
+    file /etc/udev/rules.d/logitech-bolt.rules
+   
     # Git
     cmd pacman -S --noconfirm git
     dir --user /home/adam/.config/git
