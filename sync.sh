@@ -294,7 +294,7 @@ function sync() {
   cmd pacman -S --noconfirm \
     man-db \
     tree \
-    rsync \
+    rsync
 
   # Drivers and microcode
   cmd pacman -S --noconfirm \
