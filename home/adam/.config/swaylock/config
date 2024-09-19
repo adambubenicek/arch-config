@@ -6,7 +6,7 @@ key-hl-color=ddc7a1
 bs-hl-color=ddc7a1
 separator-color=ddc7a1
 indicator-idle-visible
-indicator-radius=72
+indicator-radius=44
 indicator-thickness=5
 show-keyboard-layout
 

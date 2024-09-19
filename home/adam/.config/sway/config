@@ -100,9 +100,10 @@ bindsym $mod+r mode "resize"
 
 bar {
   position top
+  height 34
+  separator_symbol ""
 
   status_command i3status-rs
-  gaps 5 8
 
   colors {
     statusline #d4be98
@@ -115,6 +116,7 @@ bar {
 }
 
 gaps inner 5
+gaps outer -5
 default_border normal 1
 default_floating_border normal 1
 font Noto Sans Mono 9
