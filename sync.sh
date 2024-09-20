@@ -347,14 +347,14 @@ function sync() {
   file --mode=755 /boot/loader/entries/arch.conf
 
   # Initramfs
-  file /etc/mkinitcpio.conf.d/systemd.conf
+  file /etc/mkinitcpio.conf.d/overrides.conf
   file /etc/vconsole.conf
 
   cmd mkinitcpio -P
 
   # Sudo
   cmd pacman -S --noconfirm sudo
-  file --mode=440 /etc/sudoers.d/wheel
+  file --mode=440 /etc/sudoers.d/overrides
 
   # User
   cmd useradd \
