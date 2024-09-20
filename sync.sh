@@ -251,20 +251,39 @@ function sync() {
   file_boots=( install )
   dir_boots=( install )
 
-  # Partition drives
-  cmd sgdisk --clear /dev/nvme0n1 \
-    --new=1:0:+1024M \
-    --typecode=1:ef00 \
-    --new=2:0:0 \
-    --typecode=2:8304 # 8309 for LUKS
+  if [[ $host == "hippo" || $host == "kangaroo" ]]; then
+    # Partition drives
+    cmd sgdisk --clear /dev/nvme0n1 \
+      --new=1:0:+1024M \
+      --typecode=1:ef00 \
+      --new=2:0:0 \
+      --typecode=2:8304 # 8309 for LUKS
 
-  # Format partitions
-  cmd mkfs.fat -F 32 -n boot /dev/nvme0n1p1
-  cmd mkfs.ext4 -L root /dev/nvme0n1p2
+    # Format partitions
+    cmd mkfs.fat -F 32 -n boot /dev/nvme0n1p1
+    cmd mkfs.ext4 -L root /dev/nvme0n1p2
 
-  # Mount partitions
-  cmd mount /dev/nvme0n1p2 /mnt
-  cmd mount --mkdir /dev/nvme0n1p1 /mnt/boot
+    # Mount partitions
+    cmd mount /dev/nvme0n1p2 /mnt
+    cmd mount --mkdir /dev/nvme0n1p1 /mnt/boot
+  fi
+
+  if [[ $host == "owl" ]]; then
+    # Partition drives
+    cmd sgdisk --clear /dev/sda \
+      --new=1:0:+1024M \
+      --typecode=1:ef00 \
+      --new=2:0:0 \
+      --typecode=2:8304 # 8309 for LUKS
+
+    # Format partitions
+    cmd mkfs.fat -F 32 -n boot /dev/sda1
+    cmd mkfs.ext4 -L root /dev/sda2
+
+    # Mount partitions
+    cmd mount /dev/sda2 /mnt
+    cmd mount --mkdir /dev/sda1 /mnt/boot
+  fi
 
   # Bootstrap system
   cmd pacstrap -K /mnt \
@@ -385,21 +404,32 @@ function sync() {
   cmd pacman -S bash-completion
   file --user /home/adam/.bashrc 
 
+  # Git
+  cmd pacman -S --noconfirm git
+  dir --user /home/adam/.config/git
+  file --user /home/adam/.config/git/config
+
+  # Vim
+  cmd pacman -S --noconfirm \
+    vim \
+    fzf
+
+  dir --user /home/adam/.config/vim
+  file --user /home/adam/.config/vim/vimrc
+
+  cmd --user curl -fLo ~/.config/vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+
   if [[ $host == "hippo" || $host == "kangaroo" ]]; then
     # Udev
     file /etc/udev/rules.d/logitech-bolt.rules
    
-    # Git
-    cmd pacman -S --noconfirm git
-    dir --user /home/adam/.config/git
-    file --user /home/adam/.config/git/config
 
-    # Vim
+    # Development
     cmd pacman -S --noconfirm \
       shellcheck \
-      bash-language-server \
-      vim \
-      fzf
+      bash-language-server
 
     dir --user /home/adam/.config/vim
     file --user /home/adam/.config/vim/vimrc
@@ -480,7 +510,7 @@ done
 if [[ "$#" -gt 0 ]]; then
   hosts=( "$@" )
 else
-  hosts=( hippo kangaroo )
+  hosts=( hippo kangaroo owl )
 fi
 
 for host in "${hosts[@]}"; do
