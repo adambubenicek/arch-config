@@ -242,7 +242,6 @@ function dir() {
     cmd "${cmd_args[@]}" "chown $owner $dest_path"
     cmd "${cmd_args[@]}" "chgrp $group $dest_path"
   fi
-
 }
 
 function sync() {
@@ -425,7 +424,6 @@ function sync() {
     # Udev
     file /etc/udev/rules.d/logitech-bolt.rules
    
-
     # Development
     cmd pacman -S --noconfirm \
       shellcheck \
