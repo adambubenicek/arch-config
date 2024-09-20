@@ -1,0 +1,4 @@
+Include /etc/ssh/sshd_config.d/*.conf
+AuthorizedKeysFile	.ssh/authorized_keys
+PasswordAuthentication no
+Subsystem	sftp	/usr/lib/ssh/sftp-server

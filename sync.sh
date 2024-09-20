@@ -369,6 +369,7 @@ function sync() {
   # SSH
   cmd pacman -S --noconfirm openssh
   cmd systemctl enable sshd.service
+  file /etc/ssh/sshd_config
 
   dir --user --mode=700 /home/adam/.ssh
   file --template --mode=644 --user /home/adam/.ssh/authorized_keys
