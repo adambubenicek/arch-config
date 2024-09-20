@@ -2,8 +2,10 @@ set $mod Mod4
 set $term foot
 set $menu fuzzel | xargs swaymsg exec --
 set $menu foot --title launch --app-id fzf-launcher bash -c 'compgen -c | sort -u | fzf | xargs swaymsg exec --'
+
 for_window [app_id="^fzf-launcher$"] floating enable
 for_window [app_id="firefox" title="Picture-in-Picture"] floating enable
+for_window [class="steam_app*"] inhibit_idle focus
 
 exec swayidle -w
 
