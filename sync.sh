@@ -117,7 +117,7 @@ function sync() {
   cmd useradd \
     --create-home \
     --groups wheel \
-    --password \'"$user_password_encrypted"\' \
+    --password \'"$adam_password_encrypted"\' \
     adam
 
   # Polkit
@@ -127,12 +127,19 @@ function sync() {
   cmd pacman -S --noconfirm openssh
   cmd systemctl enable sshd.service
 
-  dir --user --mode=700 /home/adam/.ssh
+  dir --mode=700 /root/.ssh
+  file --template --mode=644 /root/.ssh/authorized_keys
+  
+  dir --mode=700 --user /home/adam/.ssh
   file --template --mode=644 --user /home/adam/.ssh/authorized_keys
 
   if [[ $host == "hippo" || $host == "kangaroo" ]]; then
+    file --template --mode=600 /root/.ssh/id_ed25519
+    file --template --mode=644 /root/.ssh/id_ed25519.pub
+
     file --template --mode=600 --user /home/adam/.ssh/id_ed25519
     file --template --mode=644 --user /home/adam/.ssh/id_ed25519.pub
+
   fi
 
   if [[ $host == "kangaroo" ]]; then
