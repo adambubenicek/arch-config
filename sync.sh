@@ -85,11 +85,11 @@ function f() {
     local script_path
     script_path="$(mktemp)"
 
-    while read -r line; do
+    while IFS= read -r line; do
       if [[ "$line" =~ [^[:space:]]*%%[[:space:]]*(.*)$ ]]; then
         echo "${BASH_REMATCH[1]}" >> "$script_path"
       else
-        echo "echo \"$line\"" >> "$script_path"
+        echo "echo \"${line//\"/\\\"}\"" >> "$script_path"
       fi
     done < ".$dest_path"
 
