@@ -363,6 +363,7 @@ for host in "${hosts[@]}"; do
     tar -x
     source ./script.sh
     popd >/dev/null
+    rm -rf "$dir"
   '
   popd >/dev/null
 done
