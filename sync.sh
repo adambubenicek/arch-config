@@ -82,7 +82,19 @@ function f() {
   group=${group:-$owner}
 
   if [[ "$template" == true ]]; then
-    envsubst < ".$dest_path" > "$sync_dir/$src_path"
+    local script_path
+    script_path="$(mktemp)"
+
+    while read -r line; do
+      if [[ "$line" =~ [^[:space:]]*%%[[:space:]]*(.*)$ ]]; then
+        echo "${BASH_REMATCH[1]}" >> "$script_path"
+      else
+        echo "echo \"$line\"" >> "$script_path"
+      fi
+    done < ".$dest_path"
+
+    /usr/bin/env bash "$script_path" > "$sync_dir/$src_path"
+    rm "$script_path"
   else
     cat ".$dest_path" > "$sync_dir/$src_path"
   fi
