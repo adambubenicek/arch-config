@@ -297,7 +297,7 @@ for host in "${hosts[@]}"; do
   d /home/adam/.config/git -o adam
   f /home/adam/.config/git/config -o adam
   d /home/adam/.config/vim -o adam
-  f /home/adam/.config/vim/vimrc -o adam
+  f /home/adam/.config/vim/vimrc -t -o adam
 
   c sudo -u adam curl -fLo ~/.config/vim/autoload/plug.vim --create-ds \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
