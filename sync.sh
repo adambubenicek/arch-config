@@ -7,7 +7,7 @@ source .env
 function ensure_content() {
   if ! cmp -s "$1" "$2"; then
     echo "Updating file '$1'"
-    diff --color "$1" "$2"
+    diff --color=always "$1" "$2"
     # cat "$2" > "$1"
   fi
 }
@@ -354,4 +354,15 @@ for host in "${hosts[@]}"; do
     d /home/adam/.config/mpv -o adam
     f /home/adam/.config/mpv/mpv.conf -o adam
   fi
+
+  pushd "$sync_dir" >/dev/null
+  # TODO fix hostname
+  tar -c . | ssh -T root@localhost '
+    dir="$(mktemp -d)"
+    pushd "$dir" >/dev/null
+    tar -x
+    source ./script.sh
+    popd >/dev/null
+  '
+  popd >/dev/null
 done
