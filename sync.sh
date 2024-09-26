@@ -123,7 +123,7 @@ for host in "${hosts[@]}"; do
   sync_dir="./tmp"
   rm -rf "$sync_dir"
   mkdir "$sync_dir"
-  cp remote.sh "$sync_dir"
+  cp remote.sh "$sync_dir/remote.sh"
 
   # Installation
   c_boots=( install )
