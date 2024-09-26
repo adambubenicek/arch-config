@@ -104,16 +104,17 @@ function c() {
   echo "$*" >> "$sync_dir/remote.sh"
 }
 
-
 boot=regular
-while [[ "$#" -gt 0 ]]; do
-  case "$1" in
-    --boot=*) boot="${1#*=}"; shift;;
+OPTIND=1
+while getopts "b:" opt; do
+  case "$opt" in
+    b) boot=$OPTARG;;
     *) break;;
   esac
 done
+shift $((OPTIND-1))
 
-if [[ "$#" -gt 0 ]]; then
+if (( "$#" > 0 )); then
   hosts=( "$@" )
 else
   hosts=( hippo kangaroo owl )
