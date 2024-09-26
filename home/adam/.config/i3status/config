@@ -23,8 +23,8 @@ battery 1 {
 #%% fi
 
 #%% if [[ "$host" == "hippo" ]]; then
-order += "ethernet eth0"
-ethernet eth0 {
+order += "ethernet enp14s0"
+ethernet enp14s0 {
   format_up = "<span foreground='#5a524c'>LAN</span> %ip"
 }
 #%% fi
