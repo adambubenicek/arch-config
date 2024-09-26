@@ -171,6 +171,7 @@ for host in "${hosts[@]}"; do
   c pacman -Syu --noconfirm \
     man-db \
     tree \
+    ripgrep \
     rsync \
     mesa \
     libva-mesa-driver \
@@ -242,6 +243,8 @@ for host in "${hosts[@]}"; do
   f /home/adam/.config/git/config -o adam
   d /home/adam/.config/vim -o adam
   f /home/adam/.config/vim/vimrc -t -o adam
+  d /home/adam/.config/ripgrep -o adam
+  f /home/adam/.config/ripgrep/ripgreprc -o adam
 
   c sudo -u adam curl -fLo ~/.config/vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim

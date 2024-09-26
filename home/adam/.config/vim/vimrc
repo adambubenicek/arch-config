@@ -29,6 +29,7 @@ g:mapleader = " "
 nnoremap <leader>g :Git<CR>
 nnoremap <leader>f :Files<CR>
 nnoremap <leader>b :Buffers<CR>
+nnoremap <leader>/ :RG<CR>
 
 #%% if [[ "$host" == "hippo" || "$host" == "kangaroo" ]]; then
 nnoremap ]d :LspDiagNext<CR>
