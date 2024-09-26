@@ -40,8 +40,13 @@ memory {
   format = "<span foreground='#5a524c'>MEM</span> %percentage_used"
 }
 
-order += "tztime local"
-tztime local {
-  format = "<span foreground='#5a524c'>TIME</span> %Y-%m-%d %H:%M"
+order += "tztime date"
+tztime date {
+  format = "<span foreground='#5a524c'>DATE</span> %Y-%m-%d"
+}
+
+order += "tztime time"
+tztime time {
+  format = "<span foreground='#5a524c'>TIME</span> %H:%M"
 }
 
