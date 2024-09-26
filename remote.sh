@@ -1,11 +1,14 @@
-function ensure_content() {
+function ensure_file() {
   local path="$1"
   local content_path="$2"
 
-  if ! cmp -s "$path" "$content_path"; then
+  if [[ ! -f "$path" ]]; then
+    echo "Creating file '$path'"
+    cat "$content_path" > "$path"
+  elif ! cmp -s "$path" "$content_path"; then
     echo "Updating file '$path'"
     diff --color=always "$path" "$content_path"
-    # cat "$content_path" > "$path"
+    cat "$content_path" > "$path"
   fi
 }
 

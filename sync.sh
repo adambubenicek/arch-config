@@ -54,7 +54,7 @@ function f() {
   fi
   
   {
-    echo ensure_content "$dest_path" "./$src_path"
+    echo ensure_file "$dest_path" "./$src_path"
     echo ensure_attributes "$dest_path" "$mode" "$owner" "$group"
   } >> "$sync_dir/remote.sh"
 }
