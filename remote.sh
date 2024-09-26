@@ -18,7 +18,7 @@ function ensure_dir() {
 
   if [[ ! -d "$path" ]]; then
     echo "Creating directory '$path'"
-    # mkdir --mode="$mode" "$path"
+    mkdir --mode="$mode" "$path"
   fi
 }
 
@@ -37,22 +37,22 @@ function ensure_attributes() {
 
   if [[ "$mode" != "$existing_mode" ]]; then
     echo "Changing mode of '$path' from '$existing_mode' to '$mode'"
-    # chmod "$mode" "$path"
+    chmod "$mode" "$path"
   fi
 
   if [[ "$owner" != "$existing_owner" ]]; then
     echo "Changing owner of '$path' from '$existing_owner' to '$owner'"
-    # chown "$path" "$owner"
+    chown "$owner" "$path"
   fi
 
   if [[ "$group" != "$existing_group" ]]; then
     echo "Changing group of '$path' from '$existing_group' to '$group'"
-    # chgrp "$path" "$group"
+    chgrp "$group" "$path"
   fi
 }
 
 function run_command() {
   local command="$*"
   echo "Running command '$command'"
-  # $command
+  $command
 }
