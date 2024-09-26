@@ -55,9 +55,7 @@ function f() {
   
   {
     echo ensure_content "$dest_path" "./$src_path"
-    echo ensure_mode "$dest_path" "$mode"
-    echo ensure_owner "$dest_path" "$owner"
-    echo ensure_group "$dest_path" "$group"
+    echo ensure_attributes "$dest_path" "$mode" "$owner" "$group"
   } >> "$sync_dir/remote.sh"
 }
 
@@ -90,9 +88,7 @@ function d() {
 
   {
     echo ensure_dir "$dest_path" 
-    echo ensure_mode "$dest_path" "$mode"
-    echo ensure_owner "$dest_path" "$owner"
-    echo ensure_group "$dest_path" "$group"
+    echo ensure_attributes "$dest_path" "$mode" "$owner" "$group"
   } >> "$sync_dir/remote.sh"
 }
 
