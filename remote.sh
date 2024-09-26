@@ -41,3 +41,9 @@ function ensure_attributes() {
     # chgrp "$path" "$group"
   fi
 }
+
+function run_command() {
+  local command="$*"
+  echo "Running command '$command'"
+  # $command
+}

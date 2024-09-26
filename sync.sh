@@ -97,7 +97,7 @@ function c() {
     return 0 
   fi
 
-  echo "$*" >> "$sync_dir/remote.sh"
+  echo "run_command $*" >> "$sync_dir/remote.sh"
 }
 
 boot=regular
