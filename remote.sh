@@ -1,23 +1,29 @@
 function ensure_content() {
-  if ! cmp -s "$1" "$2"; then
-    echo "Updating file '$1'"
-    diff --color=always "$1" "$2"
-    # cat "$2" > "$1"
+  local path="$1"
+  local content_path="$2"
+
+  if ! cmp -s "$path" "$content_path"; then
+    echo "Updating file '$path'"
+    diff --color=always "$path" "$content_path"
+    # cat "$content_path" > "$path"
   fi
 }
 
 function ensure_dir() {
-  if [[ ! -d "$1" ]]; then
-    echo "Creating directory '$1'"
-    # mkdir --mode="$2" "$1"
+  local path="$1"
+  local mode="$2"
+
+  if [[ ! -d "$path" ]]; then
+    echo "Creating directory '$path'"
+    # mkdir --mode="$mode" "$path"
   fi
 }
 
 function ensure_attributes() {
-  local path=$1
-  local mode=$2
-  local owner=$3
-  local group=$4
+  local path="$1"
+  local mode="$2"
+  local owner="$3"
+  local group="$4"
 
   local existing
   read -r -a existing < <(stat -c '%a %U %G' "$1")
