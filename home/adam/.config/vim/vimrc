@@ -10,7 +10,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 
-#%% if [[ "$host" == "hippo" || "$host" == "$kangaroo" ]]; then
+#%% if [[ "$host" == "hippo" || "$host" == "kangaroo" ]]; then
 Plug 'yegappan/lsp'
 #%% fi
 
@@ -30,7 +30,7 @@ nnoremap <leader>g :Git<CR>
 nnoremap <leader>f :Files<CR>
 nnoremap <leader>b :Buffers<CR>
 
-#%% if [[ "$host" == "hippo" || "$host" == "$kangaroo" ]]; then
+#%% if [[ "$host" == "hippo" || "$host" == "kangaroo" ]]; then
 nnoremap ]d :LspDiagNext<CR>
 nnoremap [d :LspDiagPrev<CR>
 
