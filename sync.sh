@@ -308,6 +308,7 @@ for host in "${hosts[@]}"; do
   case "$host" in
     kangaroo) ssh_host="$KANGAROO_HOST";;
     hippo) ssh_host="$HIPPO_HOST";;
+    owl) ssh_host="$OWL_HOST";;
   esac
 
   tar -c . | ssh -T "root@$ssh_host" '
