@@ -265,7 +265,7 @@ for host in "${hosts[@]}"; do
       xdg-desktop-portal \
       xdg-desktop-portal-gtk \
       xdg-desktop-portal-wlr \
-      i3status-rust \
+      i3status \
       foot \
       mpv \
       firefox \
@@ -294,8 +294,8 @@ for host in "${hosts[@]}"; do
     f /home/adam/.config/swayidle/config -o adam
     d /home/adam/.config/swaylock -o adam
     f /home/adam/.config/swaylock/config -o adam
-    d /home/adam/.config/i3status-rust -o adam
-    f /home/adam/.config/i3status-rust/config.toml -o adam
+    d /home/adam/.config/i3status -o adam
+    f /home/adam/.config/i3status/config -t -o adam
     d /home/adam/.config/foot -o adam
     f /home/adam/.config/foot/foot.ini -o adam
     d /home/adam/.config/mpv -o adam

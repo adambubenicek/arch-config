@@ -1,0 +1,47 @@
+general {
+  output_format = "i3bar"
+  colors = true
+  color_good = "#a9b665"
+  color_bad = "#ea6962"
+  color_degraded = "#d8a657"
+        interval = 5
+  markup = pango
+}
+
+#%% if [[ "$host" == "kangaroo" ]]; then
+order += "wireless wlan0"
+wireless wlan0 {
+  format_up = "<span foreground='#5a524c'>WIFI</span> %essid %ip"
+}
+
+order += "battery 1"
+battery 1 {
+        path = "/sys/class/power_supply/BAT1/uevent"
+  format_down = "<span foreground='#5a524c'>BAT</span> N/A"
+  format = "<span foreground='#5a524c'>BAT</span> %percentage"
+}
+#%% fi
+
+#%% if [[ "$host" == "hippo" ]]; then
+order += "ethernet eth0"
+ethernet eth0 {
+  format_up = "<span foreground='#5a524c'>LAN</span> %ip"
+}
+#%% fi
+
+order += "disk /"
+order += "cpu_usage"
+cpu_usage {
+  format = "<span foreground='#5a524c'>CPU</span> %usage"
+}
+
+order += "memory"
+memory {
+  format = "<span foreground='#5a524c'>MEM</span> %percentage_used"
+}
+
+order += "tztime local"
+tztime local {
+  format = "<span foreground='#5a524c'>TIME</span> %Y-%m-%d %H:%M"
+}
+
