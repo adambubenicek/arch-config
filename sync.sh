@@ -117,9 +117,8 @@ else
 fi
 
 for host in "${hosts[@]}"; do
-  sync_dir="./tmp"
-  rm -rf "$sync_dir"
-  mkdir "$sync_dir"
+  sync_dir="$(mktemp -d)"
+
   cp remote.sh "$sync_dir/remote.sh"
 
   # Installation
@@ -318,4 +317,6 @@ for host in "${hosts[@]}"; do
     popd >/dev/null
     rm -rf "$dir"'
   popd >/dev/null
+
+  rm -rf "$sync_dir"
 done
