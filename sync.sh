@@ -2,7 +2,9 @@
 
 set -ue
 
+# shellcheck source=/dev/null
 source .env
+
 function f() {
   if [[ " ${f_boots[*]} " != *" $boot "* ]]; then
     return 0 
@@ -208,7 +210,7 @@ for host in "${hosts[@]}"; do
   c useradd \
     --create-home \
     --groups wheel \
-    --password \'"$adam_password_encrypted"\' \
+    --password \'"$ADAM_PASSWORD_ENCRYPTED"\' \
     adam
 
   if [[ $host == "kangaroo" ]]; then
@@ -301,8 +303,13 @@ for host in "${hosts[@]}"; do
   fi
 
   pushd "$sync_dir" >/dev/null
-  # TODO fix hostname
-  tar -c . | ssh -T root@localhost '
+
+  case "$host" in
+    kangaroo) ssh_host="$KANGAROO_HOST";;
+    hippo) ssh_host="$HIPPO_HOST";;
+  esac
+
+  tar -c . | ssh -T "root@$ssh_host" '
     dir="$(mktemp -d)"
     pushd "$dir" >/dev/null
     tar -x
