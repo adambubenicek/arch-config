@@ -3,52 +3,6 @@
 set -ue
 
 source .env
-
-function ensure_content() {
-  if ! cmp -s "$1" "$2"; then
-    echo "Updating file '$1'"
-    diff --color=always "$1" "$2"
-    # cat "$2" > "$1"
-  fi
-}
-
-function ensure_dir() {
-  if [[ ! -d "$1" ]]; then
-    echo "Creating directory '$1'"
-    # mkdir --mode="$2" "$1"
-  fi
-}
-
-function ensure_mode() {
-  local mode
-  mode="$(stat -c '%a' "$1")"
-
-  if [[ "$mode" != "$2" ]]; then
-    echo "Changing mode of '$1' from '$mode' to '$2'"
-    # chmod "$2" "$1"
-  fi
-}
-
-function ensure_owner() {
-  local owner
-  owner="$(stat -c '%U' "$1")"
-
-  if [[ "$owner" != "$2" ]]; then
-    echo "Changing owner of '$1' from '$owner' to '$2'"
-    # chown "$2" "$1"
-  fi
-}
-
-function ensure_group() {
-  local group
-  group="$(stat -c '%G' "$1")"
-
-  if [[ "$group" != "$2" ]]; then
-    echo "Changing group of '$1' from '$group' to '$2'"
-    # chgrp "$2" "$1"
-  fi
-}
-
 function f() {
   if [[ " ${f_boots[*]} " != *" $boot "* ]]; then
     return 0 
@@ -102,7 +56,7 @@ function f() {
     echo ensure_mode "$dest_path" "$mode"
     echo ensure_owner "$dest_path" "$owner"
     echo ensure_group "$dest_path" "$group"
-  } >> "$sync_dir/script.sh"
+  } >> "$sync_dir/remote.sh"
 }
 
 function d() {
@@ -137,7 +91,7 @@ function d() {
     echo ensure_mode "$dest_path" "$mode"
     echo ensure_owner "$dest_path" "$owner"
     echo ensure_group "$dest_path" "$group"
-  } >> "$sync_dir/script.sh"
+  } >> "$sync_dir/remote.sh"
 }
 
 function c() {
@@ -145,7 +99,7 @@ function c() {
     return 0 
   fi
 
-  echo "$*" >> "$sync_dir/script.sh"
+  echo "$*" >> "$sync_dir/remote.sh"
 }
 
 
@@ -167,14 +121,7 @@ for host in "${hosts[@]}"; do
   sync_dir="./tmp"
   rm -rf "$sync_dir"
   mkdir "$sync_dir"
-
-  {
-    declare -f ensure_content
-    declare -f ensure_dir
-    declare -f ensure_mode
-    declare -f ensure_owner
-    declare -f ensure_group
-  } >> "$sync_dir/script.sh"
+  cp remote.sh "$sync_dir"
 
   # Installation
   c_boots=( install )
@@ -359,7 +306,7 @@ for host in "${hosts[@]}"; do
     dir="$(mktemp -d)"
     pushd "$dir" >/dev/null
     tar -x
-    source ./script.sh
+    source ./remote.sh
     popd >/dev/null
     rm -rf "$dir"
   '
