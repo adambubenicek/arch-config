@@ -87,7 +87,7 @@ function d() {
   group=${group:-$owner}
 
   {
-    echo ensure_dir "$dest_path" 
+    echo ensure_dir "$dest_path" "$mode"
     echo ensure_attributes "$dest_path" "$mode" "$owner" "$group"
   } >> "$sync_dir/remote.sh"
 }
