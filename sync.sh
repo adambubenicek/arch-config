@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -uea
+set -ue
 
 source .env
 
@@ -82,19 +82,17 @@ function f() {
   group=${group:-$owner}
 
   if [[ "$template" == true ]]; then
-    local script_path
-    script_path="$(mktemp)"
+    local script=""
 
     while IFS= read -r line; do
       if [[ "$line" =~ [^[:space:]]*%%[[:space:]]*(.*)$ ]]; then
-        echo "${BASH_REMATCH[1]}" >> "$script_path"
+        script+="${BASH_REMATCH[1]}"$'\n'
       else
-        echo "echo \"${line//\"/\\\"}\"" >> "$script_path"
+        script+="echo \"${line//\"/\\\"}\""$'\n'
       fi
     done < ".$dest_path"
 
-    /usr/bin/env bash "$script_path" > "$sync_dir/$src_path"
-    rm "$script_path"
+    eval "$script" > "$sync_dir/$src_path"
   else
     cat ".$dest_path" > "$sync_dir/$src_path"
   fi
