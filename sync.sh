@@ -316,7 +316,6 @@ for host in "${hosts[@]}"; do
     tar -x
     source ./remote.sh
     popd >/dev/null
-    rm -rf "$dir"
-  '
+    rm -rf "$dir"'
   popd >/dev/null
 done
