@@ -301,6 +301,11 @@ for host in "${hosts[@]}"; do
     f /home/adam/.config/mpv/mpv.conf -o adam
   fi
 
+  # Maintenance
+  c_boots=( first regular )
+  f_boots=( first regular )
+  d_boots=( first regular )
+
   pushd "$sync_dir" >/dev/null
 
   case "$host" in
