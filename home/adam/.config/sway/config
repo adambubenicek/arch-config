@@ -102,12 +102,12 @@ bindsym $mod+r mode "resize"
 
 bar {
   position top
-  separator_symbol ""
+  separator_symbol ' | '
   status_padding 5
   tray_padding 5
   gaps 0 3
 
-  status_command i3status-rs
+  status_command i3status
 
   colors {
     statusline #d4be98
