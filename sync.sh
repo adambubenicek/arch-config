@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-
 set -ue
+cd "$(dirname "$0")" || exit
 
 # shellcheck source=/dev/null
 source .env
@@ -301,27 +301,29 @@ for host in "${hosts[@]}"; do
     f /home/adam/.config/mpv/mpv.conf -o adam
   fi
 
+
   # Maintenance
   c_boots=( first regular )
   f_boots=( first regular )
   d_boots=( first regular )
 
-  pushd "$sync_dir" >/dev/null
-
+  # Sync
   case "$host" in
     kangaroo) ssh_host="$KANGAROO_HOST";;
     hippo) ssh_host="$HIPPO_HOST";;
     owl) ssh_host="$OWL_HOST";;
   esac
 
-  tar -c . | ssh -T "root@$ssh_host" '
-    dir="$(mktemp -d)"
-    pushd "$dir" >/dev/null
-    tar -x
-    source ./remote.sh
-    popd >/dev/null
-    rm -rf "$dir"'
-  popd >/dev/null
+  ssh_opts=(
+   -o ControlMaster=auto
+   -o ControlPath=/root/.ssh/%C
+   -o ControlPersist=60
+  )
+  remote_sync_dir=$(ssh "${ssh_opts[@]}" "$ssh_host" mktemp -d)
+  
+  scp "${ssh_opts[@]}" -q "$sync_dir"/* "$ssh_host:$remote_sync_dir" 
+  ssh "${ssh_opts[@]}" "$ssh_host" "$remote_sync_dir"/remote.sh || true
+  ssh "${ssh_opts[@]}" "$ssh_host" rm -rf "$remote_sync_dir"
 
   rm -rf "$sync_dir"
 done

@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+cd "$(dirname "$0")" || exit
+
 function ensure_file() {
   local path="$1"
   local content_path="$2"
