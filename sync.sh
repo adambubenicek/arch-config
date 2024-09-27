@@ -291,6 +291,8 @@ for host in "${hosts[@]}"; do
     d /home/adam/.config -o adam
     d /home/adam/.config/sway -o adam
     f /home/adam/.config/sway/config -o adam
+    f /home/adam/.config/sway/set-volume.sh -m 755 -o adam
+    f /home/adam/.config/sway/set-brightness.sh -m 755 -o adam
     d /home/adam/.config/swayidle -o adam
     f /home/adam/.config/swayidle/config -o adam
     d /home/adam/.config/swaylock -o adam
