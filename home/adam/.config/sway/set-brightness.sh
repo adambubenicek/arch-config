@@ -7,7 +7,7 @@ brightness="$(brightnessctl get \
   '{ printf "%.0f", $0 / max * 100 }')"
 
 notify-send \
-  "Brightness: $brightness%" \
+  "Brightness" "$brightness%" \
   -t 2000 \
   -h string:x-canonical-private-synchronous:brightness \
   -h "int:value:$brightness"
