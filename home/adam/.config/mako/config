@@ -1,0 +1,12 @@
+font=Noto Sans Mono 9 
+padding=8,8,8,13
+margin=8
+
+background-color=#45403d
+progress-color=#32302f
+border-color=#5a524c
+border-size=1
+border-radius=3
+text-color=#d4be98
+
+icon-location=right

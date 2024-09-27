@@ -295,6 +295,8 @@ for host in "${hosts[@]}"; do
     f /home/adam/.config/swayidle/config -o adam
     d /home/adam/.config/swaylock -o adam
     f /home/adam/.config/swaylock/config -o adam
+    d /home/adam/.config/mako -o adam
+    f /home/adam/.config/mako/config -o adam
     d /home/adam/.config/i3status -o adam
     f /home/adam/.config/i3status/config -t -o adam
     d /home/adam/.config/foot -o adam
