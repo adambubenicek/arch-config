@@ -271,7 +271,9 @@ for host in "${hosts[@]}"; do
       sway \
       swaybg \
       swayidle \
-      swaylock
+      swaylock \
+      libnotify \
+      mako
 
     c systemctl enable keyd
     c sudo -u adam gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'

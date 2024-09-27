@@ -80,14 +80,13 @@ bindsym $mod+a focus parent
 
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
-
-bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_SINK@ 1%+
-bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_SINK@ 1%-
+bindsym XF86AudioRaiseVolume exec $HOME/.config/sway/set-volume.sh 1%+
+bindsym XF86AudioLowerVolume exec $HOME/.config/sway/set-volume.sh 1%-
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
-bindsym XF86MonBrightnessDown exec brightnessctl set 1%-
-bindsym XF86MonBrightnessUp exec brightnessctl set 1%+
+bindsym XF86MonBrightnessDown exec $HOME/.config/sway/set-brightness.sh 1%-
+bindsym XF86MonBrightnessUp exec $HOME/.config/sway/set-brightness.sh 1%+
 
 mode "resize" {
   bindsym Left resize shrink width 10px
