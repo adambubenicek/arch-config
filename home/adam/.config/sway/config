@@ -125,9 +125,9 @@ default_floating_border normal 1
 font Noto Sans Mono 9
 titlebar_padding 8 5
 
-client.focused          #45403d #32302f #d4be98 #d8a657 #45403d
-client.unfocused        #32302f #282828 #928374 #d8a657 #32302f 
-client.focused_inactive #32302f #282828 #928374 #d8a657 #32302f 
-client.urgent           #ea6962 #32302f #d4be98 #d8a657 #ea6962
+client.focused          #45403d #32302f #d4be98 #45403d #45403d
+client.unfocused        #32302f #282828 #928374 #32302f #32302f 
+client.focused_inactive #32302f #282828 #928374 #32302f #32302f 
+client.urgent           #ea6962 #32302f #d4be98 #ea6962 #ea6962
 
 include /etc/sway/config.d/*
