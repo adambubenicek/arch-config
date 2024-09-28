@@ -127,30 +127,25 @@ for host in "${hosts[@]}"; do
   d_boots=( install )
 
   if [[ $host == "hippo" || $host == "kangaroo" ]]; then
-    c sgdisk --clear /dev/nvme0n1 \
-      --new=1:0:+1024M \
-      --typecode=1:ef00 \
-      --new=2:0:0 \
-      --typecode=2:8304 # 8309 for LUKS
-
-    c mkfs.fat -F 32 -n boot /dev/nvme0n1p1
-    c mkfs.ext4 -L root /dev/nvme0n1p2
-    c mount /dev/nvme0n1p2 /mnt
-    c mount --mkdir /dev/nvme0n1p1 /mnt/boot
+    dev=/dev/nvme0n1
+    dev_root_part=/dev/nvme0n1p2
+    dev_boot_part=/dev/nvme0n1p1
+  elif [[ $host == "owl" ]]; then
+    dev=/dev/sda
+    dev_root_part=/dev/sda2
+    dev_boot_part=/dev/sda1
   fi
 
-  if [[ $host == "owl" ]]; then
-    c sgdisk --clear /dev/sda \
-      --new=1:0:+1024M \
-      --typecode=1:ef00 \
-      --new=2:0:0 \
-      --typecode=2:8304 # 8309 for LUKS
+  c sgdisk --clear "$dev" \
+    --new=1:0:+1024M \
+    --typecode=1:ef00 \
+    --new=2:0:0 \
+    --typecode=2:8304 # 8309 for LUKS
 
-    c mkfs.fat -F 32 -n boot /dev/sda1
-    c mkfs.ext4 -L root /dev/sda2
-    c mount /dev/sda2 /mnt
-    c mount --mkdir /dev/sda1 /mnt/boot
-  fi
+  c mkfs.fat -F 32 -n boot "$dev_boot_part"
+  c mkfs.ext4 -L root "$dev_root_part"
+  c mount "$dev_root_part" /mnt
+  c mount --mkdir "$dev_boot_part" /mnt/boot
 
   c pacstrap -K /mnt \
     base \
