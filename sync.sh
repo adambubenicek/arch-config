@@ -206,7 +206,7 @@ for host in "${hosts[@]}"; do
     adam
 
   if [[ $host == "hippo" || $host == "kangaroo" ]]; then
-    f /etc/sysctl.d/80-vm.conf
+    f /etc/sysctl.d/overrides.conf
 
     f /etc/crypttab -m 440
     d /etc/cryptsetup-keys.d -m 550
