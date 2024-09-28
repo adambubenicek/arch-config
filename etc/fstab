@@ -2,6 +2,6 @@ LABEL=boot          	/boot     	vfat      	rw,relatime,fmask=0022,dmask=0022,cod
 LABEL=root          	/         	ext4      	rw,relatime	0 1
 
 #%% if [[ "$host" == "hippo" || "$host" == "kangaroo" ]]; then
-/dev/mapper/pigeon      /media/pigeon   ext4            defaults,nofail,noauto,x-systemd.automount,x-systemd.idle-timeout=30,x-systemd.device-timeout=5  0  2
-/dev/mapper/turtle      /media/turtle   ext4            defaults,nofail,noauto,x-systemd.automount,x-systemd.idle-timeout=30,x-systemd.device-timeout=5  0  2
+LABEL=pigeon-crypt      /media/pigeon   ext4            defaults,nofail,noauto,x-systemd.automount,x-systemd.idle-timeout=30,x-systemd.device-timeout=5  0  2
+LABEL=turtle-crypt      /media/turtle   ext4            defaults,nofail,noauto,x-systemd.automount,x-systemd.idle-timeout=30,x-systemd.device-timeout=5  0  2
 #%% fi

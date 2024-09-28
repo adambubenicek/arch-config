@@ -136,11 +136,23 @@ for host in "${hosts[@]}"; do
     dev_boot_part=/dev/sda1
   fi
 
+
   c sgdisk --clear "$dev" \
     --new=1:0:+1024M \
     --typecode=1:ef00 \
     --new=2:0:0 \
     --typecode=2:8304 # 8309 for LUKS
+
+  if [[ $host == "hippo" || $host == "kangaroo" ]]; then
+    d /etc/cryptsetup-keys.d -m 750
+    f /etc/cryptsetup-keys.d/root.key -t -m 440
+
+    c cryptsetup luksFormat \
+      --key-file=/etc/cryptsetup-keys.d/root.key \
+      --label=root-crypt
+      "$dev_root_part" 
+    dev_root_part=/dev/mapper/root
+  fi
 
   c mkfs.fat -F 32 -n boot "$dev_boot_part"
   c mkfs.ext4 -L root "$dev_root_part"
@@ -209,7 +221,8 @@ for host in "${hosts[@]}"; do
     f /etc/sysctl.d/overrides.conf
 
     f /etc/crypttab -m 440
-    d /etc/cryptsetup-keys.d -m 550
+    f /etc/crypttab.initramfs -m 440
+    d /etc/cryptsetup-keys.d -m 750
     f /etc/cryptsetup-keys.d/pigeon.key -t -m 440
     f /etc/cryptsetup-keys.d/turtle.key -t -m 440
   fi
