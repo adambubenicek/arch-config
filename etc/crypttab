@@ -1,2 +1,2 @@
-pigeon  UUID=d16f73f2-033c-4ab0-856e-b1f510ef1dc2  none  noauto,nofail
+pigeon  LABEL=pigeon-crypt  none  noauto,nofail
 turtle  LABEL=turtle-crypt  none  noauto,nofail
