@@ -211,6 +211,7 @@ for host in "${hosts[@]}"; do
     f /etc/crypttab -m 440
     d /etc/cryptsetup-keys.d -m 550
     f /etc/cryptsetup-keys.d/pigeon.key -t -m 440
+    f /etc/cryptsetup-keys.d/turtle.key -t -m 440
   fi
 
   if [[ $host == "kangaroo" ]]; then
