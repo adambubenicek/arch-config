@@ -53,6 +53,10 @@ function f() {
     cat ".$dest_path" > "$sync_dir/$src_path"
   fi
   
+  if [[ "$boot" == "install-chroot" ]]; then
+    dest_path="/mnt/$dest_path"
+  fi
+
   {
     echo ensure_file "$dest_path" "./$src_path"
     echo ensure_attributes "$dest_path" "$mode" "$owner" "$group"
@@ -85,6 +89,10 @@ function d() {
   mode=${mode:-755}
   owner=${owner:-root}
   group=${group:-$owner}
+  
+  if [[ "$boot" == "install-chroot" ]]; then
+    dest_path="/mnt/$dest_path"
+  fi
 
   {
     echo ensure_dir "$dest_path" "$mode"
@@ -97,7 +105,13 @@ function c() {
     return 0 
   fi
 
-  echo "run_command $*" >> "$sync_dir/remote.sh"
+  cmd="$*" 
+
+  if [[ "$boot" == "install-chroot" ]]; then
+    cmd="arch-chroot /mnt $cmd"
+  fi
+
+  echo "run_command $cmd" >> "$sync_dir/remote.sh"
 }
 
 boot=regular
