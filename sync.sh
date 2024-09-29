@@ -163,7 +163,7 @@ for host in "${hosts[@]}"; do
 
     c cryptsetup luksFormat \
       --key-file=/etc/cryptsetup-keys.d/root.key \
-      --label=root-crypt
+      --label=root-crypt \
       "$dev_root_part" 
     dev_root_part=/dev/mapper/root
   fi
