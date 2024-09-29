@@ -314,7 +314,6 @@ for host in "${hosts[@]}"; do
       mako
 
     c systemctl enable keyd
-    c sudo -u adam gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 
     f /etc/keyd/default.conf
     f /etc/udev/rules.d/logitech-bolt.rules

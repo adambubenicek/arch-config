@@ -7,6 +7,7 @@ for_window [app_id="^fzf-launcher$"] floating enable
 for_window [app_id="firefox" title="Picture-in-Picture"] floating enable
 for_window [class="steam_app*"] inhibit_idle focus
 
+exec gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 exec swayidle -w
 
 output * bg #1b1b1b solid_color
