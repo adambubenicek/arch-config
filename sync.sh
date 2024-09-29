@@ -165,6 +165,12 @@ for host in "${hosts[@]}"; do
       --key-file=/etc/cryptsetup-keys.d/root.key \
       --label=root-crypt \
       "$dev_root_part" 
+
+    c cryptsetup open \
+      --key-file=/etc/cryptsetup-keys.d/root.key \
+      "$dev_root_part" \
+      root
+
     dev_root_part=/dev/mapper/root
   fi
 
