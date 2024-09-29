@@ -1,1 +1,2 @@
-root  LABEL=root-crypt  none
+turtle  LABEL=turtle-crypt  none
+root    LABEL=root-crypt    root.key:LABEL=turtle  keyfile-timeout=60s
