@@ -194,7 +194,7 @@ for host in "${hosts[@]}"; do
 
   f /etc/pacman.conf
 
-  c pacman -Syu --noconfirm \
+  c pacman -Syu \
     man-db \
     tree \
     ripgrep \
@@ -248,7 +248,7 @@ for host in "${hosts[@]}"; do
   fi
 
   if [[ $host == "kangaroo" ]]; then
-    c pacman -S --noconfirm \
+    c pacman -Syu \
       tlp \
       iwd
 
@@ -262,7 +262,7 @@ for host in "${hosts[@]}"; do
   f_boots=( first regular )
   d_boots=( first regular )
 
-  c pacman -S --noconfirm \
+  c pacman -Syu \
     crun \
     podman \
     bash-completion \
@@ -286,7 +286,7 @@ for host in "${hosts[@]}"; do
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
   if [[ $host == "hippo" || $host == "kangaroo" ]]; then
-    c pacman -S --noconfirm \
+    c pacman -Syu \
       keyd \
       shellcheck \
       bash-language-server \
