@@ -217,14 +217,11 @@ for host in "${hosts[@]}"; do
   f /etc/locale.conf
   f /boot/loader/loader.conf -m 755
   f /boot/loader/entries/arch.conf -m 755
-  f /etc/mkinitcpio.conf.d/overrides.conf
-  f /etc/vconsole.conf
   f /etc/sudoers.d/overrides -m 440
   d /root/.ssh -m 700
   f /root/.ssh/authorized_keys -t -m 644
 
   c locale-gen
-  c mkinitcpio -P
   c ln -sf /usr/share/zoneinfo/Europe/Prague /etc/localtime
   c systemctl enable systemd-resolved.service
   c systemctl enable systemd-networkd.service
@@ -237,6 +234,8 @@ for host in "${hosts[@]}"; do
     --password \'"$ADAM_PASSWORD_ENCRYPTED"\' \
     adam
 
+  f /etc/mkinitcpio.conf.d/overrides.conf
+  f /etc/vconsole.conf
   if [[ $host == "hippo" || $host == "kangaroo" ]]; then
     f /etc/sysctl.d/overrides.conf
 
@@ -246,6 +245,8 @@ for host in "${hosts[@]}"; do
     f /etc/cryptsetup-keys.d/pigeon.key -t -m 440
     f /etc/cryptsetup-keys.d/turtle.key -t -m 440
   fi
+
+  c mkinitcpio -P
 
   if [[ $host == "kangaroo" ]]; then
     c pacman -Syu \
