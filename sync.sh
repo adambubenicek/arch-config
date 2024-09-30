@@ -283,7 +283,7 @@ for host in "${hosts[@]}"; do
   d /home/adam/.config/ripgrep -o adam
   f /home/adam/.config/ripgrep/ripgreprc -o adam
 
-  c sudo -u adam curl -fLo ~/.config/vim/autoload/plug.vim --create-dirs \
+  c sudo -u adam curl -fLo /home/adam/.config/vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
   if [[ $host == "hippo" || $host == "kangaroo" ]]; then
