@@ -246,7 +246,7 @@ for host in "${hosts[@]}"; do
     --password \'"$ADAM_PASSWORD_ENCRYPTED"\' \
     adam
 
-  f /etc/mkinitcpio.conf.d/overrides.conf
+  f /etc/mkinitcpio.conf.d/overrides.conf -t
   f /etc/vconsole.conf
   if [[ $host == "hippo" || $host == "kangaroo" ]]; then
     f /etc/sysctl.d/overrides.conf
