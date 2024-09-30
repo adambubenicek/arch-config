@@ -350,6 +350,7 @@ for host in "${hosts[@]}"; do
   f_boots=( first regular )
   d_boots=( first regular )
 
+
   # Sync
   case "$host" in
     kangaroo) ssh_host="$KANGAROO_HOST";;
