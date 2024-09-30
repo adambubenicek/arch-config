@@ -127,7 +127,7 @@ shift $((OPTIND-1))
 if (( "$#" > 0 )); then
   hosts=( "$@" )
 else
-  hosts=( hippo kangaroo owl )
+  hosts=( hippo kangaroo owl sloth )
 fi
 
 for host in "${hosts[@]}"; do
@@ -140,7 +140,7 @@ for host in "${hosts[@]}"; do
   f_boots=( install )
   d_boots=( install )
 
-  if [[ $host == "hippo" || $host == "kangaroo" ]]; then
+  if [[ $host == "hippo" || $host == "kangaroo" || $host == "sloth" ]]; then
     dev=/dev/nvme0n1
     dev_root_part=/dev/nvme0n1p2
     dev_boot_part=/dev/nvme0n1p1
@@ -179,6 +179,10 @@ for host in "${hosts[@]}"; do
   c mount "$dev_root_part" /mnt
   c mount --mkdir "$dev_boot_part" /mnt/boot
 
+  if [[ $host == "sloth" ]]; then
+    c mount --mkdir /dev/disk/by-label/lib /mnt/var/lib
+  fi
+
   c pacstrap -K /mnt \
     base \
     linux \
@@ -199,14 +203,22 @@ for host in "${hosts[@]}"; do
     tree \
     ripgrep \
     rsync \
-    mesa \
-    libva-mesa-driver \
-    vulkan-radeon \
-    lib32-vulkan-radeon \
-    amd-ucode \
     sudo \
     polkit \
     openssh
+
+  if [[ $host == "hippo" || $host == "kangaroo" ]]; then
+    c pacman -Syu \
+      mesa \
+      libva-mesa-driver \
+      vulkan-radeon \
+      lib32-vulkan-radeon \
+      amd-ucode
+  elif [[ $host == "owl" ]]; then
+    c pacman -Syu amd-ucode
+  elif [[ $host == "sloth" ]]; then
+    c pacman -Syu intel-ucode
+  fi
 
   c bootctl install
 
@@ -358,6 +370,7 @@ for host in "${hosts[@]}"; do
     kangaroo) ssh_host="$KANGAROO_HOST";;
     hippo) ssh_host="$HIPPO_HOST";;
     owl) ssh_host="$OWL_HOST";;
+    sloth) ssh_host="$SLOTH_HOST";;
   esac
 
   ssh_opts=(
