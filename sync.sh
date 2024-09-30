@@ -312,7 +312,8 @@ for host in "${hosts[@]}"; do
       swayidle \
       swaylock \
       libnotify \
-      mako
+      mako \
+      steam
 
     c systemctl enable keyd
 
