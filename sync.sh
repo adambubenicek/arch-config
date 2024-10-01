@@ -224,7 +224,6 @@ for host in "${hosts[@]}"; do
 
   f /etc/fstab -t
   f /etc/hostname -t
-  f /etc/systemd/network/90-dhcp.network
   f /etc/locale.gen
   f /etc/locale.conf
   f /boot/loader/loader.conf -m 755
@@ -232,6 +231,12 @@ for host in "${hosts[@]}"; do
   f /etc/sudoers.d/overrides -m 440
   d /root/.ssh -m 700
   f /root/.ssh/authorized_keys -t -m 644
+
+  f /etc/systemd/network/90-dhcp.network
+  if [[ $host == "sloth" ]]; then
+    f /etc/systemd/network/wg1.network -t
+    f /etc/systemd/network/wg1.netdev -t -m 600
+  fi
 
   c locale-gen
   c ln -sf /usr/share/zoneinfo/Europe/Prague /etc/localtime

@@ -1,0 +1,7 @@
+[Match]
+Name=wg1
+
+[Network]
+DNS=${WG1_DNS}
+Address=${WG1_ADDRESS_V4}
+Address=${WG1_ADDRESS_V6}
