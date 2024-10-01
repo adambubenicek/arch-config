@@ -56,6 +56,17 @@ function ensure_attributes() {
 
 function run_command() {
   local command="$*"
-  echo "Running command '$command'"
-  $command
+  local answer
+
+  while ! $command; do
+    while true; do
+      echo -n "Running '$command' failed, continue? [Yn]: " 
+      read -r answer
+      case "$answer" in
+        Y|y|'') break 2;;
+        N|n) exit 1;;
+        *) continue;;
+      esac
+    done
+  done
 }
