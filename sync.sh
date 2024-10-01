@@ -391,6 +391,14 @@ for host in "${hosts[@]}"; do
    -o ControlPath=/root/.ssh/%C
    -o ControlPersist=60
   )
+
+  if [[ $boot != "regular" ]]; then
+    ssh_opts+=(
+      -o StrictHostKeyChecking=off
+      -o UserKnownHostsFile=/dev/null 
+    )
+  fi
+
   remote_sync_dir=$(ssh "${ssh_opts[@]}" "$ssh_host" mktemp -d)
   
   scp "${ssh_opts[@]}" -q "$sync_dir"/* "$ssh_host:$remote_sync_dir" 
