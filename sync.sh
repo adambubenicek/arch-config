@@ -244,6 +244,8 @@ for host in "${hosts[@]}"; do
     f /etc/systemd/network/wg1.network -t
     f /etc/systemd/network/wg1.netdev -t -m 600
   fi
+  f /etc/systemd/network/wg0.network -t
+  f /etc/systemd/network/wg0.netdev -t -m 600
 
   c locale-gen
   c ln -sf /usr/share/zoneinfo/Europe/Prague /etc/localtime

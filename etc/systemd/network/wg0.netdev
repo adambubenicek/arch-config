@@ -1,0 +1,40 @@
+[NetDev]
+Name=wg0
+Kind=wireguard
+
+[WireGuard]
+#%% case "$host" in
+#%%   hippo)    PRIVATE_KEY=${WG0_HIPPO_PRIVATE_KEY};;
+#%%   kangaroo) PRIVATE_KEY=${WG0_KANGAROO_PRIVATE_KEY};;
+#%%   owl)      PRIVATE_KEY=${WG0_OWL_PRIVATE_KEY};;
+#%%   sloth)    PRIVATE_KEY=${WG0_SLOTH_PRIVATE_KEY};;
+#%% esac
+PrivateKey=${PRIVATE_KEY}
+ListenPort=51820
+
+#%% if [[ $host == "owl" ]]; then
+[WireGuardPeer]
+PublicKey=${WG0_SLOTH_PUBLIC_KEY}
+AllowedIPs=${WG0_SLOTH_ADDRESS}/32
+
+[WireGuardPeer]
+PublicKey=${WG0_HIPPO_PUBLIC_KEY}
+AllowedIPs=${WG0_HIPPO_ADDRESS}/32
+
+[WireGuardPeer]
+PublicKey=${WG0_KANGAROO_PUBLIC_KEY}
+AllowedIPs=${WG0_KANGAROO_ADDRESS}/32
+
+[WireGuardPeer]
+PublicKey=${WG0_MOUSE_PUBLIC_KEY}
+AllowedIPs=${WG0_MOUSE_ADDRESS}/32
+#%% else
+[WireGuardPeer]
+PublicKey=${WG0_OWL_PUBLIC_KEY}
+AllowedIPs=${WG0_OWL_ADDRESS}/32
+Endpoint=${OWL_HOST}:51820
+#%%   if [[ $host == "sloth" ]]; then
+PersistentKeepalive=30
+#%%   fi
+#%% fi
+
