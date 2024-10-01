@@ -7,12 +7,12 @@ function ensure_file() {
 
   if [[ ! -f "$path" ]]; then
     echo "Creating file '$path'"
-    cat "$content_path" > "$path"
   elif ! cmp -s "$path" "$content_path"; then
     echo "Updating file '$path'"
     diff --color=always "$path" "$content_path"
-    cat "$content_path" > "$path"
   fi
+
+  run_command quiet cat "$content_path" \> "$path"
 }
 
 function ensure_dir() {
@@ -21,7 +21,7 @@ function ensure_dir() {
 
   if [[ ! -d "$path" ]]; then
     echo "Creating directory '$path'"
-    mkdir --mode="$mode" "$path"
+    run_command quiet mkdir --mode="$mode" "$path"
   fi
 }
 
@@ -40,25 +40,35 @@ function ensure_attributes() {
 
   if [[ "$mode" != "$existing_mode" ]]; then
     echo "Changing mode of '$path' from '$existing_mode' to '$mode'"
-    chmod "$mode" "$path"
+    run_command quiet chmod "$mode" "$path"
   fi
 
   if [[ "$owner" != "$existing_owner" ]]; then
     echo "Changing owner of '$path' from '$existing_owner' to '$owner'"
-    chown "$owner" "$path"
+    run_command quiet chown "$owner" "$path"
   fi
 
   if [[ "$group" != "$existing_group" ]]; then
     echo "Changing group of '$path' from '$existing_group' to '$group'"
-    chgrp "$group" "$path"
+    run_command quiet chgrp "$group" "$path"
   fi
 }
 
 function run_command() {
-  local command="$*"
-  local answer
+  local quiet=false
 
-  while ! $command; do
+  if [[ "$1" == "quiet" ]]; then
+    quiet=true
+    shift
+  fi
+
+  local command="$*"
+
+  if [[ "$quiet" == false ]]; then 
+    echo "Running '$command'" 
+  fi
+
+  while ! eval "$command"; do
     while true; do
       echo -n "Running '$command' failed, continue? [Yn]: " 
       read -r answer
