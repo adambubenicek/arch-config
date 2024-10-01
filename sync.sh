@@ -54,7 +54,7 @@ function f() {
   fi
   
   if [[ "$boot" == "install-chroot" ]]; then
-    dest_path="/mnt/$dest_path"
+    dest_path="/mnt$dest_path"
   fi
 
   {
@@ -91,7 +91,7 @@ function d() {
   group=${group:-$owner}
   
   if [[ "$boot" == "install-chroot" ]]; then
-    dest_path="/mnt/$dest_path"
+    dest_path="/mnt$dest_path"
   fi
 
   {
