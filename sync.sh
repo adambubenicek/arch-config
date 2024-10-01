@@ -235,6 +235,7 @@ for host in "${hosts[@]}"; do
   f /boot/loader/loader.conf -m 755
   f /boot/loader/entries/arch.conf -m 755
   f /etc/sudoers.d/overrides -m 440
+  f /etc/ssh/sshd_config.d/overrides.conf
   d /root/.ssh -m 700
   f /root/.ssh/authorized_keys -t -m 644
 
