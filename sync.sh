@@ -130,7 +130,13 @@ else
   hosts=( hippo kangaroo owl sloth )
 fi
 
+printf -v divider '%80s' '' 
+divider="\e[30m${divider// /=}\e[0m"
+
 for host in "${hosts[@]}"; do
+  echo -e "$divider"
+  echo -en "> Syncing to '\e[1;37m$host\e[0m' "
+  echo -e "during its '\e[1;37m$boot\e[0m' boot."
   sync_dir="$(mktemp -d)"
 
   cp remote.sh "$sync_dir/remote.sh"
