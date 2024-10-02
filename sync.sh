@@ -375,10 +375,15 @@ for host in "${hosts[@]}"; do
   if [[ $host == "sloth" ]]; then
     d /etc/containers
     d /etc/containers/systemd
+
     d /var/lib/qbittorrent
     d /var/lib/qbittorrent/config -o adam
     d /var/lib/qbittorrent/downloads -o adam
     f /etc/containers/systemd/qbittorrent.container
+
+    d /var/lib/homeassistant
+    d /var/lib/homeassistant/config
+    f /etc/containers/systemd/homeassistant.container
   fi
 
   # Maintenance
