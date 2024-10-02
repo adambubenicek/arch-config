@@ -1,6 +1,7 @@
 font=Noto Sans Mono 9 
 padding=8,8,8,13
 margin=8
+layer=overlay
 
 background-color=#45403d
 progress-color=#32302f
