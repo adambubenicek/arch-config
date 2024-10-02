@@ -1,0 +1,4 @@
+qbittorrent.${DOMAIN} {
+  bind ${WG0_OWL_ADDRESS}
+  reverse_proxy ${WG0_SLOTH_ADDRESS}:8080
+}

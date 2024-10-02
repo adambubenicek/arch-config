@@ -386,6 +386,14 @@ for host in "${hosts[@]}"; do
     f /etc/containers/systemd/homeassistant.container
   fi
 
+  if [[ $host == "owl" ]]; then
+    c pacman -Syu caddy
+    c systemctl enable caddy
+
+    f /etc/caddy/conf.d/qbittorrent -t
+    f /etc/caddy/conf.d/homeassistant -t
+  fi
+
   # Maintenance
   c_boots=( first regular )
   f_boots=( first regular )
