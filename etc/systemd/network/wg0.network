@@ -9,3 +9,6 @@ Name=wg0
 #%%   sloth)    ADDRESS=${WG0_SLOTH_ADDRESS};;
 #%% esac
 Address=${ADDRESS}/24
+DNS=${WG0_OWL_ADDRESS}
+DNSDefaultRoute=yes
+Domains=~.

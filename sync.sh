@@ -372,10 +372,10 @@ for host in "${hosts[@]}"; do
     f /home/adam/.config/mpv/mpv.conf -o adam
   fi
 
-  if [[ $host == "sloth" ]]; then
-    d /etc/containers
-    d /etc/containers/systemd
+  d /etc/containers
+  d /etc/containers/systemd
 
+  if [[ $host == "sloth" ]]; then
     d /var/lib/qbittorrent
     d /var/lib/qbittorrent/config -o adam
     d /var/lib/qbittorrent/downloads -o adam
@@ -392,6 +392,12 @@ for host in "${hosts[@]}"; do
 
     f /etc/caddy/conf.d/qbittorrent -t
     f /etc/caddy/conf.d/homeassistant -t
+    f /etc/caddy/conf.d/adguard -t
+
+    d /var/lib/adguard
+    d /var/lib/adguard/work
+    d /var/lib/adguard/conf
+    f /etc/containers/systemd/adguard.container -t
   fi
 
   # Maintenance

@@ -1,0 +1,19 @@
+[Unit]
+Description=AdGuard Home container
+Wants=network-online.target
+After=network-online.target nss-lookup.target
+
+[Container]
+ContainerName=adguard
+Image=docker.io/adguard/adguardhome
+
+PublishPort=${WG0_OWL_ADDRESS}:53:53/tcp
+PublishPort=${WG0_OWL_ADDRESS}:53:53/udp
+PublishPort=${WG0_OWL_ADDRESS}:3000:3000/tcp
+PublishPort=${WG0_OWL_ADDRESS}:8080:8080/tcp
+
+Volume=/var/lib/adguard/work:/opt/adguardhome/work
+Volume=/var/lib/adguard/conf:/opt/adguardhome/conf
+
+[Install]
+WantedBy=default.target
