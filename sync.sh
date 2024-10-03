@@ -240,12 +240,12 @@ for host in "${hosts[@]}"; do
   f /root/.ssh/authorized_keys -t -m 644
 
   f /etc/systemd/network/90-dhcp.network
+  f /etc/systemd/network/wg0.network -t
+  f /etc/systemd/network/wg0.netdev -t -m 640
   if [[ $host == "sloth" ]]; then
     f /etc/systemd/network/wg1.network -t
-    f /etc/systemd/network/wg1.netdev -t -m 600
+    f /etc/systemd/network/wg1.netdev -t -m 640
   fi
-  f /etc/systemd/network/wg0.network -t
-  f /etc/systemd/network/wg0.netdev -t -m 600
 
   c locale-gen
   c ln -sf /usr/share/zoneinfo/Europe/Prague /etc/localtime
