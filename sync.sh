@@ -240,11 +240,11 @@ for host in "${hosts[@]}"; do
   f /root/.ssh/authorized_keys -t -m 644
 
   f /etc/systemd/network/90-dhcp.network
-  f /etc/systemd/network/wg0.network -t
-  f /etc/systemd/network/wg0.netdev -t -m 640
+  f /etc/systemd/network/50-wg0.network -t
+  f /etc/systemd/network/50-wg0.netdev -t -m 640 -g systemd-network
   if [[ $host == "sloth" ]]; then
-    f /etc/systemd/network/wg1.network -t
-    f /etc/systemd/network/wg1.netdev -t -m 640
+    f /etc/systemd/network/50-wg1.network -t
+    f /etc/systemd/network/50-wg1.netdev -t -m 640 -g systemd-network
   fi
 
   c locale-gen
