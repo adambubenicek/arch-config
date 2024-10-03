@@ -9,6 +9,9 @@ Name=wg0
 #%%   sloth)    ADDRESS=${WG0_SLOTH_ADDRESS};;
 #%% esac
 Address=${ADDRESS}/24
+#%% if [[ $host == "owl" ]]; then
+IPMasquerade=ipv4
+#%% fi
 DNS=${WG0_OWL_ADDRESS}
 DNSDefaultRoute=yes
 Domains=~.

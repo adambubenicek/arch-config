@@ -31,7 +31,7 @@ AllowedIPs=${WG0_MOUSE_ADDRESS}/32
 #%% else
 [WireGuardPeer]
 PublicKey=${WG0_OWL_PUBLIC_KEY}
-AllowedIPs=${WG0_OWL_ADDRESS}/32
+AllowedIPs=${WG0_OWL_ADDRESS}/24
 Endpoint=${OWL_HOST}:51820
 #%%   if [[ $host == "sloth" ]]; then
 PersistentKeepalive=30
