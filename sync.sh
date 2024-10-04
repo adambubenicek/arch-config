@@ -339,7 +339,9 @@ for host in "${hosts[@]}"; do
       swaylock \
       libnotify \
       mako \
-      steam
+      steam \
+      grim \
+      slurp
 
     c systemctl enable keyd
 
