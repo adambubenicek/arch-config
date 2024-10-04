@@ -1,0 +1,4 @@
+[Desktop Entry]
+Type=Application
+Name=Screenshot screen to file
+Exec=sh -c 'grim'
