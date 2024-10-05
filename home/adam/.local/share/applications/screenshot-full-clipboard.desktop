@@ -1,4 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Screenshot screen to clipboard
-Exec=sh -c 'grim - | wl-copy -t image/png'

@@ -1,4 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Screenshot section to file
-Exec=sh -c 'grim -g "$(slurp)"'

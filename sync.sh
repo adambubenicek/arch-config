@@ -341,8 +341,7 @@ for host in "${hosts[@]}"; do
       mako \
       steam \
       grim \
-      slurp \
-      fuzzel
+      slurp
 
     c systemctl enable keyd
 
@@ -371,21 +370,8 @@ for host in "${hosts[@]}"; do
     f /home/adam/.config/i3status/config -t -o adam
     d /home/adam/.config/foot -o adam
     f /home/adam/.config/foot/foot.ini -o adam
-    d /home/adam/.config/fuzzel -o adam
-    f /home/adam/.config/fuzzel/fuzzel.ini -o adam
     d /home/adam/.config/mpv -o adam
     f /home/adam/.config/mpv/mpv.conf -o adam
-    d /home/adam/.local -o adam
-    d /home/adam/.local/share -o adam
-    d /home/adam/.local/share/applications -o adam
-    f /home/adam/.local/share/applications/lock.desktop -o adam
-    f /home/adam/.local/share/applications/poweroff.desktop -o adam
-    f /home/adam/.local/share/applications/reboot.desktop -o adam
-    f /home/adam/.local/share/applications/screenshot-full-clipboard.desktop -o adam
-    f /home/adam/.local/share/applications/screenshot-full-file.desktop -o adam
-    f /home/adam/.local/share/applications/screenshot-section-clipboard.desktop -o adam
-    f /home/adam/.local/share/applications/screenshot-section-file.desktop -o adam
-    f /home/adam/.local/share/applications/suspend.desktop -o adam
   fi
 
   d /etc/containers
