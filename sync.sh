@@ -340,6 +340,8 @@ for host in "${hosts[@]}"; do
       libnotify \
       mako \
       steam \
+      gimp \
+      inkscape \
       grim \
       slurp \
       wl-clipboard
