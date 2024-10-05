@@ -11,6 +11,7 @@ actions=(
   ["Suspend"]='systemctl suspend'
   ["Reboot"]='systemctl reboot'
   ["Poweroff"]='systemctl poweroff'
+  ["Lock"]='swaylock -f'
 )
 
 printf '%s\n' "${!actions[@]}" 
