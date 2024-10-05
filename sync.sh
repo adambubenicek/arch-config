@@ -341,7 +341,8 @@ for host in "${hosts[@]}"; do
       mako \
       steam \
       grim \
-      slurp
+      slurp \
+      wl-clipboard
 
     c systemctl enable keyd
 
@@ -358,6 +359,7 @@ for host in "${hosts[@]}"; do
     d /home/adam/.config -o adam
     d /home/adam/.config/sway -o adam
     f /home/adam/.config/sway/config -o adam
+    f /home/adam/.config/sway/launcher.sh -m 755 -o adam
     f /home/adam/.config/sway/set-volume.sh -m 755 -o adam
     f /home/adam/.config/sway/set-brightness.sh -m 755 -o adam
     d /home/adam/.config/swayidle -o adam
