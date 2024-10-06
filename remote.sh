@@ -2,7 +2,7 @@
 cd "$(dirname "$0")" || exit
 
 printf -v divider '%80s' '' 
-divider="\e[30m${divider// /-}\e[0m"
+divider="\e[2m${divider// /-}\e[0m"
 
 function ensure_file() {
   local path="$1"
@@ -88,13 +88,13 @@ function run_command() {
     while true; do
       echo -e "$divider"
       echo -en "\e[31m>\e[0m Running '\e[1;37m$command\e[0m' failed. What do? " 
-      echo -en "\e[30m[\e[0m"
-      echo -en "\e[1ms\e[0mkip"
-      echo -en "\e[30m|\e[0m"
-      echo -en "\e[1mr\e[0metry"
-      echo -en "\e[30m|\e[0m"
-      echo -en "\e[1me\e[0mxit"
-      echo -en "\e[30m] \e[0m"
+      echo -en "\e[2m[\e[0m"
+      echo -en "\e[4ms\e[0mkip"
+      echo -en "\e[2m|\e[0m"
+      echo -en "\e[4mr\e[0metry"
+      echo -en "\e[2m|\e[0m"
+      echo -en "\e[4me\e[0mxit"
+      echo -en "\e[2m] \e[0m"
       read -r answer
       case "$answer" in
         s|skip) break 2;;

@@ -131,7 +131,7 @@ else
 fi
 
 printf -v divider '%80s' '' 
-divider="\e[30m${divider// /=}\e[0m"
+divider="\e[2m${divider// /=}\e[0m"
 
 for host in "${hosts[@]}"; do
   echo -e "$divider"
