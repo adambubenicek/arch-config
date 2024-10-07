@@ -1,2 +1,1 @@
 pigeon  LABEL=pigeon-crypt  none  noauto,nofail
-turtle  LABEL=turtle-crypt  none  noauto,nofail
