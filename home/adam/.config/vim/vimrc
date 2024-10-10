@@ -12,6 +12,7 @@ Plug 'tpope/vim-fugitive'
 
 #%% if [[ "$host" == "hippo" || "$host" == "kangaroo" ]]; then
 Plug 'yegappan/lsp'
+Plug 'prettier/vim-prettier'
 #%% fi
 
 call plug#end()
@@ -43,6 +44,12 @@ var lspServers = [
     filetype: ['sh'],
     path: '/usr/bin/bash-language-server',
     args: ['start']
+  },
+  {
+    name: 'tsserver',
+    filetype: ['javascript', 'typescript'],
+    path: '/usr/bin/typescript-language-server',
+    args: ['--stdio']
   }
 ]
 

@@ -175,6 +175,10 @@ if [[ $host == "hippo" || $host == "kangaroo" ]]; then
     keyd \
     shellcheck \
     bash-language-server \
+    typescript-language-server \
+    prettier \
+    nodejs \
+    npm \
     brightnessctl \
     noto-fonts \
     noto-fonts-emoji \
