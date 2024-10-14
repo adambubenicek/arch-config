@@ -8,7 +8,7 @@ general {
   markup = pango
 }
 
-#%% if [[ "$host" == "kangaroo" ]]; then
+#%% if [[ "$HOSTNAME" == "kangaroo" ]]; then
 order += "wireless wlan0"
 wireless wlan0 {
   format_up = "<span foreground='#5a524c'>WIFI</span> %essid %ip"
@@ -22,7 +22,7 @@ battery 1 {
 }
 #%% fi
 
-#%% if [[ "$host" == "hippo" ]]; then
+#%% if [[ "$HOSTNAME" == "hippo" ]]; then
 order += "ethernet enp14s0"
 ethernet enp14s0 {
   format_up = "<span foreground='#5a524c'>LAN</span> %ip"

@@ -134,28 +134,23 @@ printf -v divider '%80s' ''
 divider="\e[2m${divider// /=}\e[0m"
 
 for host in "${hosts[@]}"; do
-  echo -e "$divider"
-  echo -en "> Syncing to '\e[1;37m$host\e[0m' "
-  echo -e "during its '\e[1;37m$boot\e[0m' boot."
   sync_dir="$(mktemp -d)"
 
   cp remote.sh "$sync_dir/remote.sh"
-
-  source ./config.sh
-
-  # Sync
-  case "$host" in
-    kangaroo) ssh_host="$KANGAROO_IP";;
-    hippo) ssh_host="$HIPPO_IP";;
-    owl) ssh_host="$OWL_IP";;
-    sloth) ssh_host="$SLOTH_IP";;
-  esac
 
   ssh_opts=(
    -o ControlMaster=auto
    -o ControlPath=/root/.ssh/%C
    -o ControlPersist=60
   )
+
+  HOSTNAME=$(ssh "${ssh_opts[@]}" "$host" uname -n)
+
+  echo -e "$divider"
+  echo -en "> Syncing to '\e[1;37m$HOSTNAME\e[0m' "
+  echo -e "during its '\e[1;37m$boot\e[0m' boot."
+
+  source ./config.sh
 
   if [[ $boot != "regular" ]]; then
     ssh_opts+=(
@@ -164,11 +159,11 @@ for host in "${hosts[@]}"; do
     )
   fi
 
-  remote_sync_dir=$(ssh "${ssh_opts[@]}" "$ssh_host" mktemp -d)
+  remote_sync_dir=$(ssh "${ssh_opts[@]}" "$host" mktemp -d)
   
-  scp "${ssh_opts[@]}" -q "$sync_dir"/* "$ssh_host:$remote_sync_dir" 
-  ssh "${ssh_opts[@]}" "$ssh_host" "$remote_sync_dir"/remote.sh || true
-  ssh "${ssh_opts[@]}" "$ssh_host" rm -rf "$remote_sync_dir"
+  scp "${ssh_opts[@]}" -q "$sync_dir"/* "$host:$remote_sync_dir" 
+  ssh "${ssh_opts[@]}" "$host" "$remote_sync_dir"/remote.sh || true
+  ssh "${ssh_opts[@]}" "$host" rm -rf "$remote_sync_dir"
 
   rm -rf "$sync_dir"
 done

@@ -3,11 +3,11 @@ c_boots=( install )
 f_boots=( install )
 d_boots=( install )
 
-if [[ $host == "hippo" || $host == "kangaroo" || $host == "sloth" ]]; then
+if [[ $HOSTNAME == "hippo" || $HOSTNAME == "kangaroo" || $HOSTNAME == "sloth" ]]; then
   dev=/dev/nvme0n1
   dev_root_part=/dev/nvme0n1p2
   dev_boot_part=/dev/nvme0n1p1
-elif [[ $host == "owl" ]]; then
+elif [[ $HOSTNAME == "owl" ]]; then
   dev=/dev/sda
   dev_root_part=/dev/sda2
   dev_boot_part=/dev/sda1
@@ -20,7 +20,7 @@ c sgdisk --clear "$dev" \
   --new=2:0:0 \
   --typecode=2:8304 # 8309 for LUKS
 
-if [[ $host == "hippo" || $host == "kangaroo" ]]; then
+if [[ $HOSTNAME == "hippo" || $HOSTNAME == "kangaroo" ]]; then
   d /etc/cryptsetup-keys.d -m 750
   f /etc/cryptsetup-keys.d/root.key -t -m 440
 
@@ -42,7 +42,7 @@ c mkfs.ext4 -L root "$dev_root_part"
 c mount "$dev_root_part" /mnt
 c mount --mkdir "$dev_boot_part" /mnt/boot
 
-if [[ $host == "sloth" ]]; then
+if [[ $HOSTNAME == "sloth" ]]; then
   c mount --mkdir /dev/disk/by-label/lib /mnt/var/lib
 fi
 
@@ -70,16 +70,16 @@ c pacman -Syu \
   polkit \
   openssh
 
-if [[ $host == "hippo" || $host == "kangaroo" ]]; then
+if [[ $HOSTNAME == "hippo" || $HOSTNAME == "kangaroo" ]]; then
   c pacman -Syu \
     mesa \
     libva-mesa-driver \
     vulkan-radeon \
     lib32-vulkan-radeon \
     amd-ucode
-elif [[ $host == "owl" ]]; then
+elif [[ $HOSTNAME == "owl" ]]; then
   c pacman -Syu amd-ucode
-elif [[ $host == "sloth" ]]; then
+elif [[ $HOSTNAME == "sloth" ]]; then
   c pacman -Syu intel-ucode
 fi
 
@@ -100,7 +100,7 @@ f /root/.ssh/authorized_keys -t -m 644
 f /etc/systemd/network/90-dhcp.network
 f /etc/systemd/network/50-wg0.network -t
 f /etc/systemd/network/50-wg0.netdev -t -m 640 -g systemd-network
-if [[ $host == "sloth" ]]; then
+if [[ $HOSTNAME == "sloth" ]]; then
   f /etc/systemd/network/50-wg1.network -t
   f /etc/systemd/network/50-wg1.netdev -t -m 640 -g systemd-network
 fi
@@ -120,7 +120,7 @@ c useradd \
 
 f /etc/mkinitcpio.conf.d/overrides.conf -t
 f /etc/vconsole.conf
-if [[ $host == "hippo" || $host == "kangaroo" ]]; then
+if [[ $HOSTNAME == "hippo" || $HOSTNAME == "kangaroo" ]]; then
   f /etc/sysctl.d/overrides.conf
 
   f /etc/crypttab -m 440
@@ -132,7 +132,7 @@ fi
 
 c mkinitcpio -P
 
-if [[ $host == "kangaroo" ]]; then
+if [[ $HOSTNAME == "kangaroo" ]]; then
   c pacman -Syu \
     tlp \
     iwd
@@ -171,7 +171,7 @@ f /home/adam/.config/ripgrep/ripgreprc -o adam
 c sudo -u adam curl -fLo /home/adam/.config/vim/autoload/plug.vim --create-dirs \
   https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-if [[ $host == "hippo" || $host == "kangaroo" ]]; then
+if [[ $HOSTNAME == "hippo" || $HOSTNAME == "kangaroo" ]]; then
   c pacman -Syu \
     keyd \
     shellcheck \
@@ -243,7 +243,7 @@ fi
 d /etc/containers
 d /etc/containers/systemd
 
-if [[ $host == "sloth" ]]; then
+if [[ $HOSTNAME == "sloth" ]]; then
   d /var/lib/qbittorrent
   d /var/lib/qbittorrent/config -o adam
   d /var/lib/qbittorrent/downloads -o adam
@@ -254,7 +254,7 @@ if [[ $host == "sloth" ]]; then
   f /etc/containers/systemd/homeassistant.container
 fi
 
-if [[ $host == "owl" ]]; then
+if [[ $HOSTNAME == "owl" ]]; then
   c pacman -Syu caddy
   c systemctl enable caddy
 

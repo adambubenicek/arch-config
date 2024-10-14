@@ -2,14 +2,14 @@
 Name=wg0
 
 [Network]
-#%% case "$host" in
+#%% case "$HOSTNAME" in
 #%%   hippo)    IP=${WG0_HIPPO_IP};;
 #%%   kangaroo) IP=${WG0_KANGAROO_IP};;
 #%%   owl)      IP=${WG0_OWL_IP};;
 #%%   sloth)    IP=${WG0_SLOTH_IP};;
 #%% esac
 Address=${IP}/24
-#%% if [[ $host == "owl" ]]; then
+#%% if [[ $HOSTNAME == "owl" ]]; then
 IPMasquerade=ipv4
 #%% fi
 DNS=${WG0_OWL_IP}

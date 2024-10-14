@@ -1,10 +1,10 @@
 LABEL=boot          	/boot     	vfat      	rw,relatime,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,utf8,errors=remount-ro	0 2
 LABEL=root          	/         	ext4      	rw,relatime	0 1
 
-#%% if [[ "$host" == "hippo" || "$host" == "kangaroo" ]]; then
+#%% if [[ "$HOSTNAME" == "hippo" || "$HOSTNAME" == "kangaroo" ]]; then
 /dev/mapper/pigeon      /media/pigeon   ext4            defaults,nofail,noauto,x-systemd.automount,x-systemd.idle-timeout=30,x-systemd.device-timeout=5  0  2
 #%% fi
 
-#%% if [[ "$host" == "sloth" ]]; then
+#%% if [[ "$HOSTNAME" == "sloth" ]]; then
 LABEL=lib               /var/lib        ext4            defaults  0  2
 #%% fi
