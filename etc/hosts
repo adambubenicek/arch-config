@@ -1,0 +1,5 @@
+127.0.0.1 $host
+${KANGAROO_IP} kangaroo
+${OWL_IP} owl
+${HIPPO_IP} hippo
+${SLOTH_IP} sloth

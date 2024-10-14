@@ -87,6 +87,7 @@ c bootctl install
 
 f /etc/fstab -t
 f /etc/hostname -t
+f /etc/hosts -t
 f /etc/locale.gen
 f /etc/locale.conf
 f /boot/loader/loader.conf -m 755
