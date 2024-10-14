@@ -15,24 +15,24 @@ ListenPort=51820
 #%% if [[ $host == "owl" ]]; then
 [WireGuardPeer]
 PublicKey=${WG0_SLOTH_PUBLIC_KEY}
-AllowedIPs=${WG0_SLOTH_ADDRESS}/32
+AllowedIPs=${WG0_SLOTH_IP}/32,${SLOTH_IP}/32
 
 [WireGuardPeer]
 PublicKey=${WG0_HIPPO_PUBLIC_KEY}
-AllowedIPs=${WG0_HIPPO_ADDRESS}/32
+AllowedIPs=${WG0_HIPPO_IP}/32,${HIPPO_IP}/32
 
 [WireGuardPeer]
 PublicKey=${WG0_KANGAROO_PUBLIC_KEY}
-AllowedIPs=${WG0_KANGAROO_ADDRESS}/32
+AllowedIPs=${WG0_KANGAROO_IP}/32,${KANGAROO_IP}/32
 
 [WireGuardPeer]
 PublicKey=${WG0_MOUSE_PUBLIC_KEY}
-AllowedIPs=${WG0_MOUSE_ADDRESS}/32
+AllowedIPs=${WG0_MOUSE_IP}/32
 #%% else
 [WireGuardPeer]
 PublicKey=${WG0_OWL_PUBLIC_KEY}
-AllowedIPs=${WG0_OWL_ADDRESS}/24
-Endpoint=${OWL_HOST}:51820
+AllowedIPs=${WG0_OWL_IP}/24,${SLOTH_IP}/32,${HIPPO_IP}/32,${KANGAROO_IP}/32
+Endpoint=${OWL_IP}:51820
 #%%   if [[ $host == "sloth" ]]; then
 PersistentKeepalive=30
 #%%   fi

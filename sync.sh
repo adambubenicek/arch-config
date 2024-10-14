@@ -145,10 +145,10 @@ for host in "${hosts[@]}"; do
 
   # Sync
   case "$host" in
-    kangaroo) ssh_host="$KANGAROO_HOST";;
-    hippo) ssh_host="$HIPPO_HOST";;
-    owl) ssh_host="$OWL_HOST";;
-    sloth) ssh_host="$SLOTH_HOST";;
+    kangaroo) ssh_host="$KANGAROO_IP";;
+    hippo) ssh_host="$HIPPO_IP";;
+    owl) ssh_host="$OWL_IP";;
+    sloth) ssh_host="$SLOTH_IP";;
   esac
 
   ssh_opts=(

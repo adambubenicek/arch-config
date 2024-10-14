@@ -3,15 +3,15 @@ Name=wg0
 
 [Network]
 #%% case "$host" in
-#%%   hippo)    ADDRESS=${WG0_HIPPO_ADDRESS};;
-#%%   kangaroo) ADDRESS=${WG0_KANGAROO_ADDRESS};;
-#%%   owl)      ADDRESS=${WG0_OWL_ADDRESS};;
-#%%   sloth)    ADDRESS=${WG0_SLOTH_ADDRESS};;
+#%%   hippo)    IP=${WG0_HIPPO_IP};;
+#%%   kangaroo) IP=${WG0_KANGAROO_IP};;
+#%%   owl)      IP=${WG0_OWL_IP};;
+#%%   sloth)    IP=${WG0_SLOTH_IP};;
 #%% esac
-Address=${ADDRESS}/24
+Address=${IP}/24
 #%% if [[ $host == "owl" ]]; then
 IPMasquerade=ipv4
 #%% fi
-DNS=${WG0_OWL_ADDRESS}
+DNS=${WG0_OWL_IP}
 DNSDefaultRoute=yes
 Domains=~.

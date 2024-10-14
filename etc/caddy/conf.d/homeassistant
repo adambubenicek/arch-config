@@ -1,4 +1,4 @@
 homeassistant.${DOMAIN} {
-  bind ${WG0_OWL_ADDRESS}
-  reverse_proxy ${WG0_SLOTH_ADDRESS}:8123
+  bind ${WG0_OWL_IP}
+  reverse_proxy ${WG0_SLOTH_IP}:8123
 }
