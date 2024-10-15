@@ -172,6 +172,7 @@ c sudo -u adam curl -fLo /home/adam/.config/vim/autoload/plug.vim --create-dirs 
   https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 if [[ $HOSTNAME == "hippo" || $HOSTNAME == "kangaroo" ]]; then
+  f /usr/local/bin/backup.sh -m 750
   c pacman -Syu \
     keyd \
     shellcheck \
