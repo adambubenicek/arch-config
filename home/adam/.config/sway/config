@@ -30,7 +30,6 @@ bindsym Mod4+d exec foot --title Launcher --app-id launcher --window-size-pixels
 floating_modifier Mod4 normal
 bindsym Mod4+Shift+c reload
 bindsym Mod4+Shift+e exit
-bindsym Mod4+Shift+s exec systemctl suspend
 
 bindsym Mod4+Left focus left
 bindsym Mod4+Down focus down
