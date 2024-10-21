@@ -25,6 +25,7 @@ input type:touchpad {
 
 bindsym Mod4+Return exec foot 
 bindsym Mod4+Shift+q kill
+bindsym --whole-window Mod4+button2 kill
 bindsym Mod4+d exec foot --title Launcher --app-id launcher --window-size-pixels 377x233 $HOME/.config/sway/launcher.sh
 
 floating_modifier Mod4 normal
