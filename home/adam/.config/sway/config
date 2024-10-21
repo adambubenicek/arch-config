@@ -1,11 +1,3 @@
-set $mod Mod4
-set $term foot
-set $menu foot \
-  --title Launcher \
-  --app-id launcher \
-  --window-size-pixels 377x233 \
-  $HOME/.config/sway/launcher.sh
-
 for_window [app_id="^launcher$"] floating enable
 for_window [app_id="firefox" title="Picture-in-Picture"] floating enable
 for_window [class="steam_app*"] inhibit_idle focus
@@ -13,7 +5,7 @@ for_window [class="steam_app*"] inhibit_idle focus
 exec gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 exec swayidle -w
 
-output * bg #1b1b1b solid_color
+output * bg #$BLACK solid_color
 output "Dell Inc. AW3423DWF 4PY52S3" mode 3440x1440@164.900Hz 
 
 input type:keyboard {
@@ -31,59 +23,60 @@ input type:touchpad {
   dwt enabled
 }
 
-bindsym $mod+Return exec $term
-bindsym $mod+Shift+q kill
-bindsym $mod+d exec $menu
-floating_modifier $mod normal
-bindsym $mod+Shift+c reload
-bindsym $mod+Shift+e exit
-bindsym $mod+Shift+s exec systemctl suspend
+bindsym Mod4+Return exec foot 
+bindsym Mod4+Shift+q kill
+bindsym Mod4+d exec foot --title Launcher --app-id launcher --window-size-pixels 377x233 $HOME/.config/sway/launcher.sh
 
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
+floating_modifier Mod4 normal
+bindsym Mod4+Shift+c reload
+bindsym Mod4+Shift+e exit
+bindsym Mod4+Shift+s exec systemctl suspend
 
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
+bindsym Mod4+Left focus left
+bindsym Mod4+Down focus down
+bindsym Mod4+Up focus up
+bindsym Mod4+Right focus right
 
-bindsym $mod+1 workspace number 1
-bindsym $mod+2 workspace number 2
-bindsym $mod+3 workspace number 3
-bindsym $mod+4 workspace number 4
-bindsym $mod+5 workspace number 5
-bindsym $mod+6 workspace number 6
-bindsym $mod+7 workspace number 7
-bindsym $mod+8 workspace number 8
-bindsym $mod+9 workspace number 9
-bindsym $mod+0 workspace number 10
+bindsym Mod4+Shift+Left move left
+bindsym Mod4+Shift+Down move down
+bindsym Mod4+Shift+Up move up
+bindsym Mod4+Shift+Right move right
 
-bindsym $mod+Shift+1 move container to workspace number 1
-bindsym $mod+Shift+2 move container to workspace number 2
-bindsym $mod+Shift+3 move container to workspace number 3
-bindsym $mod+Shift+4 move container to workspace number 4
-bindsym $mod+Shift+5 move container to workspace number 5
-bindsym $mod+Shift+6 move container to workspace number 6
-bindsym $mod+Shift+7 move container to workspace number 7
-bindsym $mod+Shift+8 move container to workspace number 8
-bindsym $mod+Shift+9 move container to workspace number 9
-bindsym $mod+Shift+0 move container to workspace number 10
+bindsym Mod4+1 workspace number 1
+bindsym Mod4+2 workspace number 2
+bindsym Mod4+3 workspace number 3
+bindsym Mod4+4 workspace number 4
+bindsym Mod4+5 workspace number 5
+bindsym Mod4+6 workspace number 6
+bindsym Mod4+7 workspace number 7
+bindsym Mod4+8 workspace number 8
+bindsym Mod4+9 workspace number 9
+bindsym Mod4+0 workspace number 10
 
-bindsym $mod+b splith
-bindsym $mod+v splitv
+bindsym Mod4+Shift+1 move container to workspace number 1
+bindsym Mod4+Shift+2 move container to workspace number 2
+bindsym Mod4+Shift+3 move container to workspace number 3
+bindsym Mod4+Shift+4 move container to workspace number 4
+bindsym Mod4+Shift+5 move container to workspace number 5
+bindsym Mod4+Shift+6 move container to workspace number 6
+bindsym Mod4+Shift+7 move container to workspace number 7
+bindsym Mod4+Shift+8 move container to workspace number 8
+bindsym Mod4+Shift+9 move container to workspace number 9
+bindsym Mod4+Shift+0 move container to workspace number 10
 
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
-bindsym $mod+f fullscreen
-bindsym $mod+Shift+space floating toggle
-bindsym $mod+space focus mode_toggle
-bindsym $mod+a focus parent
+bindsym Mod4+b splith
+bindsym Mod4+v splitv
 
-bindsym $mod+Shift+minus move scratchpad
-bindsym $mod+minus scratchpad show
+bindsym Mod4+s layout stacking
+bindsym Mod4+w layout tabbed
+bindsym Mod4+e layout toggle split
+bindsym Mod4+f fullscreen
+bindsym Mod4+Shift+space floating toggle
+bindsym Mod4+space focus mode_toggle
+bindsym Mod4+a focus parent
+
+bindsym Mod4+Shift+minus move scratchpad
+bindsym Mod4+minus scratchpad show
 bindsym XF86AudioRaiseVolume exec $HOME/.config/sway/set-volume.sh 1%+
 bindsym XF86AudioLowerVolume exec $HOME/.config/sway/set-volume.sh 1%-
 bindsym XF86AudioPlay exec playerctl play-pause
@@ -101,7 +94,7 @@ mode "resize" {
   bindsym Return mode "default"
   bindsym Escape mode "default"
 }
-bindsym $mod+r mode "resize"
+bindsym Mod4+r mode "resize"
 
 bar {
   position top
@@ -113,12 +106,12 @@ bar {
   status_command i3status
 
   colors {
-    statusline #d4be98
-    background #1b1b1b
-    separator #32302f
-    inactive_workspace #1b1b1b #1b1b1b #5a524c
-    focused_workspace  #1b1b1b #1b1b1b #d4be98
-    urgent_workspace   #1b1b1b #1b1b1b #ea6962 
+    statusline #$GRAY_11
+    background #$BLACK
+    separator #$GRAY_06
+    inactive_workspace #$BLACK #$BLACK #$GRAY_10
+    focused_workspace  #$BLACK #$BLACK #$GRAY_12
+    urgent_workspace   #$BLACK #$BLACK #$RED_11 
   }
 }
 
@@ -129,9 +122,9 @@ default_floating_border normal 1
 font Noto Sans Mono 9
 titlebar_padding 8 5
 
-client.focused          #45403d #32302f #d4be98 #45403d #45403d
-client.unfocused        #32302f #282828 #928374 #32302f #32302f 
-client.focused_inactive #32302f #282828 #928374 #32302f #32302f 
-client.urgent           #ea6962 #32302f #d4be98 #ea6962 #ea6962
+client.focused          #$GRAY_08 #$GRAY_02 #$GRAY_11 #$GRAY_08 #$GRAY_08
+client.unfocused        #$GRAY_06 #$GRAY_01 #$GRAY_10 #$GRAY_06 #$GRAY_06 
+client.focused_inactive #$GRAY_06 #$GRAY_01 #$GRAY_10 #$GRAY_06 #$GRAY_06 
+client.urgent           #$RED_08  #$RED_02  #$RED_11  #$RED_08  #$RED_08
 
 include /etc/sway/config.d/*

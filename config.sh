@@ -223,7 +223,7 @@ if [[ $HOSTNAME == "hippo" || $HOSTNAME == "kangaroo" ]]; then
   f /home/adam/.ssh/id_ed25519.pub -t -o adam
   d /home/adam/.config -o adam
   d /home/adam/.config/sway -o adam
-  f /home/adam/.config/sway/config -o adam
+  f /home/adam/.config/sway/config -t -o adam
   f /home/adam/.config/sway/launcher.sh -m 755 -o adam
   f /home/adam/.config/sway/set-volume.sh -m 755 -o adam
   f /home/adam/.config/sway/set-brightness.sh -m 755 -o adam
@@ -236,7 +236,7 @@ if [[ $HOSTNAME == "hippo" || $HOSTNAME == "kangaroo" ]]; then
   d /home/adam/.config/i3status -o adam
   f /home/adam/.config/i3status/config -t -o adam
   d /home/adam/.config/foot -o adam
-  f /home/adam/.config/foot/foot.ini -o adam
+  f /home/adam/.config/foot/foot.ini -t -o adam
   d /home/adam/.config/mpv -o adam
   f /home/adam/.config/mpv/mpv.conf -o adam
 fi

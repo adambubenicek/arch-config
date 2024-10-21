@@ -4,6 +4,7 @@ cd "$(dirname "$0")" || exit
 
 # shellcheck source=/dev/null
 source .env
+source colors.sh
 
 function f() {
   if [[ " ${f_boots[*]} " != *" $boot "* ]]; then
