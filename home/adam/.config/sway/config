@@ -117,7 +117,7 @@ bar {
 
 gaps inner 5
 gaps outer -5
-default_border normal 1
+default_border pixel 1
 default_floating_border normal 1
 font Noto Sans Mono 9
 titlebar_padding 8 5
