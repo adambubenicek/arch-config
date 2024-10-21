@@ -35,6 +35,7 @@ nnoremap <leader>/ :RG<CR>
 #%% if [[ $HOSTNAME == "hippo" || $HOSTNAME == "kangaroo" ]]; then
 nnoremap ]d :LspDiagNext<CR>
 nnoremap [d :LspDiagPrev<CR>
+nnoremap <leader>r :LspRename<CR>
 
 autocmd User LspSetup call LspOptionsSet({autoHighlightDiags: v:true})
 
