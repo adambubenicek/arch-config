@@ -5,7 +5,7 @@ for_window [class="steam_app*"] inhibit_idle focus
 exec gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 exec swayidle -w
 
-output * bg #$BLACK solid_color
+#%= output * bg #$BLACK solid_color
 output "Dell Inc. AW3423DWF 4PY52S3" mode 3440x1440@164.900Hz 
 
 input type:keyboard {
@@ -106,12 +106,12 @@ bar {
   status_command i3status
 
   colors {
-    statusline #$GRAY_11
-    background #$BLACK
-    separator #$GRAY_06
-    inactive_workspace #$BLACK #$BLACK #$GRAY_10
-    focused_workspace  #$BLACK #$BLACK #$GRAY_12
-    urgent_workspace   #$BLACK #$BLACK #$RED_11 
+    #%= statusline #$GRAY_11
+    #%= background #$BLACK
+    #%= separator #$GRAY_06
+    #%= inactive_workspace #$BLACK #$BLACK #$GRAY_10
+    #%= focused_workspace  #$BLACK #$BLACK #$GRAY_12
+    #%= urgent_workspace   #$BLACK #$BLACK #$RED_11 
   }
 }
 
@@ -122,9 +122,9 @@ default_floating_border normal 1
 font Noto Sans Mono 9
 titlebar_padding 8 5
 
-client.focused          #$GRAY_08 #$GRAY_02 #$GRAY_11 #$GRAY_08 #$GRAY_08
-client.unfocused        #$GRAY_06 #$GRAY_01 #$GRAY_10 #$GRAY_06 #$GRAY_06 
-client.focused_inactive #$GRAY_06 #$GRAY_01 #$GRAY_10 #$GRAY_06 #$GRAY_06 
-client.urgent           #$RED_08  #$RED_02  #$RED_11  #$RED_08  #$RED_08
+#%= client.focused          #$GRAY_08 #$GRAY_02 #$GRAY_11 #$GRAY_08 #$GRAY_08
+#%= client.unfocused        #$GRAY_06 #$GRAY_01 #$GRAY_10 #$GRAY_06 #$GRAY_06 
+#%= client.focused_inactive #$GRAY_06 #$GRAY_01 #$GRAY_10 #$GRAY_06 #$GRAY_06 
+#%= client.urgent           #$RED_08  #$RED_02  #$RED_11  #$RED_08  #$RED_08
 
 include /etc/sway/config.d/*

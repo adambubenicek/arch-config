@@ -1,52 +1,52 @@
 general {
   output_format = "i3bar"
   colors = true
-  color_good = "#$GREEN_11"
-  color_bad = "#$RED_11"
-  color_degraded = "#$YELLOW_11"
-        interval = 5
+  #%= color_good = \"#$GREEN_11\"
+  #%= color_bad = \"#$RED_11\"
+  #%= color_degraded = \"#$YELLOW_11\"
+  interval = 5
   markup = pango
 }
 
 #%% if [[ "$HOSTNAME" == "kangaroo" ]]; then
 order += "wireless wlan0"
 wireless wlan0 {
-  format_up = "<span foreground='#$GRAY_10'>WIFI</span> %essid %ip"
+  #%= format_up = \"<span foreground='#$GRAY_10'>WIFI</span> %essid %ip\"
 }
 
 order += "battery 1"
 battery 1 {
-        path = "/sys/class/power_supply/BAT1/uevent"
-  format_down = "<span foreground='#$GRAY_10'>BAT</span> N/A"
-  format = "<span foreground='#$GRAY_10'>BAT</span> %percentage"
+  path = "/sys/class/power_supply/BAT1/uevent"
+  #%= format_down = \"<span foreground='#$GRAY_10'>BAT</span> N/A\"
+  #%= format = \"<span foreground='#$GRAY_10'>BAT</span> %percentage\"
 }
 #%% fi
 
 #%% if [[ "$HOSTNAME" == "hippo" ]]; then
 order += "ethernet enp14s0"
 ethernet enp14s0 {
-  format_up = "<span foreground='#$GRAY_10'>LAN</span> %ip"
+  #%= format_up = \"<span foreground='#$GRAY_10'>LAN</span> %ip\"
 }
 #%% fi
 
 order += "disk /"
 order += "cpu_usage"
 cpu_usage {
-  format = "<span foreground='#$GRAY_10'>CPU</span> %usage"
+  #%= format = \"<span foreground='#$GRAY_10'>CPU</span> %usage\"
 }
 
 order += "memory"
 memory {
-  format = "<span foreground='#$GRAY_10'>MEM</span> %percentage_used"
+  #%= format = \"<span foreground='#$GRAY_10'>MEM</span> %percentage_used\"
 }
 
 order += "tztime date"
 tztime date {
-  format = "<span foreground='#$GRAY_10'>DATE</span> %Y-%m-%d"
+  #%= format = \"<span foreground='#$GRAY_10'>DATE</span> %Y-%m-%d\"
 }
 
 order += "tztime time"
 tztime time {
-  format = "<span foreground='#$GRAY_10'>TIME</span> %H:%M"
+  #%= format = \"<span foreground='#$GRAY_10'>TIME</span> %H:%M\"
 }
 

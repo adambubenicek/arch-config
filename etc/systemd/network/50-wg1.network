@@ -2,6 +2,6 @@
 Name=wg1
 
 [Network]
-DNS=${WG1_DNS}
-Address=${WG1_IP_V4}
-Address=${WG1_IP_V6}
+#%= DNS=${WG1_DNS}
+#%= Address=${WG1_IP_V4}
+#%= Address=${WG1_IP_V6}

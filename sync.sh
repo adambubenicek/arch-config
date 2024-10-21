@@ -44,8 +44,10 @@ function f() {
     while IFS= read -r line; do
       if [[ "$line" =~ [^[:space:]]*%%[[:space:]]*(.*)$ ]]; then
         script+="${BASH_REMATCH[1]}"$'\n'
+      elif [[ "$line" =~ [^[:space:]]*%=[[:space:]]*(.*)$ ]]; then
+        script+="echo \"${BASH_REMATCH[1]}\""$'\n'
       else
-        script+="echo \"${line//\"/\\\"}\""$'\n'
+        script+="echo '${line//\'/\'\"\'\"\'}'"$'\n'
       fi
     done < ".$dest_path"
 

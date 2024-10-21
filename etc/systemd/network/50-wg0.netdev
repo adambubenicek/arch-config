@@ -9,30 +9,31 @@ Kind=wireguard
 #%%   owl)      PRIVATE_KEY=${WG0_OWL_PRIVATE_KEY};;
 #%%   sloth)    PRIVATE_KEY=${WG0_SLOTH_PRIVATE_KEY};;
 #%% esac
-PrivateKey=${PRIVATE_KEY}
-ListenPort=51820
+#%= PrivateKey=${PRIVATE_KEY}
+#%= ListenPort=51820
 
 #%% if [[ $HOSTNAME == "owl" ]]; then
 [WireGuardPeer]
-PublicKey=${WG0_SLOTH_PUBLIC_KEY}
-AllowedIPs=${WG0_SLOTH_IP}/32,${SLOTH_IP}/32
+#%= PublicKey=${WG0_SLOTH_PUBLIC_KEY}
+#%= AllowedIPs=${WG0_SLOTH_IP}/32,${SLOTH_IP}/32
 
 [WireGuardPeer]
-PublicKey=${WG0_HIPPO_PUBLIC_KEY}
-AllowedIPs=${WG0_HIPPO_IP}/32,${HIPPO_IP}/32
+#%= PublicKey=${WG0_HIPPO_PUBLIC_KEY}
+#%= AllowedIPs=${WG0_HIPPO_IP}/32,${HIPPO_IP}/32
 
 [WireGuardPeer]
-PublicKey=${WG0_KANGAROO_PUBLIC_KEY}
-AllowedIPs=${WG0_KANGAROO_IP}/32,${KANGAROO_IP}/32
+#%= PublicKey=${WG0_KANGAROO_PUBLIC_KEY}
+#%= AllowedIPs=${WG0_KANGAROO_IP}/32,${KANGAROO_IP}/32
 
 [WireGuardPeer]
-PublicKey=${WG0_MOUSE_PUBLIC_KEY}
-AllowedIPs=${WG0_MOUSE_IP}/32
+#%= PublicKey=${WG0_MOUSE_PUBLIC_KEY}
+#%= AllowedIPs=${WG0_MOUSE_IP}/32
+
 #%% else
 [WireGuardPeer]
-PublicKey=${WG0_OWL_PUBLIC_KEY}
-AllowedIPs=${WG0_OWL_IP}/24,${SLOTH_IP}/32,${HIPPO_IP}/32,${KANGAROO_IP}/32
-Endpoint=${OWL_IP}:51820
+#%= PublicKey=${WG0_OWL_PUBLIC_KEY}
+#%= AllowedIPs=${WG0_OWL_IP}/24,${SLOTH_IP}/32,${HIPPO_IP}/32,${KANGAROO_IP}/32
+#%= Endpoint=${OWL_IP}:51820
 #%%   if [[ $HOSTNAME == "sloth" ]]; then
 PersistentKeepalive=30
 #%%   fi

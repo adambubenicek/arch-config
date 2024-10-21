@@ -3,11 +3,11 @@ Name=wg1
 Kind=wireguard
 
 [WireGuard]
-PrivateKey=${WG1_PRIVATE_KEY}
+#%= PrivateKey=${WG1_PRIVATE_KEY}
 RouteTable=off
 
 [WireGuardPeer]
-PublicKey=${WG1_PEER_PUBLIC_KEY}
-Endpoint=${WG1_PEER_ENDPOINT}
+#%= PublicKey=${WG1_PEER_PUBLIC_KEY}
+#%= Endpoint=${WG1_PEER_ENDPOINT}
 AllowedIPs=0.0.0.0/0  
 AllowedIPs=::0/0
