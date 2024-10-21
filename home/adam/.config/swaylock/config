@@ -1,35 +1,36 @@
-color=1b1b1b
 font=Noto Sans Mono
 font-size=13
 
-key-hl-color=ddc7a1
-bs-hl-color=ddc7a1
-separator-color=ddc7a1
 indicator-idle-visible
-indicator-radius=44
+indicator-radius=55
 indicator-thickness=5
 show-keyboard-layout
 
-inside-color=1b1b1b
-inside-clear-color=1b1b1b
-inside-ver-color=1b1b1b
-inside-wrong-color=1b1b1b
+#%= color=$BLACK
+#%= key-hl-color=$GRAY_10
+#%= bs-hl-color=$GRAY_10
+#%= separator-color=$GRAY_10
 
-line-color=1b1b1b
-line-clear-color=1b1b1b
-line-ver-color=1b1b1b
-line-wrong-color=1b1b1b
+#%= inside-color=$BLACK
+#%= inside-clear-color=$BLACK
+#%= inside-ver-color=$BLACK
+#%= inside-wrong-color=$BLACK
 
-ring-color=282828
-ring-clear-color=a9b665
-ring-ver-color=7daea3
-ring-wrong-color=ea6962
+#%= line-color=$BLACK
+#%= line-clear-color=$BLACK
+#%= line-ver-color=$BLACK
+#%= line-wrong-color=$BLACK
 
-text-color=d4be98
-text-clear-color=d4be98
-text-ver-color=d4be98
-text-wrong-color=d4be98
+#%= ring-color=$GRAY_06
+#%= ring-clear-color=$GRAY_06
+#%= ring-ver-color=$GRAY_06
+#%= ring-wrong-color=$GRAY_06
 
-layout-bg-color=1b1b1b
-layout-border-color=1b1b1b
-layout-text-color=a89984
+#%= text-color=$GRAY_11
+#%= text-clear-color=$GRAY_11
+#%= text-ver-color=$GRAY_10
+#%= text-wrong-color=$RED_11
+
+#%= layout-bg-color=$BLACK
+#%= layout-border-color=$BLACK
+#%= layout-text-color=$GRAY_10
