@@ -24,7 +24,12 @@ vim.g.maplocalleader = "\\"
 -- Setup lazy.nvim
 require("lazy").setup({
   "tpope/vim-sleuth",
-  "tpope/vim-fugitive",
+  {
+    "tpope/vim-fugitive",
+    config = function ()
+      vim.keymap.set('n', '<leader>g', vim.cmd.Git) 
+    end
+  },
   {
     "junegunn/fzf.vim",
     dependencies = {
