@@ -38,5 +38,19 @@ require("lazy").setup({
         indent = { enable = true },  
       })
     end
+  },
+  {
+    "neovim/nvim-lspconfig",
+    config = function ()
+      local lspconfig = require("lspconfig")
+
+      lspconfig.bashls.setup({})
+      lspconfig.ts_ls.setup({
+        filetypes = {
+          "javascript",
+          "typescript"
+        }
+      })
+    end
   }
 })
