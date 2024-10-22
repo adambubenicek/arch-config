@@ -54,3 +54,5 @@ require("lazy").setup({
     end
   }
 })
+
+vim.opt.clipboard = "unnamedplus"
