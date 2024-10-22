@@ -24,7 +24,7 @@ endif
 set number
 set background=dark
 
-colorscheme gruvbox-material
+# colorscheme gruvbox-material
 
 g:mapleader = " "
 nnoremap <leader>g :Git<CR>
@@ -55,5 +55,8 @@ var lspServers = [
 ]
 
 autocmd User LspSetup call LspAddServer(lspServers)
-
 #%% fi
+
+set termguicolors
+#%= highlight EndOfBuffer guifg=#$GRAY_10 gui=NONE
+#%= highlight VertSplit guifg=#$RED_10 gui=NONE

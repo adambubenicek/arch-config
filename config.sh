@@ -151,7 +151,7 @@ c pacman -Syu \
   crun \
   podman \
   bash-completion \
-  vim \
+  neovim \
   git \
   fzf
 
@@ -163,8 +163,8 @@ f /home/adam/.bashrc -o adam
 d /home/adam/.config -o adam
 d /home/adam/.config/git -o adam
 f /home/adam/.config/git/config -o adam
-d /home/adam/.config/vim -o adam
-f /home/adam/.config/vim/vimrc -t -o adam
+d /home/adam/.config/nvim -o adam
+f /home/adam/.config/nvim/init.lua -o adam
 d /home/adam/.config/ripgrep -o adam
 f /home/adam/.config/ripgrep/ripgreprc -o adam
 
