@@ -26,6 +26,17 @@ require("lazy").setup({
   "tpope/vim-sleuth",
   "tpope/vim-fugitive",
   {
+    "junegunn/fzf.vim",
+    dependencies = {
+      "junegunn/fzf",
+    },
+    config = function ()
+      vim.keymap.set('n', '<leader>f', vim.cmd.Files) 
+      vim.keymap.set('n', '<leader>b', vim.cmd.Buffers) 
+      vim.keymap.set('n', '<leader>/', vim.cmd.RG) 
+    end
+  },
+  {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     config = function () 
