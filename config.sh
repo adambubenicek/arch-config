@@ -159,7 +159,7 @@ c ln -sf ../run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 
 d /home/adam/.ssh -m 700 -o adam
 f /home/adam/.ssh/authorized_keys -t -o adam
-f /home/adam/.bashrc -o adam
+f /home/adam/.bashrc -t -o adam
 d /home/adam/.config -o adam
 d /home/adam/.config/git -o adam
 f /home/adam/.config/git/config -o adam
