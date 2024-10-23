@@ -165,6 +165,8 @@ d /home/adam/.config/git -o adam
 f /home/adam/.config/git/config -o adam
 d /home/adam/.config/nvim -o adam
 f /home/adam/.config/nvim/init.lua -o adam
+d /home/adam/.config/nvim/colors/ -o adam
+f /home/adam/.config/nvim/colors/custom.lua -t -o adam
 d /home/adam/.config/ripgrep -o adam
 f /home/adam/.config/ripgrep/ripgreprc -o adam
 

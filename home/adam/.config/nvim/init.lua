@@ -72,3 +72,4 @@ require("lazy").setup({
 })
 
 vim.opt.clipboard = "unnamedplus"
+vim.cmd.colorscheme "custom"
