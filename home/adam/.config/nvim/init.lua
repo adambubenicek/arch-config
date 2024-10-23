@@ -57,19 +57,44 @@ require("lazy").setup({
   },
   {
     "neovim/nvim-lspconfig",
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp"
+    },
     config = function ()
       local lspconfig = require("lspconfig")
+      local cmp_nvim_lsp = require("cmp_nvim_lsp")
+      local capabilities = cmp_nvim_lsp.default_capabilities()
 
-      lspconfig.bashls.setup({})
+      lspconfig.bashls.setup({
+        capabilities = capabilities
+      })
       lspconfig.ts_ls.setup({
+        capabilities = capabilities,
         filetypes = {
           "javascript",
           "typescript"
         }
       })
     end
+  },
+  {
+    'hrsh7th/nvim-cmp',
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp"
+    },
+    config = function()
+      local cmp = require('cmp')
+      cmp.setup({
+        sources = cmp.config.sources({
+          { name = 'nvim_lsp' }
+        }),
+        mapping = cmp.mapping.preset.insert()
+      })
+    end
   }
 })
 
+vim.wo.signcolumn = "yes"
+vim.wo.number = true
 vim.opt.clipboard = "unnamedplus"
 vim.cmd.colorscheme "custom"
