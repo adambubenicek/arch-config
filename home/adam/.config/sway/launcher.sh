@@ -19,7 +19,7 @@ actions=(
 
 printf '%s\n' "${!actions[@]}" 
 
-selected=$(printf '%s\n' "${!actions[@]}" | sort | fzf --print-query | tail -1)
+selected=$(printf '%s\n' "${!actions[@]}" | sort | fzf --print-query --border=none | tail -1)
 
 if [[ -n "$selected" ]]; then
   swaymsg exec "${actions[$selected]:-$selected}"
