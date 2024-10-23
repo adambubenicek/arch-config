@@ -15,6 +15,19 @@ hls = {}
 --%= hls.Removed = { bg = '#$RED_02', fg = '#$RED_11' }
 --%= hls.Changed = { bg = '#$BLUE_02', fg = '#$BLUE_11' }
 
+--%= hls.DiagnosticError = { bg = '#$RED_02', fg = '#$RED_11' }
+--%= hls.DiagnosticWarn = { bg = '#$AMBER_02', fg = '#$AMBER_11' }
+--%= hls.DiagnosticInfo = { bg = '#$GRAY_02', fg = '#$GRAY_11' }
+--%= hls.DiagnosticHint = { bg = '#$BLUE_02', fg = '#$BLUE_11' }
+--%= hls.DiagnosticOk = { bg = '#$GREEN_02', fg = '#$GREEN_11' }
+--%= hls.DiagnosticDeprecated = { strikethrough = true, bg = '#$RED_02', fg = '#$RED_11' }
+--%= hls.DiagnosticUnnecessary = { strikethrough = true, bg = '#$AMBER_02', fg = '#$AMBER_11' }
+--%= hls.DiagnosticUnderlineError = { undercurl = true, sp = '#$RED_08' }
+--%= hls.DiagnosticUnderlineWarn = { undercurl = true, sp = '#$AMBER_08' }
+--%= hls.DiagnosticUnderlineInfo = { undercurl = true, sp = '#$GRAY_08' }
+--%= hls.DiagnosticUnderlineHint = { undercurl = true, sp = '#$BLUE_08' }
+--%= hls.DiagnosticUnderlineOk = { undercurl = true, sp = '#$GREEN_08' }
+
 --%= hls.PreProc = { fg = '#$GRAY_10' }
 --%= hls.Comment = { fg = '#$GRAY_10' }
 --%= hls['@variable'] = { fg = '#$GRAY_12' }
