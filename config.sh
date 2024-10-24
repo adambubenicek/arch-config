@@ -26,15 +26,15 @@ c sgdisk --clear "$dev" \
 
 if [[ $HOSTNAME == "hippo" || $HOSTNAME == "kangaroo" ]]; then
   d /etc/cryptsetup-keys.d -m 750
-  f /etc/cryptsetup-keys.d/root.key -m 440
+  f /etc/cryptsetup-keys.d/luks.key -m 440
 
   c cryptsetup luksFormat \
-    --key-file=/etc/cryptsetup-keys.d/root.key \
+    --key-file=/etc/cryptsetup-keys.d/luks.key \
     --label=root-crypt \
     "$dev_root_part" 
 
   c cryptsetup open \
-    --key-file=/etc/cryptsetup-keys.d/root.key \
+    --key-file=/etc/cryptsetup-keys.d/luks.key \
     "$dev_root_part" \
     root
 
@@ -130,8 +130,7 @@ if [[ $HOSTNAME == "hippo" || $HOSTNAME == "kangaroo" ]]; then
   f /etc/crypttab -m 440
   f /etc/crypttab.initramfs -m 440
   d /etc/cryptsetup-keys.d -m 750
-  f /etc/cryptsetup-keys.d/pigeon.key -m 440
-  f /etc/cryptsetup-keys.d/turtle.key -m 440
+  f /etc/cryptsetup-keys.d/luks.key -m 440
 fi
 
 c mkinitcpio -P
