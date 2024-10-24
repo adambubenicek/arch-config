@@ -5,29 +5,11 @@ function f() {
     return 0 
   fi
 
-  local src_path
-  local dest_path
-  local mode
-  local owner
-  local group
-
+  owner="$1"
+  group="$2"
+  mode="$3"
+  dest_path="$4"
   src_path="$(uuidgen)" 
-  dest_path="$1"
-  shift
-
-  OPTIND=1
-  while getopts "m:o:g:" opt; do
-    case "$opt" in
-      m) mode=$OPTARG;;
-      o) owner=$OPTARG;;
-      g) group=$OPTARG;;
-      *) break;;
-    esac
-  done
-
-  mode=${mode:-644}
-  owner=${owner:-root}
-  group=${group:-$owner}
 
   local script=""
 
@@ -58,27 +40,10 @@ function d() {
     return 0 
   fi
 
-  local dest_path
-  local mode
-  local owner
-  local group
-
-  dest_path="$1"
-  shift
-
-  OPTIND=1
-  while getopts "m:o:g:" opt; do
-    case "$opt" in
-      m) mode=$OPTARG;;
-      o) owner=$OPTARG;;
-      g) group=$OPTARG;;
-      *) break;;
-    esac
-  done
-
-  mode=${mode:-755}
-  owner=${owner:-root}
-  group=${group:-$owner}
+  owner="$1"
+  group="$2"
+  mode="$3"
+  dest_path="$4"
   
   if [[ "$BOOT" == "install-chroot" ]]; then
     dest_path="/mnt$dest_path"

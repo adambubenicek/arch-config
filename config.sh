@@ -25,8 +25,8 @@ c sgdisk --clear "$dev" \
   --typecode=2:8304 # 8309 for LUKS
 
 if [[ $HOSTNAME == "hippo" || $HOSTNAME == "kangaroo" ]]; then
-  d /etc/cryptsetup-keys.d -m 750
-  f /etc/cryptsetup-keys.d/luks.key -m 440
+  d root root 750 /etc/cryptsetup-keys.d
+  f root root 440 /etc/cryptsetup-keys.d/luks.key
 
   c cryptsetup luksFormat \
     --key-file=/etc/cryptsetup-keys.d/luks.key \
@@ -63,7 +63,7 @@ C_BOOTS=( install-chroot )
 F_BOOTS=( install-chroot first regular )
 D_BOOTS=( install-chroot first regular )
 
-f /etc/pacman.conf
+f root root 644 /etc/pacman.conf
 
 c pacman -Syu \
   man-db \
@@ -89,24 +89,24 @@ fi
 
 c bootctl install
 
-f /etc/fstab
-f /etc/hostname
-f /etc/hosts
-f /etc/locale.gen
-f /etc/locale.conf
-f /boot/loader/loader.conf -m 755
-f /boot/loader/entries/arch.conf -m 755
-f /etc/sudoers.d/overrides -m 440
-f /etc/ssh/sshd_config.d/overrides.conf
-d /root/.ssh -m 700
-f /root/.ssh/authorized_keys -m 644
+f root root 644 /etc/fstab
+f root root 644 /etc/hostname
+f root root 644 /etc/hosts
+f root root 644 /etc/locale.gen
+f root root 644 /etc/locale.conf
+f root root 755 /boot/loader/loader.conf
+f root root 755 /boot/loader/entries/arch.conf
+f root root 440 /etc/sudoers.d/overrides
+f root root 644 /etc/ssh/sshd_config.d/overrides.conf
+d root root 700 /root/.ssh
+f root root 644 /root/.ssh/authorized_keys
 
-f /etc/systemd/network/90-dhcp.network
-f /etc/systemd/network/50-wg0.network
-f /etc/systemd/network/50-wg0.netdev -m 640 -g systemd-network
+f root root 644 /etc/systemd/network/90-dhcp.network
+f root root 644 /etc/systemd/network/50-wg0.network
+f root systemd-network 640 /etc/systemd/network/50-wg0.netdev
 if [[ $HOSTNAME == "sloth" ]]; then
-  f /etc/systemd/network/50-wg1.network
-  f /etc/systemd/network/50-wg1.netdev -m 640 -g systemd-network
+  f root root 644 /etc/systemd/network/50-wg1.network
+  f root systemd-network 640 /etc/systemd/network/50-wg1.netdev
 fi
 
 c locale-gen
@@ -122,15 +122,15 @@ c useradd \
   --password \'"$ADAM_PASSWORD_ENCRYPTED"\' \
   adam
 
-f /etc/mkinitcpio.conf.d/overrides.conf
-f /etc/vconsole.conf
+f root root 644 /etc/mkinitcpio.conf.d/overrides.conf
+f root root 644 /etc/vconsole.conf
 if [[ $HOSTNAME == "hippo" || $HOSTNAME == "kangaroo" ]]; then
-  f /etc/sysctl.d/overrides.conf
+  f root root 644 /etc/sysctl.d/overrides.conf
 
-  f /etc/crypttab -m 440
-  f /etc/crypttab.initramfs -m 440
-  d /etc/cryptsetup-keys.d -m 750
-  f /etc/cryptsetup-keys.d/luks.key -m 440
+  f root root 440 /etc/crypttab
+  f root root 440 /etc/crypttab.initramfs
+  d root root 750 /etc/cryptsetup-keys.d
+  f root root 440 /etc/cryptsetup-keys.d/luks.key
 fi
 
 c mkinitcpio -P
@@ -160,24 +160,24 @@ c pacman -Syu \
 
 c ln -sf ../run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 
-d /home/adam/.ssh -m 700 -o adam
-f /home/adam/.ssh/authorized_keys -o adam
-f /home/adam/.bashrc -o adam
-d /home/adam/.config -o adam
-d /home/adam/.config/git -o adam
-f /home/adam/.config/git/config -o adam
-d /home/adam/.config/nvim -o adam
-f /home/adam/.config/nvim/init.lua -o adam
-d /home/adam/.config/nvim/colors/ -o adam
-f /home/adam/.config/nvim/colors/custom.lua -o adam
-d /home/adam/.config/ripgrep -o adam
-f /home/adam/.config/ripgrep/ripgreprc -o adam
+d adam adam 700 /home/adam/.ssh
+f adam adam 644 /home/adam/.ssh/authorized_keys
+f adam adam 644 /home/adam/.bashrc
+d adam adam 755 /home/adam/.config
+d adam adam 755 /home/adam/.config/git
+f adam adam 644 /home/adam/.config/git/config
+d adam adam 755 /home/adam/.config/nvim
+f adam adam 644 /home/adam/.config/nvim/init.lua
+d adam adam 755 /home/adam/.config/nvim/colors/
+f adam adam 644 /home/adam/.config/nvim/colors/custom.lua
+d adam adam 755 /home/adam/.config/ripgrep
+f adam adam 644 /home/adam/.config/ripgrep/ripgreprc
 
 c sudo -u adam curl -fLo /home/adam/.config/vim/autoload/plug.vim --create-dirs \
   https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 if [[ $HOSTNAME == "hippo" || $HOSTNAME == "kangaroo" ]]; then
-  f /usr/local/bin/backup.sh -m 750
+  f root root 750 /usr/local/bin/backup.sh
   c pacman -Syu \
     keyd \
     shellcheck \
@@ -216,48 +216,48 @@ if [[ $HOSTNAME == "hippo" || $HOSTNAME == "kangaroo" ]]; then
 
   c systemctl enable keyd
 
-  f /etc/keyd/default.conf
-  f /etc/udev/rules.d/logitech-bolt.rules
-  d /usr/lib/firefox/
-  f /usr/lib/firefox/firefox.cfg
-  d /usr/lib/firefox/defaults/pref
-  f /usr/lib/firefox/defaults/pref/autoconfig.js
-  f /root/.ssh/id_ed25519 -m 600
-  f /root/.ssh/id_ed25519.pub
-  f /home/adam/.ssh/id_ed25519 -m 600 -o adam
-  f /home/adam/.ssh/id_ed25519.pub -o adam
-  d /home/adam/.config -o adam
-  d /home/adam/.config/sway -o adam
-  f /home/adam/.config/sway/config -o adam
-  f /home/adam/.config/sway/launcher.sh -m 755 -o adam
-  f /home/adam/.config/sway/set-volume.sh -m 755 -o adam
-  f /home/adam/.config/sway/set-brightness.sh -m 755 -o adam
-  d /home/adam/.config/swayidle -o adam
-  f /home/adam/.config/swayidle/config -o adam
-  d /home/adam/.config/swaylock -o adam
-  f /home/adam/.config/swaylock/config -o adam
-  d /home/adam/.config/mako -o adam
-  f /home/adam/.config/mako/config -o adam
-  d /home/adam/.config/i3status -o adam
-  f /home/adam/.config/i3status/config -o adam
-  d /home/adam/.config/foot -o adam
-  f /home/adam/.config/foot/foot.ini -o adam
-  d /home/adam/.config/mpv -o adam
-  f /home/adam/.config/mpv/mpv.conf -o adam
+  f root root 644 /etc/keyd/default.conf
+  f root root 644 /etc/udev/rules.d/logitech-bolt.rules
+  d root root 755 /usr/lib/firefox/
+  f root root 644 /usr/lib/firefox/firefox.cfg
+  d root root 755 /usr/lib/firefox/defaults/pref
+  f root root 644 /usr/lib/firefox/defaults/pref/autoconfig.js
+  f root root 600 /root/.ssh/id_ed25519
+  f root root 644 /root/.ssh/id_ed25519.pub
+  f adam adam 600 /home/adam/.ssh/id_ed25519
+  f adam adam 644 /home/adam/.ssh/id_ed25519.pub
+  d adam adam 755 /home/adam/.config
+  d adam adam 755 /home/adam/.config/sway
+  f adam adam 644 /home/adam/.config/sway/config
+  f adam adam 755 /home/adam/.config/sway/launcher.sh
+  f adam adam 755 /home/adam/.config/sway/set-volume.sh
+  f adam adam 755 /home/adam/.config/sway/set-brightness.sh
+  d adam adam 755 /home/adam/.config/swayidle
+  f adam adam 644 /home/adam/.config/swayidle/config
+  d adam adam 755 /home/adam/.config/swaylock
+  f adam adam 644 /home/adam/.config/swaylock/config
+  d adam adam 755 /home/adam/.config/mako
+  f adam adam 644 /home/adam/.config/mako/config
+  d adam adam 755 /home/adam/.config/i3status
+  f adam adam 644 /home/adam/.config/i3status/config
+  d adam adam 755 /home/adam/.config/foot
+  f adam adam 644 /home/adam/.config/foot/foot.ini
+  d adam adam 755 /home/adam/.config/mpv
+  f adam adam 644 /home/adam/.config/mpv/mpv.conf
 fi
 
-d /etc/containers
-d /etc/containers/systemd
+d root root 755 /etc/containers
+d root root 755 /etc/containers/systemd
 
 if [[ $HOSTNAME == "sloth" ]]; then
-  d /var/lib/qbittorrent
-  d /var/lib/qbittorrent/config -o adam
-  d /var/lib/qbittorrent/downloads -o adam
-  f /etc/containers/systemd/qbittorrent.container
+  d adam adam 700 /var/lib/qbittorrent
+  d adam adam 755 /var/lib/qbittorrent/config
+  d adam adam 755 /var/lib/qbittorrent/downloads
+  f root root 644 /etc/containers/systemd/qbittorrent.container
 
-  d /var/lib/homeassistant
-  d /var/lib/homeassistant/config
-  f /etc/containers/systemd/homeassistant.container
+  d root root 700 /var/lib/homeassistant
+  d root root 755 /var/lib/homeassistant/config
+  f root root 644 /etc/containers/systemd/homeassistant.container
 fi
 
 c systemctl enable podman-auto-update.service
@@ -266,12 +266,12 @@ if [[ $HOSTNAME == "owl" ]]; then
   c pacman -Syu caddy
   c systemctl enable caddy
 
-  f /etc/caddy/Caddyfile
+  f root root 644 /etc/caddy/Caddyfile
 
-  d /var/lib/adguard
-  d /var/lib/adguard/work
-  d /var/lib/adguard/conf
-  f /etc/containers/systemd/adguard.container
+  d root root 700 /var/lib/adguard
+  d root root 755 /var/lib/adguard/work
+  d root root 755 /var/lib/adguard/conf
+  f root root 644 /etc/containers/systemd/adguard.container
 fi
 
 # Maintenance
