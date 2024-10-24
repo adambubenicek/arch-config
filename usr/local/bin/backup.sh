@@ -11,7 +11,7 @@ rsync_opts=(
   --delete
   --relative
   --backup
-  --info='stats1,progress2'
+  --verbose
 )
 
 ssh "${ssh_opts[@]}" sloth cryptsetup open /dev/disk/by-label/elephant-crypt elephant < /etc/cryptsetup-keys.d/luks.key
