@@ -101,7 +101,6 @@ bar {
   separator_symbol ' | '
   status_padding 5
   tray_padding 5
-  gaps 0 3
 
   status_command i3status
 
