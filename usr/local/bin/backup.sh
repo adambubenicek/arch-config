@@ -22,6 +22,8 @@ eval "$(ssh-agent)" >/dev/null
 ssh -At "${ssh_opts[@]}" sloth rsync "${rsync_opts[@]}" \
   --backup-dir="/media/elephant/owl.$(date "+%F-%T")" \
   owl:/var/lib/adguard/ \
+  owl:/srv/caddy/ \
+  owl:/etc/caddy/conf.d/ \
   /media/elephant/owl
 
 ssh -At "${ssh_opts[@]}" sloth rsync "${rsync_opts[@]}" \
