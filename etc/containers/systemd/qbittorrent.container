@@ -6,6 +6,7 @@ After=network-online.target nss-lookup.target
 [Container]
 ContainerName=qbittorrent
 Image=docker.io/qbittorrentofficial/qbittorrent-nox
+AutoUpdate=registry
 Network=host
 
 Volume=/var/lib/qbittorrent/config:/config

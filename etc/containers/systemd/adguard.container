@@ -6,6 +6,7 @@ After=network-online.target nss-lookup.target
 [Container]
 ContainerName=adguard
 Image=docker.io/adguard/adguardhome
+AutoUpdate=registry
 
 #%= PublishPort=${WG0_OWL_IP}:53:53/tcp
 #%= PublishPort=${WG0_OWL_IP}:53:53/udp

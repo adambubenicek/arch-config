@@ -6,6 +6,7 @@ After=network-online.target nss-lookup.target
 [Container]
 ContainerName=homeassistant
 Image=ghcr.io/home-assistant/home-assistant
+AutoUpdate=registry
 AddDevice=/dev/ttyACM0
 PublishPort=8123:8123
 

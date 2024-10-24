@@ -260,6 +260,8 @@ if [[ $HOSTNAME == "sloth" ]]; then
   f /etc/containers/systemd/homeassistant.container
 fi
 
+c systemctl enable podman-auto-update.service
+
 if [[ $HOSTNAME == "owl" ]]; then
   c pacman -Syu caddy
   c systemctl enable caddy
