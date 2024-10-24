@@ -1,4 +1,0 @@
-#%= adguard.${DOMAIN} {
-#%=   bind ${WG0_OWL_IP}
-#%=   reverse_proxy ${WG0_OWL_IP}:8080
-#%= }

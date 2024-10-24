@@ -261,9 +261,7 @@ if [[ $HOSTNAME == "owl" ]]; then
   c pacman -Syu caddy
   c systemctl enable caddy
 
-  f /etc/caddy/conf.d/qbittorrent -t
-  f /etc/caddy/conf.d/homeassistant -t
-  f /etc/caddy/conf.d/adguard -t
+  f /etc/caddy/Caddyfile -t
 
   d /var/lib/adguard
   d /var/lib/adguard/work
