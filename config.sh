@@ -1,7 +1,11 @@
+export C_BOOTS
+export F_BOOTS
+export D_BOOTS
+
 # Installation
-c_boots=( install )
-f_boots=( install )
-d_boots=( install )
+C_BOOTS=( install )
+F_BOOTS=( install )
+D_BOOTS=( install )
 
 if [[ $HOSTNAME == "hippo" || $HOSTNAME == "kangaroo" || $HOSTNAME == "sloth" ]]; then
   dev=/dev/nvme0n1
@@ -55,9 +59,9 @@ c pacstrap -K /mnt \
 
 
 # Chroot
-c_boots=( install-chroot )
-f_boots=( install-chroot first regular )
-d_boots=( install-chroot first regular )
+C_BOOTS=( install-chroot )
+F_BOOTS=( install-chroot first regular )
+D_BOOTS=( install-chroot first regular )
 
 f /etc/pacman.conf
 
@@ -143,9 +147,9 @@ fi
 
 
 # Boot
-c_boots=( first )
-f_boots=( first regular )
-d_boots=( first regular )
+C_BOOTS=( first )
+F_BOOTS=( first regular )
+D_BOOTS=( first regular )
 
 c pacman -Syu \
   crun \
@@ -270,8 +274,7 @@ if [[ $HOSTNAME == "owl" ]]; then
 fi
 
 # Maintenance
-c_boots=( first regular )
-f_boots=( first regular )
-d_boots=( first regular )
-
+C_BOOTS=( first regular )
+F_BOOTS=( first regular )
+D_BOOTS=( first regular )
 

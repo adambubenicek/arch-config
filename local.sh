@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function f() {
-  if [[ " ${f_boots[*]} " != *" $boot "* ]]; then
+  if [[ " ${F_BOOTS[*]} " != *" $BOOT "* ]]; then
     return 0 
   fi
 
@@ -45,23 +45,23 @@ function f() {
       fi
     done < ".$dest_path"
 
-    eval "$script" > "$sync_dir/$src_path"
+    eval "$script" > "$SYNC_DIR/$src_path"
   else
-    cat ".$dest_path" > "$sync_dir/$src_path"
+    cat ".$dest_path" > "$SYNC_DIR/$src_path"
   fi
   
-  if [[ "$boot" == "install-chroot" ]]; then
+  if [[ "$BOOT" == "install-chroot" ]]; then
     dest_path="/mnt$dest_path"
   fi
 
   {
     echo ensure_file "$dest_path" "./$src_path"
     echo ensure_attributes "$dest_path" "$mode" "$owner" "$group"
-  } >> "$sync_dir/remote.sh"
+  } >> "$SYNC_DIR/remote.sh"
 }
 
 function d() {
-  if [[ " ${d_boots[*]} " != *" $boot "* ]]; then
+  if [[ " ${D_BOOTS[*]} " != *" $BOOT "* ]]; then
     return 0 
   fi
 
@@ -87,26 +87,26 @@ function d() {
   owner=${owner:-root}
   group=${group:-$owner}
   
-  if [[ "$boot" == "install-chroot" ]]; then
+  if [[ "$BOOT" == "install-chroot" ]]; then
     dest_path="/mnt$dest_path"
   fi
 
   {
     echo ensure_dir "$dest_path" "$mode"
     echo ensure_attributes "$dest_path" "$mode" "$owner" "$group"
-  } >> "$sync_dir/remote.sh"
+  } >> "$SYNC_DIR/remote.sh"
 }
 
 function c() {
-  if [[ " ${c_boots[*]} " != *" $boot "* ]]; then
+  if [[ " ${C_BOOTS[*]} " != *" $BOOT "* ]]; then
     return 0 
   fi
 
   cmd="$*" 
 
-  if [[ "$boot" == "install-chroot" ]]; then
+  if [[ "$BOOT" == "install-chroot" ]]; then
     cmd="arch-chroot /mnt $cmd"
   fi
 
-  echo "run_command $cmd" >> "$sync_dir/remote.sh"
+  echo "run_command $cmd" >> "$SYNC_DIR/remote.sh"
 }
