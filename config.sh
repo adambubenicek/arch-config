@@ -26,7 +26,7 @@ c sgdisk --clear "$dev" \
 
 if [[ $HOSTNAME == "hippo" || $HOSTNAME == "kangaroo" ]]; then
   d /etc/cryptsetup-keys.d -m 750
-  f /etc/cryptsetup-keys.d/root.key -t -m 440
+  f /etc/cryptsetup-keys.d/root.key -m 440
 
   c cryptsetup luksFormat \
     --key-file=/etc/cryptsetup-keys.d/root.key \
@@ -89,9 +89,9 @@ fi
 
 c bootctl install
 
-f /etc/fstab -t
-f /etc/hostname -t
-f /etc/hosts -t
+f /etc/fstab
+f /etc/hostname
+f /etc/hosts
 f /etc/locale.gen
 f /etc/locale.conf
 f /boot/loader/loader.conf -m 755
@@ -99,14 +99,14 @@ f /boot/loader/entries/arch.conf -m 755
 f /etc/sudoers.d/overrides -m 440
 f /etc/ssh/sshd_config.d/overrides.conf
 d /root/.ssh -m 700
-f /root/.ssh/authorized_keys -t -m 644
+f /root/.ssh/authorized_keys -m 644
 
 f /etc/systemd/network/90-dhcp.network
-f /etc/systemd/network/50-wg0.network -t
-f /etc/systemd/network/50-wg0.netdev -t -m 640 -g systemd-network
+f /etc/systemd/network/50-wg0.network
+f /etc/systemd/network/50-wg0.netdev -m 640 -g systemd-network
 if [[ $HOSTNAME == "sloth" ]]; then
-  f /etc/systemd/network/50-wg1.network -t
-  f /etc/systemd/network/50-wg1.netdev -t -m 640 -g systemd-network
+  f /etc/systemd/network/50-wg1.network
+  f /etc/systemd/network/50-wg1.netdev -m 640 -g systemd-network
 fi
 
 c locale-gen
@@ -122,7 +122,7 @@ c useradd \
   --password \'"$ADAM_PASSWORD_ENCRYPTED"\' \
   adam
 
-f /etc/mkinitcpio.conf.d/overrides.conf -t
+f /etc/mkinitcpio.conf.d/overrides.conf
 f /etc/vconsole.conf
 if [[ $HOSTNAME == "hippo" || $HOSTNAME == "kangaroo" ]]; then
   f /etc/sysctl.d/overrides.conf
@@ -130,8 +130,8 @@ if [[ $HOSTNAME == "hippo" || $HOSTNAME == "kangaroo" ]]; then
   f /etc/crypttab -m 440
   f /etc/crypttab.initramfs -m 440
   d /etc/cryptsetup-keys.d -m 750
-  f /etc/cryptsetup-keys.d/pigeon.key -t -m 440
-  f /etc/cryptsetup-keys.d/turtle.key -t -m 440
+  f /etc/cryptsetup-keys.d/pigeon.key -m 440
+  f /etc/cryptsetup-keys.d/turtle.key -m 440
 fi
 
 c mkinitcpio -P
@@ -162,15 +162,15 @@ c pacman -Syu \
 c ln -sf ../run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 
 d /home/adam/.ssh -m 700 -o adam
-f /home/adam/.ssh/authorized_keys -t -o adam
-f /home/adam/.bashrc -t -o adam
+f /home/adam/.ssh/authorized_keys -o adam
+f /home/adam/.bashrc -o adam
 d /home/adam/.config -o adam
 d /home/adam/.config/git -o adam
 f /home/adam/.config/git/config -o adam
 d /home/adam/.config/nvim -o adam
 f /home/adam/.config/nvim/init.lua -o adam
 d /home/adam/.config/nvim/colors/ -o adam
-f /home/adam/.config/nvim/colors/custom.lua -t -o adam
+f /home/adam/.config/nvim/colors/custom.lua -o adam
 d /home/adam/.config/ripgrep -o adam
 f /home/adam/.config/ripgrep/ripgreprc -o adam
 
@@ -223,26 +223,26 @@ if [[ $HOSTNAME == "hippo" || $HOSTNAME == "kangaroo" ]]; then
   f /usr/lib/firefox/firefox.cfg
   d /usr/lib/firefox/defaults/pref
   f /usr/lib/firefox/defaults/pref/autoconfig.js
-  f /root/.ssh/id_ed25519 -t -m 600
-  f /root/.ssh/id_ed25519.pub -t
-  f /home/adam/.ssh/id_ed25519 -t -m 600 -o adam
-  f /home/adam/.ssh/id_ed25519.pub -t -o adam
+  f /root/.ssh/id_ed25519 -m 600
+  f /root/.ssh/id_ed25519.pub
+  f /home/adam/.ssh/id_ed25519 -m 600 -o adam
+  f /home/adam/.ssh/id_ed25519.pub -o adam
   d /home/adam/.config -o adam
   d /home/adam/.config/sway -o adam
-  f /home/adam/.config/sway/config -t -o adam
+  f /home/adam/.config/sway/config -o adam
   f /home/adam/.config/sway/launcher.sh -m 755 -o adam
   f /home/adam/.config/sway/set-volume.sh -m 755 -o adam
   f /home/adam/.config/sway/set-brightness.sh -m 755 -o adam
   d /home/adam/.config/swayidle -o adam
   f /home/adam/.config/swayidle/config -o adam
   d /home/adam/.config/swaylock -o adam
-  f /home/adam/.config/swaylock/config -t -o adam
+  f /home/adam/.config/swaylock/config -o adam
   d /home/adam/.config/mako -o adam
   f /home/adam/.config/mako/config -o adam
   d /home/adam/.config/i3status -o adam
-  f /home/adam/.config/i3status/config -t -o adam
+  f /home/adam/.config/i3status/config -o adam
   d /home/adam/.config/foot -o adam
-  f /home/adam/.config/foot/foot.ini -t -o adam
+  f /home/adam/.config/foot/foot.ini -o adam
   d /home/adam/.config/mpv -o adam
   f /home/adam/.config/mpv/mpv.conf -o adam
 fi
@@ -265,12 +265,12 @@ if [[ $HOSTNAME == "owl" ]]; then
   c pacman -Syu caddy
   c systemctl enable caddy
 
-  f /etc/caddy/Caddyfile -t
+  f /etc/caddy/Caddyfile
 
   d /var/lib/adguard
   d /var/lib/adguard/work
   d /var/lib/adguard/conf
-  f /etc/containers/systemd/adguard.container -t
+  f /etc/containers/systemd/adguard.container
 fi
 
 # Maintenance

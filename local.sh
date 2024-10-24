@@ -7,7 +7,6 @@ function f() {
 
   local src_path
   local dest_path
-  local template
   local mode
   local owner
   local group
@@ -17,9 +16,8 @@ function f() {
   shift
 
   OPTIND=1
-  while getopts "tm:o:g:" opt; do
+  while getopts "m:o:g:" opt; do
     case "$opt" in
-      t) template=true;;
       m) mode=$OPTARG;;
       o) owner=$OPTARG;;
       g) group=$OPTARG;;
@@ -27,28 +25,23 @@ function f() {
     esac
   done
 
-  template=${template:-false}
   mode=${mode:-644}
   owner=${owner:-root}
   group=${group:-$owner}
 
-  if [[ "$template" == true ]]; then
-    local script=""
+  local script=""
 
-    while IFS= read -r line; do
-      if [[ "$line" =~ [^[:space:]]*%%[[:space:]]*(.*)$ ]]; then
-        script+="${BASH_REMATCH[1]}"$'\n'
-      elif [[ "$line" =~ [^[:space:]]*%=[[:space:]]*(.*)$ ]]; then
-        script+="echo \"${BASH_REMATCH[1]}\""$'\n'
-      else
-        script+="echo '${line//\'/\'\"\'\"\'}'"$'\n'
-      fi
-    done < ".$dest_path"
+  while IFS= read -r line; do
+    if [[ "$line" =~ [^[:space:]]*%%[[:space:]]*(.*)$ ]]; then
+      script+="${BASH_REMATCH[1]}"$'\n'
+    elif [[ "$line" =~ [^[:space:]]*%=[[:space:]]*(.*)$ ]]; then
+      script+="echo \"${BASH_REMATCH[1]}\""$'\n'
+    else
+      script+="echo '${line//\'/\'\"\'\"\'}'"$'\n'
+    fi
+  done < ".$dest_path"
 
-    eval "$script" > "$SYNC_DIR/$src_path"
-  else
-    cat ".$dest_path" > "$SYNC_DIR/$src_path"
-  fi
+  eval "$script" > "$SYNC_DIR/$src_path"
   
   if [[ "$BOOT" == "install-chroot" ]]; then
     dest_path="/mnt$dest_path"
