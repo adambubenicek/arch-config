@@ -14,8 +14,8 @@ rsync_opts=(
   --info='stats1,progress2'
 )
 
-ssh -t "${ssh_opts[@]}" sloth cryptsetup open /dev/disk/by-label/elephant-crypt elephant
-ssh  "${ssh_opts[@]}" sloth mount --mkdir /dev/mapper/elephant /media/elephant
+ssh "${ssh_opts[@]}" sloth cryptsetup open /dev/disk/by-label/elephant-crypt elephant < /etc/cryptsetup-keys.d/luks.key
+ssh "${ssh_opts[@]}" sloth mount --mkdir /dev/mapper/elephant /media/elephant
 
 eval "$(ssh-agent)" >/dev/null
 
