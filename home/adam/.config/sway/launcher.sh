@@ -2,10 +2,10 @@
 
 declare -A actions
 actions=(
-  ["Screenshot to file"]='grim'
-  ["Screenshot (region) to file"]='grim -g "$(slurp)"'
-  ["Screenshot"]='grim - | wl-copy -t image/png'
-  ["Screenshot (region)"]='grim -g "$(slurp)" - | wl-copy -t image/png'
+  ["Capture screen to file"]='grim'
+  ["Capture region to file"]='grim -g "$(slurp)"'
+  ["Capture screen"]='grim - | wl-copy -t image/png'
+  ["Capture region"]='grim -g "$(slurp)" - | wl-copy -t image/png'
   ["Firefox"]='firefox'
   ["Foot"]='foot'
   ["Gimp"]='gimp'
