@@ -173,9 +173,6 @@ f adam adam 644 /home/adam/.config/nvim/colors/custom.lua
 d adam adam 755 /home/adam/.config/ripgrep
 f adam adam 644 /home/adam/.config/ripgrep/ripgreprc
 
-c sudo -u adam curl -fLo /home/adam/.config/vim/autoload/plug.vim --create-dirs \
-  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
 if [[ $HOSTNAME == "hippo" || $HOSTNAME == "kangaroo" ]]; then
   f root root 750 /usr/local/bin/backup.sh
   c pacman -Syu \
