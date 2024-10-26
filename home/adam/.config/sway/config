@@ -114,8 +114,8 @@ bar {
   }
 }
 
-gaps inner 5
-gaps outer -5
+gaps inner 3
+gaps outer -3
 default_border pixel 1
 default_floating_border normal 1
 font Noto Sans Mono 9
