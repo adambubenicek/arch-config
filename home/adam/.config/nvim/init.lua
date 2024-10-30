@@ -48,7 +48,7 @@ require("lazy").setup({
       local configs = require("nvim-treesitter.configs")
 
       configs.setup({
-        ensure_installed = { "bash", "c", "lua", "vim", "vimdoc", "query", "javascript", "typescript", "html", "css" },
+        ensure_installed = { "bash", "c", "lua", "vim", "vimdoc", "query", "javascript", "typescript", "html", "css", "glsl" },
         sync_install = false,
         highlight = { enable = true },
         indent = { enable = true },  
@@ -98,3 +98,11 @@ vim.wo.signcolumn = "yes"
 vim.wo.number = true
 vim.opt.clipboard = "unnamedplus"
 vim.cmd.colorscheme "custom"
+
+vim.filetype.add({
+  extension = {
+    glsl = 'glsl',
+    vert = 'glsl',
+    frag = 'glsl',
+  }
+})
