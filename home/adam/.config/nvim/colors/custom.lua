@@ -21,8 +21,8 @@ hls = {}
 --%= hls.DiagnosticInfo = { bg = '#$GRAY_02', fg = '#$GRAY_11' }
 --%= hls.DiagnosticHint = { bg = '#$BLUE_02', fg = '#$BLUE_11' }
 --%= hls.DiagnosticOk = { bg = '#$GREEN_02', fg = '#$GREEN_11' }
---%= hls.DiagnosticDeprecated = { strikethrough = true, bg = '#$RED_02', fg = '#$RED_11' }
---%= hls.DiagnosticUnnecessary = { strikethrough = true, bg = '#$AMBER_02', fg = '#$AMBER_11' }
+--%= hls.DiagnosticDeprecated = { bg = '#$RED_02', fg = '#$RED_11' }
+--%= hls.DiagnosticUnnecessary = { bg = '#$BLUE_02', fg = '#$BLUE_11' }
 --%= hls.DiagnosticUnderlineError = { undercurl = true, sp = '#$RED_08' }
 --%= hls.DiagnosticUnderlineWarn = { undercurl = true, sp = '#$AMBER_08' }
 --%= hls.DiagnosticUnderlineInfo = { undercurl = true, sp = '#$GRAY_08' }
