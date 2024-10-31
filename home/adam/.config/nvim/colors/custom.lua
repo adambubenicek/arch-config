@@ -30,11 +30,12 @@ hls = {}
 
 --%= hls.PreProc = { fg = '#$GRAY_10' }
 --%= hls.Comment = { fg = '#$GRAY_10' }
---%= hls['@variable'] = { fg = '#$GRAY_12' }
---%= hls['@none'] = { fg = '#$GRAY_12' }
---%= hls.Delimiter = { fg = '#$GRAY_10' }
+--%= hls.Delimiter = { fg = '#$GRAY_07' }
+--%= hls.Statement = { fg = '#$GRAY_10' }
+--%= hls.Operator = { fg = '#$GRAY_10' }
 --%= hls.Constant = { fg = '#$GREEN_11' }
 --%= hls.String = { fg = '#$GREEN_11' }
+--%= hls.Special = { fg = '#$GRAY_10' }
 
 for group, def in pairs(vim.api.nvim_get_hl(0, {})) do
   if hls[group] then
