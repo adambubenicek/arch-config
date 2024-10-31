@@ -180,6 +180,7 @@ if [[ $HOSTNAME == "hippo" || $HOSTNAME == "kangaroo" ]]; then
     shellcheck \
     bash-language-server \
     typescript-language-server \
+    svelte-language-server \
     prettier \
     nodejs \
     npm \

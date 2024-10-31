@@ -48,7 +48,7 @@ require("lazy").setup({
       local configs = require("nvim-treesitter.configs")
 
       configs.setup({
-        ensure_installed = { "bash", "c", "lua", "vim", "vimdoc", "query", "javascript", "typescript", "html", "css", "glsl" },
+        ensure_installed = { "bash", "c", "lua", "vim", "vimdoc", "query", "javascript", "typescript", "svelte", "html", "css", "glsl" },
         sync_install = false,
         highlight = { enable = true },
         indent = { enable = true },  
@@ -74,6 +74,9 @@ require("lazy").setup({
           "javascript",
           "typescript"
         }
+      })
+      lspconfig.svelte.setup({
+        capabilities = capabilities,
       })
     end
   },
@@ -104,5 +107,8 @@ vim.filetype.add({
     glsl = 'glsl',
     vert = 'glsl',
     frag = 'glsl',
+    svelte = 'svelte',
+    ['svelte.js'] = 'svelte',
+    ['svelte.ts'] = 'svelte',
   }
 })
