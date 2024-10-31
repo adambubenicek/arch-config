@@ -10,6 +10,9 @@ hls = {}
 --%= hls.Visual = { bg = '#$GRAY_03' }
 --%= hls.Pmenu = { bg = '#$GRAY_03' }
 --%= hls.PmenuSel = { reverse = true }
+--%= hls.FloatBorder = { fg = '#$GRAY_06' }
+--%= hls.FloatTitle = { fg = '#$GRAY_06' }
+--%= hls.FloatFooter = { fg = '#$GRAY_06' }
 
 --%= hls.Added = { bg = '#$GREEN_02', fg = '#$GREEN_11' }
 --%= hls.Removed = { bg = '#$RED_02', fg = '#$RED_11' }

@@ -78,6 +78,13 @@ require("lazy").setup({
       lspconfig.svelte.setup({
         capabilities = capabilities,
       })
+
+      vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+        group = vim.api.nvim_create_augroup("float_diagnostic", { clear = true }),
+        callback = function ()
+          vim.diagnostic.open_float(nil, {focus=false})
+        end
+      })
     end
   },
   {
@@ -97,6 +104,7 @@ require("lazy").setup({
   }
 })
 
+vim.o.updatetime = 250
 vim.wo.signcolumn = "yes"
 vim.wo.number = true
 vim.opt.clipboard = "unnamedplus"
@@ -112,3 +120,14 @@ vim.filetype.add({
     ['svelte.ts'] = 'svelte',
   }
 })
+
+vim.diagnostic.config({
+  virtual_text = false
+})
+
+local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+  opts = opts or {}
+  opts.border = opts.border or "single"
+  return orig_util_open_floating_preview(contents, syntax, opts, ...)
+end
