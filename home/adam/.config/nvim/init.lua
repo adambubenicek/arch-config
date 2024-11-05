@@ -85,6 +85,13 @@ require("lazy").setup({
           vim.diagnostic.open_float(nil, {focus=false})
         end
       })
+
+      vim.api.nvim_create_autocmd('LspAttach', {
+        callback = function(args)
+          vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, { buffer = args.buf }) 
+          vim.keymap.set('n', '<leader>d', vim.lsp.buf.definition, { buffer = args.buf }) 
+        end,
+      })
     end
   },
   {
