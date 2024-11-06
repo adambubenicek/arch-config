@@ -83,7 +83,8 @@ require("lazy").setup({
         group = vim.api.nvim_create_augroup("float_diagnostic", { clear = true }),
         callback = function ()
           vim.diagnostic.open_float({
-            scope = "cursor"
+            scope = "cursor",
+            focus = false
           })
         end
       })
