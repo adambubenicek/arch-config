@@ -72,7 +72,9 @@ require("lazy").setup({
         capabilities = capabilities,
         filetypes = {
           "javascript",
-          "typescript"
+          "javascriptreact",
+          "typescript",
+          "typescriptreact"
         }
       })
       lspconfig.svelte.setup({
