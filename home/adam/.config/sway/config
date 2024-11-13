@@ -5,7 +5,7 @@ for_window [class="steam_app*"] inhibit_idle focus
 exec gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 exec swayidle -w
 
-#%= output * bg #$BLACK solid_color
+output * bg #000000 solid_color
 output "Dell Inc. AW3423DWF 4PY52S3" mode 3440x1440@164.900Hz 
 
 input type:keyboard {
@@ -32,15 +32,15 @@ floating_modifier Mod4 normal
 bindsym Mod4+Shift+c reload
 bindsym Mod4+Shift+e exit
 
-bindsym Mod4+Left focus left
-bindsym Mod4+Down focus down
-bindsym Mod4+Up focus up
-bindsym Mod4+Right focus right
+bindsym Mod4+h focus left
+bindsym Mod4+j focus down
+bindsym Mod4+k focus up
+bindsym Mod4+l focus right
 
-bindsym Mod4+Shift+Left move left
-bindsym Mod4+Shift+Down move down
-bindsym Mod4+Shift+Up move up
-bindsym Mod4+Shift+Right move right
+bindsym Mod4+Shift+h move left
+bindsym Mod4+Shift+j move down
+bindsym Mod4+Shift+k move up
+bindsym Mod4+Shift+l move right
 
 bindsym Mod4+1 workspace number 1
 bindsym Mod4+2 workspace number 2
@@ -105,12 +105,12 @@ bar {
   status_command i3status
 
   colors {
-    #%= statusline #$GRAY_11
-    #%= background #$BLACK
-    #%= separator #$GRAY_06
-    #%= inactive_workspace #$BLACK #$BLACK #$GRAY_10
-    #%= focused_workspace  #$BLACK #$BLACK #$GRAY_12
-    #%= urgent_workspace   #$BLACK #$BLACK #$RED_11 
+statusline #b4b4b4
+background #000000
+separator #3a3a3a
+inactive_workspace #000000 #000000 #7b7b7b
+focused_workspace  #000000 #000000 #eeeeee
+urgent_workspace   #000000 #000000 #ff9592 
   }
 }
 
@@ -121,9 +121,9 @@ default_floating_border normal 1
 font Noto Sans Mono 9
 titlebar_padding 8 5
 
-#%= client.focused          #$GRAY_08 #$GRAY_02 #$GRAY_11 #$GRAY_08 #$GRAY_08
-#%= client.unfocused        #$GRAY_06 #$GRAY_01 #$GRAY_10 #$GRAY_06 #$GRAY_06 
-#%= client.focused_inactive #$GRAY_06 #$GRAY_01 #$GRAY_10 #$GRAY_06 #$GRAY_06 
-#%= client.urgent           #$RED_08  #$RED_02  #$RED_11  #$RED_08  #$RED_08
+client.focused          #606060 #191919 #b4b4b4 #606060 #606060
+client.unfocused        #3a3a3a #111111 #7b7b7b #3a3a3a #3a3a3a 
+client.focused_inactive #3a3a3a #111111 #7b7b7b #3a3a3a #3a3a3a 
+client.urgent           #b54548  #201314  #ff9592  #b54548  #b54548
 
 include /etc/sway/config.d/*
