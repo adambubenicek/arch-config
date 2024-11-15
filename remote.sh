@@ -12,13 +12,6 @@ f() {
     touch "$path"
   fi
 
-  temp=$(mktemp)
-  echo "$content_encoded" | base64 -d > "$temp"
-  if ! diff --color "$path" "$temp"; then
-    cp "$temp" "$path"
-  fi
-  rm "$temp"
-
   if [[ $(stat -c "%a" "$path") != "$mode" ]]; then
     c chmod "$mode" "$path"
   fi
@@ -32,6 +25,14 @@ f() {
     echo "Changing group: $path $owner"
     c chgrp "$group" "$path"
   fi
+
+  temp=$(mktemp)
+  echo "$content_encoded" | base64 -d > "$temp"
+  if ! diff --color "$path" "$temp"; then
+    cp "$temp" "$path"
+  fi
+  rm "$temp"
+
 }
 
 d() {
