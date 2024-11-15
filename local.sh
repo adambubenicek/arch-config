@@ -1,17 +1,26 @@
 #!/usr/bin/env bash
 
-script=$(< remote.sh)
-script+=$'\n'
+C_ENABLED=false
+
+while getopts "c" option; do
+  case "$option" in
+    c) C_ENABLED=true;;
+    *)
+  esac
+done
+shift $((OPTIND-1))
 
 ssh_opts=(
  -o ControlMaster=auto
  -o ControlPath=~/.ssh/%C
  -o ControlPersist=60
- "$SSH_USER@$SSH_HOST"
+ "$1"
 )
   
 export REMOTE_HOSTNAME
 REMOTE_HOSTNAME=$(ssh "${ssh_opts[@]}" uname -n)
+script=$(< remote.sh)
+script+=$'\n'
 
 f() {
   path="$4"
@@ -36,7 +45,9 @@ d() {
 }
 
 c() {
-  script+="c $*"$'\n'
+  if [[ "$C_ENABLED" == true ]]; then
+    script+="c $*"$'\n'
+  fi
 }
 
 run() {
