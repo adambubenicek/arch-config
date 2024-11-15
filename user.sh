@@ -1,10 +1,10 @@
-export SSH_HOST="${1:-localhost}"
-export SSH_USER="adam"
+#!/usr/bin/env bash
+cd "$(dirname "$0")" || exit
 
-source <(sudo cat .env)
-source local.sh
+source .env
+source colors.sh
+source ./local.sh
 
-echo "$REMOTE_HOSTNAME"
 d root root 755 /usr/lib64/firefox/
 f root root 644 /usr/lib64/firefox/firefox.cfg
 d root root 755 /usr/lib64/firefox/defaults/
