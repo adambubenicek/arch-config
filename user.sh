@@ -46,8 +46,19 @@ while  [[ " ${known_hosts[*]} " != *" ${remote_host} "* ]]; do
 done
 
 c sudo hostnamectl set-hostname --static "$remote_host"
+c dnf install -y \
+  ripgrep \
+  neovim \
+  fzf \
+  nodejs \
+  shellcheck
 
-c dnf install -y ripgrep neovim fzf
+c npm install -g \
+  bash-language-server \
+  typescript-language-server \
+  svelte-language-server \
+  prettier
+
 d root root 755 /usr/lib64/firefox/
 f root root 644 /usr/lib64/firefox/firefox.cfg
 d root root 755 /usr/lib64/firefox/defaults/
