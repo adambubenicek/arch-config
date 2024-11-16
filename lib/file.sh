@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-f() {
+fremote() {
   owner="$1"
   group="$2"
   mode="$3"
@@ -32,35 +32,26 @@ f() {
     cp "$temp" "$path"
   fi
   rm "$temp"
-
 }
 
-d() {
-  owner="$1"
-  group="$2"
-  mode="$3"
-  path="$4"
+f() {
+  if [[ "$FILE_ENABLED" == true ]]; then
+    path="$4"
 
-  if [[ ! -d "$path" ]]; then
-    c mkdir "$path"
-  fi
+    content=""
+    while IFS= read -r line; do
+      if [[ "$line" =~ [^[:space:]]*%%[[:space:]]*(.*)$ ]]; then
+        content+="${BASH_REMATCH[1]}"$'\n'
+      elif [[ "$line" =~ [^[:space:]]*%=[[:space:]]*(.*)$ ]]; then
+        content+="echo \"${BASH_REMATCH[1]}\""$'\n'
+      else
+        content+="echo '${line//\'/\'\"\'\"\'}'"$'\n'
+      fi
+    done < ".$path"
 
-  if [[ $(stat -c "%a" "$path") != "$mode" ]]; then
-    c chmod "$mode" "$path"
-  fi
-
-  if [[ $(stat -c "%U" "$path") != "$owner" ]]; then
-    echo "Changing owner: $path $owner"
-    c chown "$owner" "$path"
-  fi
-
-  if [[ $(stat -c "%G" "$path") != "$group" ]]; then
-    echo "Changing group: $path $owner"
-    c chgrp "$group" "$path"
+    content_encoded=$(eval "$content" | base64 --wrap=0)
+    REMOTE_SCRIPT+="fremote $* $content_encoded"$'\n'
   fi
 }
 
-c() {
-  echo "$*"
-  "$@"
-}
+REMOTE_SCRIPT+="$(declare -f fremote)"$'\n'
