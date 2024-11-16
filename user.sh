@@ -19,7 +19,7 @@ while getopts "ch" option; do
   case "$option" in
     c) CMD_ENABLED=true;;
     h) usage; exit 0;;
-    *) echo "Unknown option ${OPTKEY}"; usage; exit 1;;
+    *) echo "Unknown option: ${OPTKEY}"; usage; exit 1;;
   esac
 done
 shift $((OPTIND-1))
