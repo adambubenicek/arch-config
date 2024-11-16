@@ -27,7 +27,7 @@ while getopts "ch" option; do
 done
 shift $((OPTIND-1))
 
-ssh_dest="$1"
+ssh_dest="${1:-localhost}"
 ssh_opts=(
  -o ControlMaster=auto
  -o ControlPath=~/.ssh/%C
