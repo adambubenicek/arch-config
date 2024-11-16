@@ -123,8 +123,12 @@ if [[ "$remote_user" != "root" ]]; then
 
   c gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
   c gsettings set org.gnome.desktop.input-sources xkb-options "\"['caps:escape', 'ctrl:swap_ralt_rctl', 'ctrl:swap_lalt_lctl_lwin']\""
+  c gsettings set org.gnome.Ptyxis.Shortcuts move-next-tab "'<Control>Tab'"
+  c gsettings set org.gnome.Ptyxis.Shortcuts move-previous-tab "'<Shift><Control>Tab'"
+
   c gsettings set org.gnome.desktop.peripherals.mouse natural-scroll true
   c gsettings set io.github.celluloid-player.Celluloid mpv-options '--hwdec=auto'
+
 fi
 
 ssh "${ssh_opts[@]}" bash -c "'$REMOTE_SCRIPT'"
