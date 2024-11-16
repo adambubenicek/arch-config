@@ -24,18 +24,19 @@ while getopts "ch" option; do
 done
 shift $((OPTIND-1))
 
+ssh_dest="$1"
+ssh_opts=(
+ -o ControlMaster=auto
+ -o ControlPath=~/.ssh/%C
+ -o ControlPersist=60
+ "$ssh_dest"
+)
+
 source lib/file.sh
 source lib/dir.sh
 source lib/cmd.sh
 source .env
 source colors.sh
-
-ssh_opts=(
- -o ControlMaster=auto
- -o ControlPath=~/.ssh/%C
- -o ControlPersist=60
- "$1"
-)
 
 remote_host=$(ssh "${ssh_opts[@]}" uname -n)
 known_hosts=( kangaroo hippo )
