@@ -120,7 +120,6 @@ vim.o.updatetime = 1000
 vim.wo.signcolumn = "yes"
 vim.wo.number = true
 vim.opt.clipboard = "unnamedplus"
-vim.cmd.colorscheme "custom"
 
 vim.filetype.add({
   extension = {
