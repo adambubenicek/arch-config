@@ -96,6 +96,8 @@ if [[ "$remote_user" == "root" ]]; then
   d /usr/lib64/firefox/defaults/
   d /usr/lib64/firefox/defaults/pref
   f /usr/lib64/firefox/defaults/pref/autoconfig.js
+
+  f /etc/udev/rules.d/logitech-bolt.rules
 fi
 
 
