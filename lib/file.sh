@@ -13,17 +13,17 @@ fremote() {
   fi
 
   if [[ $(stat -c "%a" "$path") != "$mode" ]]; then
-    c chmod "$mode" "$path"
+    cremote chmod "$mode" "$path"
   fi
 
   if [[ $(stat -c "%U" "$path") != "$owner" ]]; then
     echo "Changing owner: $path $owner"
-    c chown "$owner" "$path"
+    cremote chown "$owner" "$path"
   fi
 
   if [[ $(stat -c "%G" "$path") != "$group" ]]; then
     echo "Changing group: $path $owner"
-    c chgrp "$group" "$path"
+    cremote chgrp "$group" "$path"
   fi
 
   temp=$(mktemp)
