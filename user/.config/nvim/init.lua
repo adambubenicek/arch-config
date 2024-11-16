@@ -31,6 +31,12 @@ require("lazy").setup({
     end
   },
   {
+  "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
+  },
+  {
     "junegunn/fzf.vim",
     dependencies = {
       "junegunn/fzf",
@@ -120,6 +126,8 @@ vim.o.updatetime = 1000
 vim.wo.signcolumn = "yes"
 vim.wo.number = true
 vim.opt.clipboard = "unnamedplus"
+
+vim.cmd[[colorscheme tokyonight-night]]
 
 vim.filetype.add({
   extension = {
