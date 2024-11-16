@@ -17,7 +17,7 @@ fremote() {
   temp=$(mktemp)
   echo "$content_encoded" | base64 -d > "$temp"
   if ! diff --color=always "$path" "$temp"; then
-    cp "$temp" "$path"
+    c cp "$temp" "$path"
   fi
   rm "$temp"
 }
