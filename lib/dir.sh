@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 
 dremote() {
-  owner="$1"
-  group="$2"
-  mode="$3"
-  path="$4"
+  path="$1"
+  mode="$2"
 
   if [[ ! -d "$path" ]]; then
     cremote mkdir "$path"
@@ -13,21 +11,14 @@ dremote() {
   if [[ $(stat -c "%a" "$path") != "$mode" ]]; then
     cremote chmod "$mode" "$path"
   fi
-
-  if [[ $(stat -c "%U" "$path") != "$owner" ]]; then
-    echo "Changing owner: $path $owner"
-    cremote chown "$owner" "$path"
-  fi
-
-  if [[ $(stat -c "%G" "$path") != "$group" ]]; then
-    echo "Changing group: $path $owner"
-    cremote chgrp "$group" "$path"
-  fi
 }
 
 d() {
+  path="$1"
+  mode="${2:-755}"
+
   if [[ "$DIR_ENABLED" == true ]]; then
-    REMOTE_SCRIPT+="dremote $*"$'\n'
+    REMOTE_SCRIPT+="dremote $REMOTE_PREFIX/$path $mode"$'\n'
   fi
 }
 

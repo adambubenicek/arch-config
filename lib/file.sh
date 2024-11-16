@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 
 fremote() {
-  owner="$1"
-  group="$2"
-  mode="$3"
-  path="$4"
-  content_encoded="$5"
+  path="$1"
+  mode="$2"
+  content_encoded="$3"
 
   if [[ ! -f "$path" ]]; then
     echo "Creating file: $path"
@@ -14,16 +12,6 @@ fremote() {
 
   if [[ $(stat -c "%a" "$path") != "$mode" ]]; then
     cremote chmod "$mode" "$path"
-  fi
-
-  if [[ $(stat -c "%U" "$path") != "$owner" ]]; then
-    echo "Changing owner: $path $owner"
-    cremote chown "$owner" "$path"
-  fi
-
-  if [[ $(stat -c "%G" "$path") != "$group" ]]; then
-    echo "Changing group: $path $owner"
-    cremote chgrp "$group" "$path"
   fi
 
   temp=$(mktemp)
@@ -36,7 +24,8 @@ fremote() {
 
 f() {
   if [[ "$FILE_ENABLED" == true ]]; then
-    path="$4"
+    path="$1"
+    mode="${2:-644}"
 
     content=""
     while IFS= read -r line; do
@@ -47,10 +36,10 @@ f() {
       else
         content+="echo '${line//\'/\'\"\'\"\'}'"$'\n'
       fi
-    done < ".$path"
+    done < "$LOCAL_PREFIX/$path"
 
     content_encoded=$(eval "$content" | base64 --wrap=0)
-    REMOTE_SCRIPT+="fremote $* $content_encoded"$'\n'
+    REMOTE_SCRIPT+="fremote $REMOTE_PREFIX/$path $mode $content_encoded"$'\n'
   fi
 }
 

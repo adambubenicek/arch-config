@@ -2,10 +2,13 @@
 
 cd "$(dirname "$0")" || exit
 
+LOCAL_PREFIX=''
 REMOTE_SCRIPT=''
+REMOTE_PREFIX=''
 FILE_ENABLED=true
 DIR_ENABLED=true
 CMD_ENABLED=false
+
 
 usage() {
   echo "Usage: $0 [-ch] destination"
@@ -35,10 +38,12 @@ ssh_opts=(
 source lib/file.sh
 source lib/dir.sh
 source lib/cmd.sh
-source .env
 source colors.sh
 
 remote_host=$(ssh "${ssh_opts[@]}" uname -n)
+remote_user=$(ssh "${ssh_opts[@]}" 'echo $USER')
+remote_home=$(ssh "${ssh_opts[@]}" 'echo $HOME')
+
 known_hosts=( kangaroo hippo )
 
 while  [[ " ${known_hosts[*]} " != *" ${remote_host} "* ]]; do
@@ -46,58 +51,76 @@ while  [[ " ${known_hosts[*]} " != *" ${remote_host} "* ]]; do
   read -rp "Set a new host name: " remote_host
 done
 
-c sudo hostnamectl set-hostname --static "$remote_host"
 
-c dnf install -y \
-  "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-\$(rpm -E %fedora).noarch.rpm" \
-  "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-\$(rpm -E %fedora).noarch.rpm"
+if [[ "$remote_user" == "root" ]]; then
+  source root.env
 
-c dnf swap -y mesa-va-drivers mesa-va-drivers-freeworld
-c dnf swap -y mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
-c dnf swap -y ffmpeg-free ffmpeg --allowerasing
+  LOCAL_PREFIX="./root"
 
-c dnf install -y \
-  ripgrep \
-  neovim \
-  fzf \
-  nodejs \
-  shellcheck \
-  gimp \
-  inkscape \
-  blender \
-  steam
+  c hostnamectl set-hostname --static "$remote_host"
 
-c npm install -g \
-  bash-language-server \
-  typescript-language-server \
-  svelte-language-server \
-  prettier
+  c dnf install -y \
+    "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-\$(rpm -E %fedora).noarch.rpm" \
+    "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-\$(rpm -E %fedora).noarch.rpm"
 
-f root root 644 /etc/hosts
+  c dnf swap -y mesa-va-drivers mesa-va-drivers-freeworld
+  c dnf swap -y mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
+  c dnf swap -y ffmpeg-free ffmpeg --allowerasing
 
-d root root 700 /root/.ssh
-f root root 644 /root/.ssh/authorized_keys
-f root root 600 /root/.ssh/id_ed25519
-f root root 644 /root/.ssh/id_ed25519.pub
+  c dnf install -y \
+    ripgrep \
+    neovim \
+    fzf \
+    nodejs \
+    shellcheck \
+    gimp \
+    inkscape \
+    blender \
+    steam
 
-d root root 755 /usr/lib64/firefox/
-f root root 644 /usr/lib64/firefox/firefox.cfg
-d root root 755 /usr/lib64/firefox/defaults/
-d root root 755 /usr/lib64/firefox/defaults/pref
-f root root 644 /usr/lib64/firefox/defaults/pref/autoconfig.js
+  c npm install -g \
+    bash-language-server \
+    typescript-language-server \
+    svelte-language-server \
+    prettier
 
-d adam adam 700 /home/adam/.ssh
-f adam adam 644 /home/adam/.ssh/authorized_keys
-f adam adam 600 /home/adam/.ssh/id_ed25519
-f adam adam 644 /home/adam/.ssh/id_ed25519.pub
-d adam adam 755 /home/adam/.bashrc.d
-f adam adam 644 /home/adam/.bashrc.d/overrides
-d adam adam 755 /home/adam/.config/git
-f adam adam 644 /home/adam/.config/git/config
-d adam adam 755 /home/adam/.config/nvim
-f adam adam 644 /home/adam/.config/nvim/init.lua
-d adam adam 755 /home/adam/.config/ripgrep
-f adam adam 644 /home/adam/.config/ripgrep/ripgreprc
+  f /etc/hosts
+
+  d /root/.ssh 700
+  f /root/.ssh/authorized_keys
+  f /root/.ssh/id_ed25519 600
+  f /root/.ssh/id_ed25519.pub
+
+  d /usr/lib64/firefox/
+  f /usr/lib64/firefox/firefox.cfg
+  d /usr/lib64/firefox/defaults/
+  d /usr/lib64/firefox/defaults/pref
+  f /usr/lib64/firefox/defaults/pref/autoconfig.js
+fi
+
+
+if [[ "$remote_user" != "root" ]]; then
+  source user.env
+
+  LOCAL_PREFIX="./user"
+  REMOTE_PREFIX="$remote_home"
+
+  d .ssh 700
+  f .ssh/authorized_keys
+  f .ssh/id_ed25519 600
+  f .ssh/id_ed25519.pub
+  d .bashrc.d
+  f .bashrc.d/overrides
+  d .config/git
+  f .config/git/config
+  d .config/nvim
+  f .config/nvim/init.lua
+  d .config/ripgrep
+  f .config/ripgrep/ripgreprc
+
+  c gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+  c gsettings set org.gnome.desktop.input-sources xkb-options "['ctrl:swapcaps', 'altwin:swap_lalt_lwin']"
+  c gsettings set org.gnome.desktop.peripherals.mouse natural-scroll true
+fi
 
 ssh "${ssh_opts[@]}" bash -c "'$REMOTE_SCRIPT'"
-
