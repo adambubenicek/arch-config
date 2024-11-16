@@ -119,9 +119,8 @@ if [[ "$remote_user" != "root" ]]; then
   f .config/ripgrep/ripgreprc
 
   c gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
-  c gsettings set org.gnome.desktop.input-sources xkb-options "\"['ctrl:nocaps', 'altwin:swap_lalt_lwin']\""
+  c gsettings set org.gnome.desktop.input-sources xkb-options "\"['caps:escape', 'ctrl:swap_ralt_rctl', 'ctrl:swap_lalt_lctl_lwin']\""
   c gsettings set org.gnome.desktop.peripherals.mouse natural-scroll true
-  c gsettings set org.gnome.desktop.a11y.keyboard stickykeys-enable true
 fi
 
 ssh "${ssh_opts[@]}" bash -c "'$REMOTE_SCRIPT'"
