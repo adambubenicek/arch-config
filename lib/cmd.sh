@@ -4,8 +4,9 @@ cremote() {
   command_encoded="$1"
   command=$(echo "$command_encoded" | base64 -d)
 
-  echo "> $command"
+  set -x
   eval "$command"
+  set +x
 }
 
 c() {

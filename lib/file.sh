@@ -6,18 +6,23 @@ fremote() {
   content_encoded="$3"
 
   if [[ ! -f "$path" ]]; then
-    echo "Creating file: $path"
+    set -x
     touch "$path"
+    set +x
   fi
 
   if [[ $(stat -c "%a" "$path") != "$mode" ]]; then
-    cremote chmod "$mode" "$path"
+    set -x
+    chmod "$mode" "$path"
+    set +x
   fi
 
   temp=$(mktemp)
   echo "$content_encoded" | base64 -d > "$temp"
   if ! diff --color=always "$path" "$temp"; then
-    c cp "$temp" "$path"
+    set -x
+    cp "$temp" "$path"
+    set +x
   fi
   rm "$temp"
 }

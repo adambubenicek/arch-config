@@ -5,11 +5,15 @@ dremote() {
   mode="$2"
 
   if [[ ! -d "$path" ]]; then
-    cremote mkdir "$path"
+    set -x
+    mkdir "$path"
+    set +x
   fi
 
   if [[ $(stat -c "%a" "$path") != "$mode" ]]; then
-    cremote chmod "$mode" "$path"
+    set -x
+    chmod "$mode" "$path"
+    set +x
   fi
 }
 
@@ -23,3 +27,4 @@ d() {
 }
 
 REMOTE_SCRIPT+="$(declare -f dremote)"$'\n'
+
