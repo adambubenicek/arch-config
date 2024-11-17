@@ -76,8 +76,7 @@ if [[ "$remote_user" == "root" ]]; then
     gimp \
     inkscape \
     blender \
-    steam \
-    celluloid
+    steam
 
   c npm install -g \
     bash-language-server \
@@ -120,15 +119,6 @@ if [[ "$remote_user" != "root" ]]; then
   f .config/nvim/init.lua
   d .config/ripgrep
   f .config/ripgrep/ripgreprc
-
-  c gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
-  c gsettings set org.gnome.desktop.input-sources xkb-options "\"['caps:escape', 'ctrl:swap_ralt_rctl', 'ctrl:swap_lalt_lctl_lwin']\""
-  c gsettings set org.gnome.Ptyxis.Shortcuts move-next-tab "'<Control>Tab'"
-  c gsettings set org.gnome.Ptyxis.Shortcuts move-previous-tab "'<Shift><Control>Tab'"
-
-  c gsettings set org.gnome.desktop.peripherals.mouse natural-scroll true
-  c gsettings set io.github.celluloid-player.Celluloid mpv-options '--hwdec=auto'
-
 fi
 
 ssh "${ssh_opts[@]}" bash -c "'$REMOTE_SCRIPT'"
