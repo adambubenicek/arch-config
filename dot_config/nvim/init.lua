@@ -25,6 +25,7 @@ vim.api.nvim_create_autocmd('TermOpen', {
     local winid = vim.api.nvim_get_current_win()
     vim.wo[winid][args.buf].number = false
     vim.wo[winid][args.buf].signcolumn = "no"
+    vim.cmd.startinsert()
   end,
 })
 
