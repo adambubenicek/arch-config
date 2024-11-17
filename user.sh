@@ -69,8 +69,8 @@ if [[ "$remote_user" == "root" ]]; then
 
   c dnf install -y \
     ripgrep \
+    fd-find \
     neovim \
-    fzf \
     nodejs \
     shellcheck \
     gimp \
@@ -120,6 +120,7 @@ if [[ "$remote_user" != "root" ]]; then
   f .config/nvim/init.lua
   d .config/ripgrep
   f .config/ripgrep/ripgreprc
+  d .local/share/fonts
 fi
 
 ssh "${ssh_opts[@]}" bash -c "'$REMOTE_SCRIPT'"
