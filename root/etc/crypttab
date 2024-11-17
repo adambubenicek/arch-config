@@ -1,1 +1,0 @@
-pigeon  LABEL=pigeon-crypt  /etc/cryptsetup-keys.d/luks.key  noauto,nofail

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# vim: ft=bash:
+
+sudo dd status=none of=/etc/udev/rules.d/overrides.rules << EOF
+ACTION=="add", SUBSYSTEM=="usb", DRIVERS=="usb", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c548", ATTR{power/wakeup}="disabled"
+EOF

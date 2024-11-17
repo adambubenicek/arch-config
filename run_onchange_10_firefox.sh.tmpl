@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# vim: ft=bash:
+
+sudo mkdir -p /usr/lib64/firefox/defaults/pref
+
+sudo dd status=none of=/usr/lib64/firefox/defaults/pref/autoconfig.js <<- EOF
+pref("general.config.filename", "firefox.cfg");
+pref("general.config.obscure_value", 0);
+EOF
+
+sudo dd status=none of=/usr/lib64/firefox/firefox.cfg << EOF
+//
+lockPref("extensions.pocket.enabled", false);
+lockPref("signon.rememberSignons", false);
+lockPref("media.ffmpeg.vaapi.enabled", true);
+lockPref("browser.translations.automaticallyPopup", false);
+lockPref("browser.fullscreen.autohide", false);
+lockPref("browser.tabs.inTitlebar", 0);
+EOF

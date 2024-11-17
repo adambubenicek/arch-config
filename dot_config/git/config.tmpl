@@ -1,0 +1,11 @@
+[user]
+	name = {{ .name | quote }}
+	email = {{ .email | quote }}
+[init]
+	defaultBranch = main
+[push]
+	autoSetupRemote = true
+[pull]
+	rebase = true
+[bash]
+	showInformativeStatus = true
