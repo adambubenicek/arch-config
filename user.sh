@@ -38,7 +38,6 @@ ssh_opts=(
 source lib/file.sh
 source lib/dir.sh
 source lib/cmd.sh
-source colors.sh
 
 remote_host=$(ssh "${ssh_opts[@]}" uname -n)
 remote_user=$(ssh "${ssh_opts[@]}" 'echo $USER')
@@ -118,8 +117,6 @@ if [[ "$remote_user" != "root" ]]; then
   f .config/git/config
   d .config/nvim
   f .config/nvim/init.lua
-  d .config/ripgrep
-  f .config/ripgrep/ripgreprc
   d .local/share/fonts
 fi
 
