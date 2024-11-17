@@ -76,7 +76,8 @@ if [[ "$remote_user" == "root" ]]; then
     gimp \
     inkscape \
     blender \
-    steam
+    steam \
+    alacritty
 
   c npm install -g \
     bash-language-server \
