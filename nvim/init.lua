@@ -96,6 +96,8 @@ require('mini.trailspace').setup({})
 require('mini.bracketed').setup({})
 require('mini.comment').setup({})
 require('mini.diff').setup({})
+require('mini.bufremove').setup({})
+vim.keymap.set('n', '<leader>x', MiniBufremove.delete)
 
 require('mini.files').setup({})
 vim.keymap.set('n', '<leader>e', MiniFiles.open)
