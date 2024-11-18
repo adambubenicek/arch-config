@@ -11,4 +11,4 @@ PS1+='\[\e[2m\]\w\[\e[0m\] '
 PS1+='\[\e[34;1m\]> \[\e[0m\]'
 
 export VISUAL=nvim
-alias cz='chezmoi'
+export EDITOR=nvim

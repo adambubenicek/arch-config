@@ -1,0 +1,18 @@
+creation_rules:
+  - path_regex: \.common\.env
+    age: >-
+      age1p87vcaaear9uey8unhzds7zqs30mxn2audmurap99xfmr8pcrc7q7fx8wh,
+      age1ez95drn8qzq45rj6kn0em9vkz57npqvzj8pthggd2gv27gx064yqmakxfz,
+      age1mk5h6nr6dhsgcyc4zuvl6hazlm4k6nsg0zh9zqal8hslawalucesygq5sc,
+      age1hjuz7s0fe5mmr7t2t3rwte36lhexx2d9au29lwj4hedd0f62vsgqrm38kq,
+      age10vsfrrrk0hy5hfhalykxgr8cfhq9fxtw0tajt7k0e29ltjuptamq0mllc3
+  - path_regex: \.kangaroo\.env
+    age: age1mk5h6nr6dhsgcyc4zuvl6hazlm4k6nsg0zh9zqal8hslawalucesygq5sc # kangaroo
+  - path_regex: \.hippo\.env
+    age: age1p87vcaaear9uey8unhzds7zqs30mxn2audmurap99xfmr8pcrc7q7fx8wh # hippo
+  - path_regex: \.sloth\.env
+    age: age1ez95drn8qzq45rj6kn0em9vkz57npqvzj8pthggd2gv27gx064yqmakxfz # sloth
+  - path_regex: \.owl\.env
+    age: age1hjuz7s0fe5mmr7t2t3rwte36lhexx2d9au29lwj4hedd0f62vsgqrm38kq # owl
+  - path_regex: \.mouse\.env
+    age: age10vsfrrrk0hy5hfhalykxgr8cfhq9fxtw0tajt7k0e29ltjuptamq0mllc3 # mouse
