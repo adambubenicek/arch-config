@@ -12,6 +12,7 @@ usage() {
 }
 
 
+# Parse arguments
 user_only=false
 files_only=false
 commands_only=false
@@ -26,6 +27,8 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+
+# Sanitize arguments
 files_enabled=true
 commands_enabled=true
 
@@ -102,6 +105,7 @@ file() {
 }
 
 
+# Find out which host we are
 known_hosts=( kangaroo hippo )
 host=$(hostnamectl --static)
 
@@ -115,6 +119,7 @@ if [[ " ${known_hosts[*]} " != *" $host "* ]]; then
 fi
 
 
+# Decrypt our secrets and export them into the environment
 eval "$(sops decrypt .common.env)"
 
 if [[ "$host" == "hippo" ]]; then
@@ -122,6 +127,7 @@ if [[ "$host" == "hippo" ]]; then
 fi
 
 
+# Configure system
 run_as="root"
 
 cmd hostnamectl hostname "$host"
@@ -163,6 +169,7 @@ cmd chmod /etc/wireguard/wg0.conf
 cmd systemctl enable --now wg-quick@wg0
 
 
+# Configure user
 run_as="$USER"
 
 (
@@ -198,5 +205,3 @@ cmd chmod 600 ~/.ssh/id_ed25519
 
 file ~/.ssh/id_ed25519.pub ssh/id_ed25519.pub
 file ~/.ssh/authorized_keys ssh/authorized_keys
-
-
