@@ -10,5 +10,11 @@ fi
 PS1+='\[\e[2m\]\w\[\e[0m\] '
 PS1+='\[\e[34;1m\]> \[\e[0m\]'
 
-export VISUAL=nvim
-export EDITOR=nvim
+
+if [[ -n "$NVIM" ]]; then
+  export VISUAL="nvim --server $NVIM --remote"
+else
+  export VISUAL="nvim"
+fi
+
+export EDITOR="$VISUAL"
