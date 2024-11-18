@@ -10,6 +10,7 @@ fi
 PS1+='\[\e[2m\]\w\[\e[0m\] '
 PS1+='\[\e[34;1m\]> \[\e[0m\]'
 
+export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/ripgreprc"
 
 if [[ -n "$NVIM" ]]; then
   export VISUAL="nvim --server $NVIM --remote"

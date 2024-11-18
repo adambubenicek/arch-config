@@ -136,7 +136,6 @@ cmd dnf swap -y ffmpeg-free ffmpeg --allowerasing
 
 cmd dnf install -y \
   ripgrep \
-  fd-find \
   neovim \
   nodejs \
   shellcheck \
@@ -179,6 +178,9 @@ run_as="$USER"
 
 cmd mkdir -p ~/.bashrc.d/
 file ~/.bashrc.d/overrides.sh bash/overrides.sh
+
+cmd mkdir -p ~/.config/ripgrep
+file ~/.config/ripgrep/ripgreprc ripgrep/ripgreprc
 
 cmd mkdir -p ~/.config/nvim
 file ~/.config/nvim/init.lua nvim/init.lua

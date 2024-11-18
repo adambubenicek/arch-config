@@ -29,6 +29,8 @@ vim.api.nvim_create_autocmd('TermOpen', {
   end,
 })
 
+vim.keymap.set('n', '<leader>t', vim.cmd.terminal, {})
+
 
 local path_package = vim.fn.stdpath('data') .. '/site/'
 local mini_path = path_package .. 'pack/deps/start/mini.nvim'
@@ -69,6 +71,12 @@ lspconfig.ts_ls.setup({
 })
 lspconfig.svelte.setup({})
 
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(args)
+    vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, { buffer = args.buf })
+  end,
+})
+
 add({
   source = "nvim-treesitter/nvim-treesitter",
   hooks = { post_checkout = function() vim.cmd('TSUpdate') end },
@@ -86,9 +94,9 @@ require('mini.completion').setup({})
 require('mini.git').setup({})
 
 require('mini.pick').setup({})
-vim.keymap.set('n', '<leader>f', function() MiniPick.builtin.files({ tool = 'fd' }) end)
-vim.keymap.set('n', '<leader>b', MiniPick.builtin.buffers)
-vim.keymap.set('n', '<leader>g', MiniPick.builtin.grep_live)
+vim.keymap.set('n', '<leader>ff', MiniPick.builtin.files)
+vim.keymap.set('n', '<leader>fg', MiniPick.builtin.grep_live)
+vim.keymap.set('n', '<leader>bb', MiniPick.builtin.buffers)
 
 require('mini.statusline').setup({})
 require('mini.surround').setup({})
@@ -97,7 +105,7 @@ require('mini.bracketed').setup({})
 require('mini.comment').setup({})
 require('mini.diff').setup({})
 require('mini.bufremove').setup({})
-vim.keymap.set('n', '<leader>x', MiniBufremove.delete)
+vim.keymap.set('n', '<leader>bd', MiniBufremove.delete)
 
 require('mini.files').setup({})
 vim.keymap.set('n', '<leader>e', MiniFiles.open)
