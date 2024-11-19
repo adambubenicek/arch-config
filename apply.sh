@@ -227,6 +227,9 @@ cmd chmod 600 /etc/ssh/sshd_config.d/overrides.conf
 cmd firewall-cmd --set-default-zone=public
 cmd firewall-cmd --zone=trusted --add-interface=wg0
 
+if owl; then
+  cmd firewall-cmd --add-port="$WG0_OWL_PORT/udp"
+fi
 
 # Configure user
 run_as="$USER"
