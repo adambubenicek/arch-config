@@ -1,0 +1,18 @@
+[Unit]
+Description=Caddy
+Wants=network-online.target
+After=network-online.target nss-lookup.target
+
+[Container]
+ContainerName=caddy
+Image=docker.io/library/caddy
+AutoUpdate=registry
+Network=host
+
+Volume=/var/lib/caddy/Caddyfile:/etc/caddy/Caddyfile:Z
+Volume=/var/lib/caddy/data:/data:Z
+Volume=/var/lib/caddy/config:/config:Z
+Volume=/var/lib/caddy/srv:/srv:Z
+
+[Install]
+WantedBy=default.target

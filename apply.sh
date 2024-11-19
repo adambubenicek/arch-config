@@ -206,6 +206,11 @@ if sloth; then
   file /etc/containers/systemd/qbittorrent.container containers/qbittorrent.container
 fi
 
+if owl; then
+  file /etc/containers/systemd/adguard.container containers/adguard.container
+  file /etc/containers/systemd/caddy.container containers/caddy.container
+fi
+
 hippo && file /etc/wireguard/wg0.conf wireguard/hippo/wg0.conf
 kangaroo && file /etc/wireguard/wg0.conf wireguard/kangaroo/wg0.conf
 sloth && file /etc/wireguard/wg0.conf wireguard/sloth/wg0.conf
