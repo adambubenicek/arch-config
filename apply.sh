@@ -132,7 +132,7 @@ if [[ ! -f ~/.local/bin/sops ]]; then
 
   case "$architecture" in
     x86_64) url=https://github.com/getsops/sops/releases/download/v3.9.1/sops-v3.9.1.linux.amd64;;
-    aarch64) url=https://github.com/getsops/sops/releases/download/v3.9.1/sops-v3.9.1.linux.amd64;;
+    aarch64) url=https://github.com/getsops/sops/releases/download/v3.9.1/sops-v3.9.1.linux.arm64;;
   esac
 
   curl -o ~/.local/bin/sops -L "$url"
