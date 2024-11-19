@@ -106,7 +106,7 @@ file() {
 
 
 # Find out which host we are
-known_hosts=( kangaroo hippo )
+known_hosts=( kangaroo hippo sloth )
 host=$(hostnamectl --static)
 
 if [[ " ${known_hosts[*]} " != *" $host "* ]]; then
