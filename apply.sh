@@ -189,6 +189,11 @@ if hippo || kangaroo; then
   file /etc/udev/rules.d/overrides.rules udev/overrides.rules
 fi
 
+if sloth; then
+  file /etc/containers/systemd/homeassistant.container containers/homeassistant.container
+  file /etc/containers/systemd/qbittorrent.container containers/qbittorrent.container
+fi
+
 hippo && file /etc/wireguard/wg0.conf wireguard/hippo/wg0.conf
 kangaroo && file /etc/wireguard/wg0.conf wireguard/kangaroo/wg0.conf
 sloth && file /etc/wireguard/wg0.conf wireguard/sloth/wg0.conf

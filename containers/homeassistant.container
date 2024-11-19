@@ -1,0 +1,18 @@
+[Unit]
+Description=Home Assistant container
+Wants=network-online.target
+After=network-online.target nss-lookup.target
+
+[Container]
+ContainerName=homeassistant
+Image=ghcr.io/home-assistant/home-assistant
+AutoUpdate=registry
+AddDevice=/dev/ttyACM0
+PublishPort=8123:8123
+
+Volume=/var/lib/homeassistant/config:/config
+Volume=/etc/localtime:/etc/localtime:ro
+Volume=/run/dbus:/run/dbus:ro
+
+[Install]
+WantedBy=default.target
