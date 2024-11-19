@@ -164,7 +164,7 @@ file /usr/lib64/firefox/firefox.cfg firefox/firefox.cfg
 
 file /etc/udev/rules.d/overrides.rules udev/overrides.rules
 file /etc/wireguard/wg0.conf wireguard/wg0.conf
-cmd chmod /etc/wireguard/wg0.conf
+cmd chmod 600 /etc/wireguard/wg0.conf
 
 cmd systemctl enable --now wg-quick@wg0
 
