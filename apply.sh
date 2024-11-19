@@ -203,7 +203,7 @@ cmd chmod 600 /etc/ssh/sshd_config.d/overrides.conf
 # Configure user
 run_as="$USER"
 
-(
+if hippo || kangaroo; then
   tmp=$(cmd mktemp)
 
   cmd curl -o "$tmp" -sL https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.tar.xz
@@ -212,7 +212,8 @@ run_as="$USER"
   cmd tar -xJf "$tmp" -C ~/.local/share/fonts
 
   cmd rm "$tmp"
-)
+  unset tmp
+fi
 
 cmd mkdir -p ~/.bashrc.d/
 file ~/.bashrc.d/overrides.sh bash/overrides.sh
