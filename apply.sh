@@ -122,6 +122,7 @@ fi
 hippo() { [[ "$host" == "hippo" ]]; }
 kangaroo() { [[ "$host" == "kangaroo" ]]; }
 sloth() { [[ "$host" == "sloth" ]]; }
+owl() { [[ "$host" == "owl" ]]; }
 
 
 # Install sops
@@ -198,6 +199,7 @@ fi
 hippo && file /etc/wireguard/wg0.conf wireguard/hippo/wg0.conf
 kangaroo && file /etc/wireguard/wg0.conf wireguard/kangaroo/wg0.conf
 sloth && file /etc/wireguard/wg0.conf wireguard/sloth/wg0.conf
+owl && file /etc/wireguard/wg0.conf wireguard/owl/wg0.conf
 cmd chmod 600 /etc/wireguard/wg0.conf
 
 cmd systemctl enable --now wg-quick@wg0
