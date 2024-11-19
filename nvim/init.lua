@@ -55,39 +55,43 @@ add({
 
 vim.cmd[[ colorscheme tokyonight-night ]]
 
-add({
-  source = 'neovim/nvim-lspconfig',
-})
+local hostname = vim.fn.hostname()
 
-local lspconfig = require("lspconfig")
-lspconfig.bashls.setup({})
-lspconfig.ts_ls.setup({
-  filetypes = {
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  }
-})
-lspconfig.svelte.setup({})
+if hostname == "hippo" or hostname == "kangaroo" then
+  add({
+    source = 'neovim/nvim-lspconfig',
+  })
 
-vim.api.nvim_create_autocmd('LspAttach', {
-  callback = function(args)
-    vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, { buffer = args.buf })
-  end,
-})
+  local lspconfig = require("lspconfig")
+  lspconfig.bashls.setup({})
+  lspconfig.ts_ls.setup({
+    filetypes = {
+      "javascript",
+      "javascriptreact",
+      "typescript",
+      "typescriptreact"
+    }
+  })
+  lspconfig.svelte.setup({})
 
-add({
-  source = "nvim-treesitter/nvim-treesitter",
-  hooks = { post_checkout = function() vim.cmd('TSUpdate') end },
-})
+  vim.api.nvim_create_autocmd('LspAttach', {
+    callback = function(args)
+      vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, { buffer = args.buf })
+    end,
+  })
 
-require("nvim-treesitter.configs").setup({
-  ensure_installed = { "bash", "c", "lua", "vim", "vimdoc", "query", "javascript", "typescript", "svelte", "html", "css", "glsl" },
-  sync_install = false,
-  highlight = { enable = true },
-  indent = { enable = true },
-})
+  add({
+    source = "nvim-treesitter/nvim-treesitter",
+    hooks = { post_checkout = function() vim.cmd('TSUpdate') end },
+  })
+
+  require("nvim-treesitter.configs").setup({
+    ensure_installed = { "bash", "c", "lua", "vim", "vimdoc", "query", "javascript", "typescript", "svelte", "html", "css", "glsl" },
+    sync_install = false,
+    highlight = { enable = true },
+    indent = { enable = true },
+  })
+end
 
 require('mini.icons').setup({})
 require('mini.completion').setup({})
