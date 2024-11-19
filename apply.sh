@@ -156,6 +156,7 @@ eval "$(sops decrypt .common.env)"
 hippo && eval "$(sops decrypt .hippo.env)"
 kangaroo && eval "$(sops decrypt .kangaroo.env)"
 sloth && eval "$(sops decrypt .sloth.env)"
+owl && eval "$(sops decrypt .owl.env)"
 
 
 # Configure system
