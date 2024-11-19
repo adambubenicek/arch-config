@@ -119,6 +119,23 @@ if [[ " ${known_hosts[*]} " != *" $host "* ]]; then
 fi
 
 
+# Install sops
+if [[ ! -f ~/.local/bin/sops ]]; then
+  mkdir -p ~/.local/bin
+  curl -o ~/.local/bin/sops -L https://github.com/getsops/sops/releases/download/v3.9.1/sops-v3.9.1.linux.amd64
+  chmod +x ~/.local/bin/sops
+fi
+
+# Install sops key
+if [[ ! -f ~/.config/sops/age/keys.txt ]]; then
+  echo "Age keys file not found: ~/.config/sops/age/keys.txt"
+  read -r -p "Create it with a key: " key
+
+  mkdir -p ~/.config/sops/age/
+  echo "$key" > ~/.config/sops/age/keys.txt
+  chmod 600 ~/.config/sops/age/keys.txt
+fi
+
 # Decrypt our secrets and export them into the environment
 eval "$(sops decrypt .common.env)"
 
