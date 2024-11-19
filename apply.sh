@@ -168,6 +168,9 @@ cmd chmod /etc/wireguard/wg0.conf
 
 cmd systemctl enable --now wg-quick@wg0
 
+file /etc/ssh/sshd_config.d/overrides.conf ssh/sshd/overrides.conf
+cmd chmod 600 /etc/ssh/sshd_config.d/overrides.conf
+
 
 # Configure user
 run_as="$USER"
