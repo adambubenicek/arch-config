@@ -225,8 +225,16 @@ cmd chmod 700 ~/.ssh
 
 file ~/.ssh/config ssh/config
 
-file ~/.ssh/id_ed25519 ssh/id_ed25519
-cmd chmod 600 ~/.ssh/id_ed25519
+if hippo; then
+  file ~/.ssh/id_ed25519 ssh/hippo/id_ed25519
+  file ~/.ssh/id_ed25519.pub ssh/hippo/id_ed25519.pub
+  cmd chmod 600 ~/.ssh/id_ed25519
+fi
 
-file ~/.ssh/id_ed25519.pub ssh/id_ed25519.pub
+if kangaroo; then
+  file ~/.ssh/id_ed25519 ssh/kangaroo/id_ed25519
+  file ~/.ssh/id_ed25519.pub ssh/kangaroo/id_ed25519.pub
+  cmd chmod 600 ~/.ssh/id_ed25519
+fi
+
 file ~/.ssh/authorized_keys ssh/authorized_keys
