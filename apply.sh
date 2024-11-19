@@ -200,6 +200,9 @@ file ~/.config/git/config git/config
 
 cmd mkdir -p ~/.ssh
 cmd chmod 700 ~/.ssh
+
+file ~/.ssh/config ssh/config
+
 file ~/.ssh/id_ed25519 ssh/id_ed25519
 cmd chmod 600 ~/.ssh/id_ed25519
 
