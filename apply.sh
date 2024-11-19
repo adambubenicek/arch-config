@@ -128,8 +128,17 @@ owl() { [[ "$host" == "owl" ]]; }
 # Install sops
 if [[ ! -f ~/.local/bin/sops ]]; then
   mkdir -p ~/.local/bin
-  curl -o ~/.local/bin/sops -L https://github.com/getsops/sops/releases/download/v3.9.1/sops-v3.9.1.linux.amd64
+  architecture="$(uname -m)"
+
+  case "$architecture" in
+    x86_64) url=https://github.com/getsops/sops/releases/download/v3.9.1/sops-v3.9.1.linux.amd64;;
+    aarch64) url=https://github.com/getsops/sops/releases/download/v3.9.1/sops-v3.9.1.linux.amd64;;
+  esac
+
+  curl -o ~/.local/bin/sops -L "$url"
   chmod +x ~/.local/bin/sops
+
+  unset architecture url
 fi
 
 # Install sops key
