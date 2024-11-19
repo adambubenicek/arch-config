@@ -118,6 +118,10 @@ if [[ " ${known_hosts[*]} " != *" $host "* ]]; then
   done
 fi
 
+# Convenience host checkers
+hippo() { [[ "$host" == "hippo" ]]; }
+kangaroo() { [[ "$host" == "kangaroo" ]]; }
+
 
 # Install sops
 if [[ ! -f ~/.local/bin/sops ]]; then
@@ -138,10 +142,8 @@ fi
 
 # Decrypt our secrets and export them into the environment
 eval "$(sops decrypt .common.env)"
-
-if [[ "$host" == "hippo" ]]; then
-  eval "$(sops decrypt .hippo.env)"
-fi
+hippo && eval "$(sops decrypt .hippo.env)"
+kangaroo && eval "$(sops decrypt .kangaroo.env)"
 
 
 # Configure system
