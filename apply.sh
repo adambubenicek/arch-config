@@ -201,6 +201,12 @@ cmd chmod 600 /etc/wireguard/wg0.conf
 
 cmd systemctl enable --now wg-quick@wg0
 
+if sloth; then
+  file /etc/wireguard/wg1.conf wireguard/sloth/wg1.conf
+  cmd chmod 600 /etc/wireguard/wg1.conf
+  cmd systemctl enable --now wg-quick@wg1
+fi
+
 file /etc/ssh/sshd_config.d/overrides.conf ssh/sshd/overrides.conf
 cmd chmod 600 /etc/ssh/sshd_config.d/overrides.conf
 
