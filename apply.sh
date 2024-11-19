@@ -212,6 +212,10 @@ file /etc/ssh/sshd_config.d/overrides.conf ssh/sshd/overrides.conf
 cmd chmod 600 /etc/ssh/sshd_config.d/overrides.conf
 
 
+cmd firewall-cmd --set-default-zone=public
+cmd firewall-cmd --zone=trusted --add-interface=wg0
+
+
 # Configure user
 run_as="$USER"
 
