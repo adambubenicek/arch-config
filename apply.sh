@@ -232,6 +232,15 @@ cmd firewall-cmd --zone=trusted --add-interface=wg0 --permanent
 if owl; then
   cmd firewall-cmd --add-port="$WG0_OWL_PORT/udp"
   cmd firewall-cmd --add-port="$WG0_OWL_PORT/udp" --permanent
+
+  cmd firewall-cmd --add-port="80/tcp"
+  cmd firewall-cmd --add-port="80/tcp" --permanent
+
+  cmd firewall-cmd --add-port="443/tcp"
+  cmd firewall-cmd --add-port="443/tcp" --permanent
+
+  cmd firewall-cmd --add-port="443/udp"
+  cmd firewall-cmd --add-port="443/udp" --permanent
 fi
 
 # Configure user
