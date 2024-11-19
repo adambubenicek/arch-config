@@ -121,6 +121,7 @@ fi
 # Convenience host checkers
 hippo() { [[ "$host" == "hippo" ]]; }
 kangaroo() { [[ "$host" == "kangaroo" ]]; }
+sloth() { [[ "$host" == "sloth" ]]; }
 
 
 # Install sops
@@ -144,6 +145,7 @@ fi
 eval "$(sops decrypt .common.env)"
 hippo && eval "$(sops decrypt .hippo.env)"
 kangaroo && eval "$(sops decrypt .kangaroo.env)"
+sloth && eval "$(sops decrypt .sloth.env)"
 
 
 # Configure system
@@ -152,39 +154,44 @@ run_as="root"
 cmd hostnamectl hostname "$host"
 
 cmd dnf install -y \
-  "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
-  "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
+    wireguard-tools \
+    neovim \
+    ripgrep
 
-cmd dnf swap -y mesa-va-drivers mesa-va-drivers-freeworld
-cmd dnf swap -y mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
-cmd dnf swap -y ffmpeg-free ffmpeg --allowerasing
+if hippo || kangaroo; then
+  cmd dnf install -y \
+    "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
+    "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
 
-cmd dnf install -y \
-  ripgrep \
-  neovim \
-  nodejs \
-  shellcheck \
-  gimp \
-  inkscape \
-  blender \
-  steam \
-  alacritty \
-  wireguard-tools
+  cmd dnf swap -y mesa-va-drivers mesa-va-drivers-freeworld
+  cmd dnf swap -y mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
+  cmd dnf swap -y ffmpeg-free ffmpeg --allowerasing
 
-cmd npm install -g \
-  bash-language-server \
-  typescript-language-server \
-  svelte-language-server \
-  prettier
+  cmd dnf install -y \
+    nodejs \
+    shellcheck \
+    gimp \
+    inkscape \
+    blender \
+    steam \
+    alacritty \
 
-cmd mkdir -p /usr/lib64/firefox/defaults/pref
-file /usr/lib64/firefox/defaults/pref/autoconfig.js firefox/autoconfig.js
-file /usr/lib64/firefox/firefox.cfg firefox/firefox.cfg
+  cmd npm install -g \
+    bash-language-server \
+    typescript-language-server \
+    svelte-language-server \
+    prettier
 
-file /etc/udev/rules.d/overrides.rules udev/overrides.rules
+  cmd mkdir -p /usr/lib64/firefox/defaults/pref
+  file /usr/lib64/firefox/defaults/pref/autoconfig.js firefox/autoconfig.js
+  file /usr/lib64/firefox/firefox.cfg firefox/firefox.cfg
+
+  file /etc/udev/rules.d/overrides.rules udev/overrides.rules
+fi
 
 hippo && file /etc/wireguard/wg0.conf wireguard/hippo/wg0.conf
 kangaroo && file /etc/wireguard/wg0.conf wireguard/kangaroo/wg0.conf
+sloth && file /etc/wireguard/wg0.conf wireguard/sloth/wg0.conf
 cmd chmod 600 /etc/wireguard/wg0.conf
 
 cmd systemctl enable --now wg-quick@wg0
@@ -216,16 +223,21 @@ file ~/.config/ripgrep/ripgreprc ripgrep/ripgreprc
 cmd mkdir -p ~/.config/nvim
 file ~/.config/nvim/init.lua nvim/init.lua
 
-cmd mkdir -p ~/.config/alacritty
-file ~/.config/alacritty/alacritty.toml alacritty/alacritty.toml
-
 cmd mkdir -p ~/.config/git
 file ~/.config/git/config git/config
 
+if hippo || kangaroo; then
+  cmd mkdir -p ~/.config/alacritty
+  file ~/.config/alacritty/alacritty.toml alacritty/alacritty.toml
+fi
+
 cmd mkdir -p ~/.ssh
 cmd chmod 700 ~/.ssh
+file ~/.ssh/authorized_keys ssh/authorized_keys
 
-file ~/.ssh/config ssh/config
+if hippo || kangaroo; then
+  file ~/.ssh/config ssh/config
+fi
 
 if hippo; then
   file ~/.ssh/id_ed25519 ssh/hippo/id_ed25519
@@ -238,5 +250,3 @@ if kangaroo; then
   file ~/.ssh/id_ed25519.pub ssh/kangaroo/id_ed25519.pub
   cmd chmod 600 ~/.ssh/id_ed25519
 fi
-
-file ~/.ssh/authorized_keys ssh/authorized_keys
