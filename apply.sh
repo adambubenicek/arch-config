@@ -156,7 +156,8 @@ cmd hostnamectl hostname "$host"
 cmd dnf install -y \
     wireguard-tools \
     neovim \
-    ripgrep
+    ripgrep \
+    podman
 
 if hippo || kangaroo; then
   cmd dnf install -y \
