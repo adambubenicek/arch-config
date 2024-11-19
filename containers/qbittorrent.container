@@ -9,8 +9,8 @@ Image=docker.io/qbittorrentofficial/qbittorrent-nox
 AutoUpdate=registry
 Network=host
 
-Volume=/var/lib/qbittorrent/config:/config
-Volume=/var/lib/qbittorrent/downloads:/downloads
+Volume=/var/lib/qbittorrent/config:/config:Z
+Volume=/var/lib/qbittorrent/downloads:/downloads:Z
 
 [Install]
 WantedBy=default.target

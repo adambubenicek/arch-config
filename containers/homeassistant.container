@@ -10,7 +10,7 @@ AutoUpdate=registry
 AddDevice=/dev/ttyACM0
 PublishPort=8123:8123
 
-Volume=/var/lib/homeassistant/config:/config
+Volume=/var/lib/homeassistant/config:/config:Z
 Volume=/etc/localtime:/etc/localtime:ro
 Volume=/run/dbus:/run/dbus:ro
 
