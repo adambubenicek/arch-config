@@ -29,10 +29,10 @@ require('mini.deps').setup({ path = { package = path_package } })
 local add = MiniDeps.add
 
 add({
-  source = "folke/tokyonight.nvim"
+  source = "EdenEast/nightfox.nvim"
 })
 
-vim.cmd[[ colorscheme tokyonight-night ]]
+vim.cmd[[ colorscheme carbonfox ]]
 
 local hostname = vim.fn.hostname()
 
