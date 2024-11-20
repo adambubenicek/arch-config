@@ -1,18 +1,34 @@
 creation_rules:
-  - path_regex: \.common\.env
+  - path_regex: \.sops/root\.env
     age: >-
       age1p87vcaaear9uey8unhzds7zqs30mxn2audmurap99xfmr8pcrc7q7fx8wh,
       age1ez95drn8qzq45rj6kn0em9vkz57npqvzj8pthggd2gv27gx064yqmakxfz,
       age1mk5h6nr6dhsgcyc4zuvl6hazlm4k6nsg0zh9zqal8hslawalucesygq5sc,
       age1hjuz7s0fe5mmr7t2t3rwte36lhexx2d9au29lwj4hedd0f62vsgqrm38kq,
       age10vsfrrrk0hy5hfhalykxgr8cfhq9fxtw0tajt7k0e29ltjuptamq0mllc3
-  - path_regex: \.kangaroo\.env
-    age: age1mk5h6nr6dhsgcyc4zuvl6hazlm4k6nsg0zh9zqal8hslawalucesygq5sc # kangaroo
-  - path_regex: \.hippo\.env
-    age: age1p87vcaaear9uey8unhzds7zqs30mxn2audmurap99xfmr8pcrc7q7fx8wh # hippo
-  - path_regex: \.sloth\.env
-    age: age1ez95drn8qzq45rj6kn0em9vkz57npqvzj8pthggd2gv27gx064yqmakxfz # sloth
-  - path_regex: \.owl\.env
-    age: age1hjuz7s0fe5mmr7t2t3rwte36lhexx2d9au29lwj4hedd0f62vsgqrm38kq # owl
-  - path_regex: \.mouse\.env
-    age: age10vsfrrrk0hy5hfhalykxgr8cfhq9fxtw0tajt7k0e29ltjuptamq0mllc3 # mouse
+  - path_regex: \.sops/root\.kangaroo\.env
+    age: age1mk5h6nr6dhsgcyc4zuvl6hazlm4k6nsg0zh9zqal8hslawalucesygq5sc
+  - path_regex: \.sops/root\.hippo\.env
+    age: age1p87vcaaear9uey8unhzds7zqs30mxn2audmurap99xfmr8pcrc7q7fx8wh
+  - path_regex: \.sops/root\.sloth\.env
+    age: age1ez95drn8qzq45rj6kn0em9vkz57npqvzj8pthggd2gv27gx064yqmakxfz
+  - path_regex: \.sops/root\.owl\.env
+    age: age1hjuz7s0fe5mmr7t2t3rwte36lhexx2d9au29lwj4hedd0f62vsgqrm38kq
+  - path_regex: \.sops/root\.mouse\.env
+    age: age10vsfrrrk0hy5hfhalykxgr8cfhq9fxtw0tajt7k0e29ltjuptamq0mllc3
+
+  - path_regex: \.sops/user\.env
+    age: >-
+      age10dwz2qaz2cmgzkg4dt2nac8zzpa339kj82fpw62egzac8fc6c5sq7ss8tw,
+      age17ugkaes7h4w0wtrlvnn3ufr4nfhcw2yzucxsjsgsr4uaqh5e9qks2szmu9,
+      age15v9nrvp9qp2y4jhmf4m6k3krgcf94nt4kltf6hesh0nm5zpg75kqnv08k5,
+      age1j7cytpmger7sr5xkaj2ct3dkswgdv4mpjceclafa7lfwkxwmpe6sraqlqm
+  - path_regex: \.sops/user\.kangaroo\.env
+    age: age10dwz2qaz2cmgzkg4dt2nac8zzpa339kj82fpw62egzac8fc6c5sq7ss8tw
+  - path_regex: \.sops/user\.hippo\.env
+    age: age17ugkaes7h4w0wtrlvnn3ufr4nfhcw2yzucxsjsgsr4uaqh5e9qks2szmu9
+  - path_regex: \.sops/user\.sloth\.env
+    age: age15v9nrvp9qp2y4jhmf4m6k3krgcf94nt4kltf6hesh0nm5zpg75kqnv08k5
+  - path_regex: \.sops/user\.owl\.env
+    age: age1j7cytpmger7sr5xkaj2ct3dkswgdv4mpjceclafa7lfwkxwmpe6sraqlqm
+
