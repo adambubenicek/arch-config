@@ -153,6 +153,9 @@ if [[ "$USER" == "root" ]];then
 
   cmd hostnamectl hostname "$host"
 
+  hippo && file /etc/hosts hosts/hippo
+  kangaroo && file /etc/hosts hosts/kangaroo
+
   cmd dnf install -y \
       wireguard-tools \
       neovim \
