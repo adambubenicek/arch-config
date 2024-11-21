@@ -99,9 +99,9 @@ require('mini.icons').setup({})
 require('mini.completion').setup({})
 
 require('mini.pick').setup({})
-vim.keymap.set('n', '<leader>ff', MiniPick.builtin.files)
+vim.keymap.set('n', '<leader>f', MiniPick.builtin.files)
 vim.keymap.set('n', '<leader>fg', MiniPick.builtin.grep_live)
-vim.keymap.set('n', '<leader>bb', MiniPick.builtin.buffers)
+vim.keymap.set('n', '<leader>b', MiniPick.builtin.buffers)
 
 require('mini.statusline').setup({})
 require('mini.surround').setup({})
@@ -117,3 +117,7 @@ vim.keymap.set('n', '<leader>e', MiniFiles.open)
 add({
   source = "tpope/vim-fugitive"
 })
+
+vim.keymap.set('n', '<leader>g', vim.cmd.Git)
+vim.keymap.set('n', '<leader>gc', function() vim.cmd.Git("commit") end)
+vim.keymap.set('n', '<leader>gp', function() vim.cmd.Git("push") end)
