@@ -97,7 +97,6 @@ end
 
 require('mini.icons').setup({})
 require('mini.completion').setup({})
-require('mini.git').setup({})
 
 require('mini.pick').setup({})
 vim.keymap.set('n', '<leader>ff', MiniPick.builtin.files)
@@ -109,9 +108,12 @@ require('mini.surround').setup({})
 require('mini.trailspace').setup({})
 require('mini.bracketed').setup({})
 require('mini.comment').setup({})
-require('mini.diff').setup({})
 require('mini.bufremove').setup({})
 vim.keymap.set('n', '<leader>bd', MiniBufremove.delete)
 
 require('mini.files').setup({})
 vim.keymap.set('n', '<leader>e', MiniFiles.open)
+
+add({
+  source = "tpope/vim-fugitive"
+})
