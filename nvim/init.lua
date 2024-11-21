@@ -16,8 +16,7 @@ vim.keymap.set({ 'n', 't' }, '<C-h>', function() vim.cmd.wincmd("h") end)
 vim.keymap.set({ 'n', 't' }, '<C-j>', function() vim.cmd.wincmd("j") end)
 vim.keymap.set({ 'n', 't' }, '<C-k>', function() vim.cmd.wincmd("k") end)
 vim.keymap.set({ 'n', 't' }, '<C-l>', function() vim.cmd.wincmd("l") end)
-vim.keymap.set({ 't' }, '<C-n>', '<C-\\><C-n>')
-vim.keymap.set({ 't' }, '<C-v>', '<C-\\><C-o>v')
+vim.keymap.set({ 't' }, '<C-esc>', '<C-\\><C-n>')
 
 
 vim.api.nvim_create_autocmd('TermOpen', {
