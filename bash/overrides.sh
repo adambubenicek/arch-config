@@ -14,3 +14,15 @@ export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/ripgreprc"
 
 export VISUAL="nvim"
 export EDITOR="$VISUAL"
+
+alias g='git'
+alias gc='git commit'
+alias ga='git add'
+alias gap='git add --patch'
+alias go='git checkout'
+alias gop='git checkout --patch'
+
+function n() {
+  nvim --server "$NVIM" --remote "$@"
+  exit
+}

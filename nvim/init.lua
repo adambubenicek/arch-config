@@ -10,6 +10,8 @@ vim.o.tabstop = 2
 vim.o.expandtab = true
 vim.o.showmode = false
 
+vim.keymap.set('n', '<leader>t', function() vim.cmd.split() vim.cmd.terminal() end)
+vim.keymap.set({ 'n', 't' }, '<C-t>', vim.cmd.tabnew)
 vim.keymap.set({ 'n', 't' }, '<C-Tab>', vim.cmd.tabnext)
 vim.keymap.set({ 'n', 't' }, '<S-C-Tab>', vim.cmd.tabprevious)
 vim.keymap.set({ 'n', 't' }, '<C-h>', function() vim.cmd.wincmd("h") end)
@@ -94,30 +96,3 @@ if hostname == "hippo" or hostname == "kangaroo" then
     indent = { enable = true },
   })
 end
-
-require('mini.icons').setup({})
-require('mini.completion').setup({})
-
-require('mini.pick').setup({})
-vim.keymap.set('n', '<leader>f', MiniPick.builtin.files)
-vim.keymap.set('n', '<leader>fg', MiniPick.builtin.grep_live)
-vim.keymap.set('n', '<leader>b', MiniPick.builtin.buffers)
-
-require('mini.statusline').setup({})
-require('mini.surround').setup({})
-require('mini.trailspace').setup({})
-require('mini.bracketed').setup({})
-require('mini.comment').setup({})
-require('mini.bufremove').setup({})
-vim.keymap.set('n', '<leader>bd', MiniBufremove.delete)
-
-require('mini.files').setup({})
-vim.keymap.set('n', '<leader>e', MiniFiles.open)
-
-add({
-  source = "tpope/vim-fugitive"
-})
-
-vim.keymap.set('n', '<leader>g', vim.cmd.Git)
-vim.keymap.set('n', '<leader>gc', function() vim.cmd.Git("commit") end)
-vim.keymap.set('n', '<leader>gp', function() vim.cmd.Git("push") end)
