@@ -10,6 +10,30 @@ vim.o.tabstop = 2
 vim.o.expandtab = true
 vim.o.showmode = false
 
+vim.keymap.set({ 'n', 't' }, '<C-Tab>', vim.cmd.tabnext)
+vim.keymap.set({ 'n', 't' }, '<S-C-Tab>', vim.cmd.tabprevious)
+vim.keymap.set({ 'n', 't' }, '<C-h>', function() vim.cmd.wincmd("h") end)
+vim.keymap.set({ 'n', 't' }, '<C-j>', function() vim.cmd.wincmd("j") end)
+vim.keymap.set({ 'n', 't' }, '<C-k>', function() vim.cmd.wincmd("k") end)
+vim.keymap.set({ 'n', 't' }, '<C-l>', function() vim.cmd.wincmd("l") end)
+vim.keymap.set({ 't' }, '<C-n>', '<C-\\><C-n>')
+vim.keymap.set({ 't' }, '<C-v>', '<C-\\><C-o>v')
+
+
+vim.api.nvim_create_autocmd('TermOpen', {
+  callback = function(args)
+    vim.wo.number = false
+    vim.wo.signcolumn = "yes"
+    vim.cmd.startinsert()
+  end
+})
+
+vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"}, {
+  pattern = {"term://*"},
+  callback = function()
+    vim.cmd.startinsert()
+  end
+})
 
 local path_package = vim.fn.stdpath('data') .. '/site/'
 local mini_path = path_package .. 'pack/deps/start/mini.nvim'
