@@ -81,6 +81,19 @@ if hostname == "hippo" or hostname == "kangaroo" then
   vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(args)
       vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, { buffer = args.buf })
+      vim.keymap.set('i', '<tab>', function()
+        local key
+        if vim.fn.pumvisible() then
+          key = vim.api.nvim_replace_termcodes("<C-n>", true, false, true)
+        else
+          key = vim.api.nvim_replace_termcodes("<C-x><C-o>", true, false, true)
+        end
+        vim.api.nvim_feedkeys(key, 'i', false)
+      end)
+      vim.keymap.set('i', '<S-tab>', function()
+        local key = vim.api.nvim_replace_termcodes("<C-p>", true, false, true)
+        vim.api.nvim_feedkeys(key, 'i', false)
+      end)
     end,
   })
 
