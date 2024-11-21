@@ -272,9 +272,6 @@ if [[ "$USER" != "root" ]]; then
   cmd mkdir -p ~/.config/git
   file ~/.config/git/config git/config
 
-  cmd mkdir -p ~/.config/tmux
-  file ~/.config/tmux/tmux.conf tmux/tmux.conf
-
   if hippo || kangaroo; then
     cmd mkdir -p ~/.config/alacritty
     file ~/.config/alacritty/alacritty.toml alacritty/alacritty.toml
