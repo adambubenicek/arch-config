@@ -22,7 +22,7 @@ vim.keymap.set({ 't' }, '<C-esc>', '<C-\\><C-n>')
 vim.api.nvim_create_autocmd('TermOpen', {
   callback = function(args)
     vim.wo.number = false
-    vim.wo.signcolumn = "yes"
+    vim.wo.signcolumn = "no"
     vim.cmd.startinsert()
   end
 })
