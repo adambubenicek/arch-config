@@ -5,12 +5,6 @@ padding = { x = 4, y = 4 }
 size = 10
 normal = { family = "JetBrainsMono Nerd Font" }
 
-[keyboard]
-bindings = [
-    { key = "Tab", mods = "Control", chars = "\u001b[27;5;9~" },
-    { key = "Tab", mods = "Control|Shift", chars = "\u001b[27;6;9~" },
-]
-
 [colors.primary]
 background = "#161616"
 foreground = "#f2f4f8"
