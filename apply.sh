@@ -142,6 +142,8 @@ if [[ ! -f ~/.config/sops/age/keys.txt ]]; then
 fi
 
 
+source ./colors.sh
+
 
 # Configure system
 if [[ "$USER" == "root" ]];then
@@ -158,9 +160,9 @@ if [[ "$USER" == "root" ]];then
 
   cmd dnf install -y \
       wireguard-tools \
-      neovim \
       ripgrep \
-      podman
+      podman \
+      kakoune
 
   if hippo || kangaroo; then
     cmd dnf install -y \
@@ -258,6 +260,15 @@ if [[ "$USER" != "root" ]]; then
 
     cmd rm "$tmp"
     unset tmp
+
+
+    tmp=$(cmd mktemp)
+    cmd curl -o "$tmp" -sL https://github.com/kakoune-lsp/kakoune-lsp/releases/download/v18.0.3/kakoune-lsp-v18.0.3-x86_64-unknown-linux-musl.tar.gz
+    cmd mkdir -p ~/.local/bin
+    cmd tar -xzf "$tmp" -C ~/.local/bin
+    
+    cmd rm "$tmp"
+    unset tmp
   fi
 
   cmd mkdir -p ~/.bashrc.d/
@@ -266,11 +277,14 @@ if [[ "$USER" != "root" ]]; then
   cmd mkdir -p ~/.config/ripgrep
   file ~/.config/ripgrep/ripgreprc ripgrep/ripgreprc
 
-  cmd mkdir -p ~/.config/nvim
-  file ~/.config/nvim/init.lua nvim/init.lua
-
   cmd mkdir -p ~/.config/git
   file ~/.config/git/config git/config
+
+  cmd mkdir -p ~/.config/kak
+  file ~/.config/kak/kakrc kak/kakrc
+
+  cmd mkdir -p ~/.config/tmux
+  file ~/.config/tmux/tmux.conf tmux/tmux.conf
 
   if hippo || kangaroo; then
     cmd mkdir -p ~/.config/alacritty

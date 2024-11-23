@@ -1,82 +1,54 @@
 [window]
 padding = { x = 4, y = 4 }
 
+[keyboard]
+bindings = [
+    { key = "Tab", mods = "Control", chars = "\u001b[27;5;9~" },
+    { key = "Tab", mods = "Control|Shift", chars = "\u001b[27;6;9~" },
+]
+
 [font]
 size = 10
 normal = { family = "JetBrainsMono Nerd Font" }
 
 [colors.primary]
-background = "#161616"
-foreground = "#f2f4f8"
-dim_foreground = "#b6b8bb"
-bright_foreground = "#f9fbff"
+background = "#{{ dark_gray1 }}"
+foreground = "#{{ dark_gray11 }}"
 
 [colors.cursor]
-text = "#f2f4f8"
-cursor = "#b6b8bb"
-
-[colors.vi_mode_cursor]
-text = "#f2f4f8"
-cursor = "#33b1ff"
-
-[colors.search.matches]
-foreground = "#f2f4f8"
-background = "#525253"
-
-[colors.search.focused_match]
-foreground = "#f2f4f8"
-background = "#3ddbd9"
-
-[colors.footer_bar]
-foreground = "#f2f4f8"
-background = "#353535"
-
-[colors.hints.start]
-foreground = "#f2f4f8"
-background = "#3ddbd9"
-
-[colors.hints.end]
-foreground = "#f2f4f8"
-background = "#353535"
+text = "#{{ light_blue12 }}"
+cursor = "#{{ light_blue3 }}"
 
 [colors.selection]
-text = "#f2f4f8"
-background = "#2a2a2a"
+text = "#{{ dark_blue12 }}"
+cursor = "#{{ dark_blue5 }}"
 
 [colors.normal]
-black = "#282828"
-red = "#ee5396"
-green = "#25be6a"
-yellow = "#08bdba"
-blue = "#78a9ff"
-magenta = "#be95ff"
-cyan = "#33b1ff"
-white = "#dfdfe0"
+black = "#{{ dark_gray2 }}"
+red = "#{{ dark_red11 }}"
+green = "#{{ dark_green11 }}"
+yellow = "#{{ dark_yellow11 }}"
+blue = "#{{ dark_blue11 }}"
+magenta = "#{{ dark_plum11 }}"
+cyan = "#{{ dark_cyan11 }}"
+white = "#{{ dark_gray11 }}"
 
 [colors.bright]
-black = "#484848"
-red = "#f16da6"
-green = "#46c880"
-yellow = "#2dc7c4"
-blue = "#8cb6ff"
-magenta = "#c8a5ff"
-cyan = "#52bdff"
-white = "#e4e4e5"
+black = "#{{ dark_gray3 }}"
+red = "#{{ dark_red12 }}"
+green = "#{{ dark_green12 }}"
+yellow = "#{{ dark_yellow12 }}"
+blue = "#{{ dark_blue12 }}"
+magenta = "#{{ dark_plum12 }}"
+cyan = "#{{ dark_cyan12 }}"
+white = "#{{ dark_gray12 }}"
 
 [colors.dim]
-black = "#222222"
-red = "#ca4780"
-green = "#1fa25a"
-yellow = "#07a19e"
-blue = "#6690d9"
-magenta = "#a27fd9"
-cyan = "#2b96d9"
-white = "#bebebe"
-
-[[colors.indexed_colors]]
-index = 16
-color = "#3ddbd9"
-
-[[colors.indexed_colors]]
-index = 17
-color = "#ff7eb6"
+black = "#{{ dark_gray1 }}"
+red = "#{{ dark_red10 }}"
+green = "#{{ dark_green10 }}"
+yellow = "#{{ dark_yellow10 }}"
+blue = "#{{ dark_blue10 }}"
+magenta = "#{{ dark_plum10 }}"
+cyan = "#{{ dark_cyan10 }}"
+white = "#{{ dark_gray10 }}"
