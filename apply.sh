@@ -166,7 +166,8 @@ if [[ "$USER" == "root" ]];then
       wireguard-tools \
       ripgrep \
       podman \
-      kakoune
+      kakoune \
+      fzf
 
   if hippo || kangaroo; then
     cmd dnf install -y \

@@ -21,3 +21,5 @@ alias ga='git add'
 alias gap='git add --patch'
 alias go='git checkout'
 alias gop='git checkout --patch'
+
+eval "$(fzf --bash)"
