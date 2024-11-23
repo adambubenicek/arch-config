@@ -50,43 +50,47 @@ cmd() {
   eval "$command"
 }
 
+template() {
+  [[ "$files_enabled" != true ]] && return 0
+
+  local dest="$1"
+  local src="$2"
+  local tmp
+  local content
+
+  tmp="$(mktemp)"
+
+  content=$(envsubst < "$src")
+  content=${content//\\n/$'\n'} # Replace escaped new lines with literal ones
+  echo "$content" > "$tmp"
+
+  file "$dest" "$tmp"
+
+  rm "$tmp"
+}
 
 file() {
   [[ "$files_enabled" != true ]] && return 0
 
   local dest="$1"
   local src="$2"
-  local tmp
-
-  tmp="$(mktemp)"
-
-  while IFS= read -r line; do
-    while [[ "$line" =~ ^(.*)\{\{[[:space:]]*([a-zA-Z0-9_]*)[[:space:]]*\}\}(.*)$ ]]; do
-      local var="${BASH_REMATCH[2]}"
-      line="${BASH_REMATCH[1]}${!var//\\n/$'\n'}${BASH_REMATCH[3]}"
-    done
-
-    echo "$line"
-  done < "$src" > "$tmp"
 
   if ! test -f "$dest"; then
     echo "Creating file: $dest"
-    cp "$tmp" "$dest"
+    cp "$src" "$dest"
   else
-    if ! diff --color "$dest" "$tmp"; then
+    if ! diff --color "$dest" "$src"; then
       echo "File has changed: $dest"
 
       local answer
       read -rp "Overwrite? [Y/n] " answer
       if [[ "$answer" == "" || "$answer" =~ ^[Yy]$ ]]; then
-        cp "$tmp" "$dest"
+        cp "$src" "$dest"
       fi
     else
       echo "File has not changed: $dest"
     fi
   fi
-
-  rm "$tmp"
 }
 
 
@@ -205,16 +209,16 @@ if [[ "$USER" == "root" ]];then
     file /etc/containers/systemd/caddy.container containers/caddy.container
   fi
 
-  hippo && file /etc/wireguard/wg0.conf wireguard/hippo/wg0.conf
-  kangaroo && file /etc/wireguard/wg0.conf wireguard/kangaroo/wg0.conf
-  sloth && file /etc/wireguard/wg0.conf wireguard/sloth/wg0.conf
-  owl && file /etc/wireguard/wg0.conf wireguard/owl/wg0.conf
+  hippo && template /etc/wireguard/wg0.conf wireguard/hippo/wg0.conf
+  kangaroo && template /etc/wireguard/wg0.conf wireguard/kangaroo/wg0.conf
+  sloth && template /etc/wireguard/wg0.conf wireguard/sloth/wg0.conf
+  owl && template /etc/wireguard/wg0.conf wireguard/owl/wg0.conf
   cmd chmod 600 /etc/wireguard/wg0.conf
 
   cmd systemctl enable --now wg-quick@wg0
 
   if sloth; then
-    file /etc/wireguard/wg1.conf wireguard/sloth/wg1.conf
+    template /etc/wireguard/wg1.conf wireguard/sloth/wg1.conf
     cmd chmod 600 /etc/wireguard/wg1.conf
     cmd systemctl enable --now wg-quick@wg1
   fi
@@ -278,36 +282,36 @@ if [[ "$USER" != "root" ]]; then
   file ~/.config/ripgrep/ripgreprc ripgrep/ripgreprc
 
   cmd mkdir -p ~/.config/git
-  file ~/.config/git/config git/config
+  template ~/.config/git/config git/config
 
   cmd mkdir -p ~/.config/kak
-  file ~/.config/kak/kakrc kak/kakrc
+  template ~/.config/kak/kakrc kak/kakrc
 
   cmd mkdir -p ~/.config/tmux
-  file ~/.config/tmux/tmux.conf tmux/tmux.conf
+  template ~/.config/tmux/tmux.conf tmux/tmux.conf
 
   if hippo || kangaroo; then
     cmd mkdir -p ~/.config/alacritty
-    file ~/.config/alacritty/alacritty.toml alacritty/alacritty.toml
+    template ~/.config/alacritty/alacritty.toml alacritty/alacritty.toml
   fi
 
   cmd mkdir -p ~/.ssh
   cmd chmod 700 ~/.ssh
-  file ~/.ssh/authorized_keys ssh/user/authorized_keys
+  template ~/.ssh/authorized_keys ssh/user/authorized_keys
 
   if hippo || kangaroo; then
     file ~/.ssh/config ssh/config
   fi
 
   if hippo; then
-    file ~/.ssh/id_ed25519 ssh/user/hippo/id_ed25519
-    file ~/.ssh/id_ed25519.pub ssh/user/hippo/id_ed25519.pub
+    template ~/.ssh/id_ed25519 ssh/user/hippo/id_ed25519
+    template ~/.ssh/id_ed25519.pub ssh/user/hippo/id_ed25519.pub
     cmd chmod 600 ~/.ssh/id_ed25519
   fi
 
   if kangaroo; then
-    file ~/.ssh/id_ed25519 ssh/user/kangaroo/id_ed25519
-    file ~/.ssh/id_ed25519.pub ssh/user/kangaroo/id_ed25519.pub
+    template  ~/.ssh/id_ed25519 ssh/user/kangaroo/id_ed25519
+    template ~/.ssh/id_ed25519.pub ssh/user/kangaroo/id_ed25519.pub
     cmd chmod 600 ~/.ssh/id_ed25519
   fi
 fi
