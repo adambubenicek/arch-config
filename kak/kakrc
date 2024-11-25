@@ -1,6 +1,10 @@
 eval %sh{kak-lsp}
 lsp-enable
 
+map global user l ':enter-user-mode lsp<ret>' -docstring 'LSP mode'
+map global object d '<a-semicolon>lsp-diagnostic-object --include-warnings<ret>' -docstring 'LSP errors and warnings'
+map global object D '<a-semicolon>lsp-diagnostic-object<ret>' -docstring 'LSP errors'
+
 set-option global tabstop 2
 set-option global indentwidth 0
 
@@ -16,7 +20,7 @@ face global string magenta
 face global keyword blue
 face global operator yellow
 face global attribute green
-face global comment rgb:$dark_gray9
+face global comment rgb:6e6e6e
 face global documentation comment
 face global meta magenta
 face global builtin default+b
@@ -30,27 +34,27 @@ face global bullet cyan
 face global list yellow
 
 face global Default default,default
-face global PrimaryCursor rgb:$light_blue12,rgb:$light_blue3
-face global PrimarySelection rgb:$dark_blue12,rgb:$dark_blue5
-face global SecondaryCursor rgb:$dark_blue12,rgb:$dark_blue5
-face global SecondarySelection rgb:$dark_blue11,rgb:$dark_blue3
-face global PrimaryCursorEol black,rgb:$light_yellow3
-face global SecondaryCursorEol black,rgb:$light_yellow5
-face global LineNumbers rgb:$dark_gray9,default
-face global LineNumberCursor rgb:$dark_gray2,default+r
-face global MenuForeground rgb:$dark_gray12,rgb:$dark_gray5
-face global MenuBackground rgb:$dark_gray11,rgb:$dark_gray3
-face global MenuInfo rgb:$dark_gray9
+face global PrimaryCursor rgb:113264,rgb:e6f4fe
+face global PrimarySelection rgb:c2e6ff,rgb:004074
+face global SecondaryCursor rgb:c2e6ff,rgb:004074
+face global SecondarySelection rgb:70b8ff,rgb:0d2847
+face global PrimaryCursorEol black,rgb:fffab8
+face global SecondaryCursorEol black,rgb:ffe770
+face global LineNumbers rgb:6e6e6e,default
+face global LineNumberCursor rgb:191919,default+r
+face global MenuForeground rgb:eeeeee,rgb:313131
+face global MenuBackground rgb:b4b4b4,rgb:222222
+face global MenuInfo rgb:6e6e6e
 face global Information yellow
 face global Error red
 face global DiagnosticError red
 face global DiagnosticWarning yellow
-face global StatusLine rgb:$dark_gray10,default
+face global StatusLine rgb:7b7b7b,default
 face global StatusLineMode yellow,default
-face global StatusLineInfo rgb:$dark_gray10,default
+face global StatusLineInfo rgb:7b7b7b,default
 face global StatusLineValue green,default
-face global StatusCursor rgb:$dark_gray1,rgb:$dark_gray12
+face global StatusCursor rgb:111111,rgb:eeeeee
 face global Prompt yellow,default
 face global MatchingChar default,default+b
-face global Whitespace rgb:$dark_gray4,default+fd
-face global BufferPadding rgb:$dark_gray4,default
+face global Whitespace rgb:2a2a2a,default+fd
+face global BufferPadding rgb:2a2a2a,default
