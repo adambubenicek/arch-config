@@ -189,6 +189,7 @@ if [[ "$USER" == "root" ]];then
 
     cmd npm install -g \
       bash-language-server \
+      typescript \
       typescript-language-server \
       svelte-language-server \
       prettier
