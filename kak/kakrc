@@ -11,6 +11,17 @@ set-option global indentwidth 0
 define-command find -docstring "find files" -params 1 %{ edit %arg{1} }
 complete-command find shell-script-candidates %{ find . -type f }
 
+define-command -docstring 'Invoke fzf to open a file' -params 0 fzf-find-file %{
+  evaluate-commands %sh{
+    file="$(find . -type f | fzf-tmux -d 15)"
+    if [ -n "$file" ]; then
+        printf 'edit "%s"\n' "$file"
+    fi
+  }
+}
+
+map global user f ':fzf-find-file<ret>' -docstring 'Find file'
+
 face global value red
 face global type yellow
 face global variable green
