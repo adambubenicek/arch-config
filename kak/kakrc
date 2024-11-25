@@ -1,6 +1,12 @@
 eval %sh{kak-lsp}
 lsp-enable
 
+set-option global tabstop 2
+set-option global indentwidth 0
+
+define-command find -docstring "find files" -params 1 %{ edit %arg{1} }
+complete-command find shell-script-candidates %{ find . -type f }
+
 face global value red
 face global type yellow
 face global variable green
