@@ -167,7 +167,8 @@ if [[ "$USER" == "root" ]];then
       ripgrep \
       podman \
       kakoune \
-      fzf
+      fzf \
+      editorconfig
 
   if hippo || kangaroo; then
     cmd dnf install -y \

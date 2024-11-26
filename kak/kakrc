@@ -1,12 +1,16 @@
 eval %sh{kak-lsp}
 lsp-enable
 
+hook global WinCreate ^[^*]+$ %{editorconfig-load}
+
 map global user l ':enter-user-mode lsp<ret>' -docstring 'LSP mode'
 map global object d '<a-semicolon>lsp-diagnostic-object --include-warnings<ret>' -docstring 'LSP errors and warnings'
 map global object D '<a-semicolon>lsp-diagnostic-object<ret>' -docstring 'LSP errors'
 
 set-option global tabstop 2
 set-option global indentwidth 0
+
+add-highlighter global/ show-whitespaces
 
 define-command find -docstring "find files" -params 1 %{ edit %arg{1} }
 complete-command find shell-script-candidates %{ find . -type f }
@@ -67,5 +71,5 @@ face global StatusLineValue green,default
 face global StatusCursor rgb:111111,rgb:eeeeee
 face global Prompt yellow,default
 face global MatchingChar default,default+b
-face global Whitespace rgb:2a2a2a,default+fd
+face global Whitespace rgb:2a2a2a,default
 face global BufferPadding rgb:2a2a2a,default
