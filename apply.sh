@@ -200,6 +200,18 @@ if [[ "$USER" == "root" ]];then
     file /usr/lib64/firefox/firefox.cfg firefox/firefox.cfg
 
     file /etc/udev/rules.d/overrides.rules udev/overrides.rules
+
+    if [[ ! -f /usr/local/bin/keyd ]]; then
+        tmp=$(cmd mktemp -d)
+        cmd git clone --branch v2.5.0 --depth 1 https://github.com/rvaiya/keyd/ "$tmp"
+
+        cmd make -C "$tmp"
+        cmd make -C "$tmp" install
+        cmd rm -rf "$tmp"
+    fi
+
+    file /etc/keyd/default.conf keyd/default.conf
+    cmd systemctl enable keyd
   fi
 
   if sloth; then
@@ -259,7 +271,6 @@ if [[ "$USER" != "root" ]]; then
 
   if hippo || kangaroo; then
     tmp=$(cmd mktemp)
-
     cmd curl -o "$tmp" -sL https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.tar.xz
 
     cmd mkdir -p ~/.local/share/fonts
@@ -273,7 +284,7 @@ if [[ "$USER" != "root" ]]; then
     cmd curl -o "$tmp" -sL https://github.com/kakoune-lsp/kakoune-lsp/releases/download/v18.0.3/kakoune-lsp-v18.0.3-x86_64-unknown-linux-musl.tar.gz
     cmd mkdir -p ~/.local/bin
     cmd tar -xzf "$tmp" -C ~/.local/bin
-    
+
     cmd rm "$tmp"
     unset tmp
   fi
