@@ -1,5 +1,4 @@
-127.0.0.1         hippo
-{{ SLOTH_IP }}    sloth
-{{ OWL_IP }}      owl
-{{ KANGAROO_IP }} kangaroo
-
+127.0.0.1     hippo
+$SLOTH_IP     sloth
+$OWL_IP       owl
+$KANGAROO_IP  kangaroo
