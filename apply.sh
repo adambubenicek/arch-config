@@ -146,9 +146,6 @@ if [[ ! -f ~/.config/sops/age/keys.txt ]]; then
 fi
 
 
-source ./colors.sh
-
-
 # Configure system
 if [[ "$USER" == "root" ]];then
   eval "$(sops decrypt .sops/root.env)"
@@ -164,11 +161,7 @@ if [[ "$USER" == "root" ]];then
 
   cmd dnf install -y \
       wireguard-tools \
-      ripgrep \
-      podman \
-      kakoune \
-      fzf \
-      editorconfig
+      podman
 
   if hippo || kangaroo; then
     cmd dnf install -y \
@@ -185,15 +178,7 @@ if [[ "$USER" == "root" ]];then
       gimp \
       inkscape \
       blender \
-      steam \
-      alacritty \
-
-    cmd npm install -g \
-      bash-language-server \
-      typescript \
-      typescript-language-server \
-      svelte-language-server \
-      prettier
+      steam
 
     cmd mkdir -p /usr/lib64/firefox/defaults/pref
     file /usr/lib64/firefox/defaults/pref/autoconfig.js firefox/autoconfig.js
@@ -271,43 +256,21 @@ if [[ "$USER" != "root" ]]; then
 
   if hippo || kangaroo; then
     tmp=$(cmd mktemp)
-    cmd curl -o "$tmp" -sL https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.tar.xz
-
-    cmd mkdir -p ~/.local/share/fonts
-    cmd tar -xJf "$tmp" -C ~/.local/share/fonts
-
+    cmd curl -Lo "$tmp" https://zed.dev/api/releases/stable/latest/zed-linux-x86_64.tar.gz
+    cmd tar -xvf "$tmp" -C ~/.local
+    cmd ln -sf ~/.local/zed.app/bin/zed ~/.local/bin/zed
     cmd rm "$tmp"
-    unset tmp
 
-
-    tmp=$(cmd mktemp)
-    cmd curl -o "$tmp" -sL https://github.com/kakoune-lsp/kakoune-lsp/releases/download/v18.0.3/kakoune-lsp-v18.0.3-x86_64-unknown-linux-musl.tar.gz
-    cmd mkdir -p ~/.local/bin
-    cmd tar -xzf "$tmp" -C ~/.local/bin
-
-    cmd rm "$tmp"
-    unset tmp
+    cmd cp ~/.local/zed.app/share/applications/zed.desktop ~/.local/share/applications/dev.zed.Zed.desktop
+    cmd sed -i "s|Icon=zed|Icon=$HOME/.local/zed.app/share/icons/hicolor/512x512/apps/zed.png|g" ~/.local/share/applications/dev.zed.Zed.desktop
+    cmd sed -i "s|Exec=zed|Exec=$HOME/.local/zed.app/libexec/zed-editor|g" ~/.local/share/applications/dev.zed.Zed.desktop
   fi
 
   cmd mkdir -p ~/.bashrc.d/
   file ~/.bashrc.d/overrides.sh bash/overrides.sh
 
-  cmd mkdir -p ~/.config/ripgrep
-  file ~/.config/ripgrep/ripgreprc ripgrep/ripgreprc
-
   cmd mkdir -p ~/.config/git
   template ~/.config/git/config git/config
-
-  cmd mkdir -p ~/.config/kak
-  template ~/.config/kak/kakrc kak/kakrc
-
-  cmd mkdir -p ~/.config/tmux
-  template ~/.config/tmux/tmux.conf tmux/tmux.conf
-
-  if hippo || kangaroo; then
-    cmd mkdir -p ~/.config/alacritty
-    template ~/.config/alacritty/alacritty.toml alacritty/alacritty.toml
-  fi
 
   cmd mkdir -p ~/.ssh
   cmd chmod 700 ~/.ssh
