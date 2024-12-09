@@ -264,6 +264,9 @@ if [[ "$USER" != "root" ]]; then
     cmd cp ~/.local/zed.app/share/applications/zed.desktop ~/.local/share/applications/dev.zed.Zed.desktop
     cmd sed -i "s|Icon=zed|Icon=$HOME/.local/zed.app/share/icons/hicolor/512x512/apps/zed.png|g" ~/.local/share/applications/dev.zed.Zed.desktop
     cmd sed -i "s|Exec=zed|Exec=$HOME/.local/zed.app/libexec/zed-editor|g" ~/.local/share/applications/dev.zed.Zed.desktop
+
+    cmd mkdir -p ~/.config/environment.d
+    file ~/.config/environment.d/electron.conf environment/electron.conf
   fi
 
   cmd mkdir -p ~/.bashrc.d/
