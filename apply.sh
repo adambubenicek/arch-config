@@ -267,7 +267,7 @@ if [[ "$USER" != "root" ]]; then
   file ~/.bashrc.d/mise.sh bash/mise.sh
 
   cmd mkdir -p ~/.config/mise
-  file ~/.config/mise/config.toml mise/config.toml
+  file ~/.config/mise/config.toml mise/global.toml
 
   cmd mise install
 
