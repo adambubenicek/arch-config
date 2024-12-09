@@ -172,8 +172,12 @@ if [[ "$USER" == "root" ]];then
     cmd dnf swap -y mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
     cmd dnf swap -y ffmpeg-free ffmpeg --allowerasing
 
+    file /etc/yum.repos.d/mise.repo yum/mise.repo
+    file /etc/yum.repos.d/vscode.repo yum/vscode.repo
+
     cmd dnf install -y \
-      shellcheck \
+      mise \
+      code \
       gimp \
       inkscape \
       blender \
@@ -197,11 +201,8 @@ if [[ "$USER" == "root" ]];then
     file /etc/keyd/default.conf keyd/default.conf
     cmd systemctl enable keyd
 
-    cmd dnf install -y dnf-plugins-core
-    cmd dnf config-manager addrepo --from-repofile=https://mise.jdx.dev/rpm/mise.repo
-    cmd dnf install -y mise
   fi
-  
+
   if sloth; then
     file /etc/containers/systemd/homeassistant.container containers/homeassistant.container
     file /etc/containers/systemd/qbittorrent.container containers/qbittorrent.container
@@ -258,16 +259,6 @@ if [[ "$USER" != "root" ]]; then
   owl && eval "$(sops decrypt .sops/user.owl.env)"
 
   if hippo || kangaroo; then
-    tmp=$(cmd mktemp)
-    cmd curl -Lo "$tmp" https://zed.dev/api/releases/stable/latest/zed-linux-x86_64.tar.gz
-    cmd tar -xvf "$tmp" -C ~/.local
-    cmd ln -sf ~/.local/zed.app/bin/zed ~/.local/bin/zed
-    cmd rm "$tmp"
-
-    cmd cp ~/.local/zed.app/share/applications/zed.desktop ~/.local/share/applications/dev.zed.Zed.desktop
-    cmd sed -i "s|Icon=zed|Icon=$HOME/.local/zed.app/share/icons/hicolor/512x512/apps/zed.png|g" ~/.local/share/applications/dev.zed.Zed.desktop
-    cmd sed -i "s|Exec=zed|Exec=$HOME/.local/zed.app/libexec/zed-editor|g" ~/.local/share/applications/dev.zed.Zed.desktop
-
     cmd mkdir -p ~/.config/environment.d
     file ~/.config/environment.d/electron.conf environment/electron.conf
   fi
