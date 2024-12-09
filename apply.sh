@@ -173,7 +173,6 @@ if [[ "$USER" == "root" ]];then
     cmd dnf swap -y ffmpeg-free ffmpeg --allowerasing
 
     cmd dnf install -y \
-      nodejs \
       shellcheck \
       gimp \
       inkscape \
@@ -197,8 +196,12 @@ if [[ "$USER" == "root" ]];then
 
     file /etc/keyd/default.conf keyd/default.conf
     cmd systemctl enable keyd
-  fi
 
+    cmd dnf install -y dnf-plugins-core
+    cmd dnf config-manager addrepo --from-repofile=https://mise.jdx.dev/rpm/mise.repo
+    cmd dnf install -y mise
+  fi
+  
   if sloth; then
     file /etc/containers/systemd/homeassistant.container containers/homeassistant.container
     file /etc/containers/systemd/qbittorrent.container containers/qbittorrent.container
@@ -269,8 +272,13 @@ if [[ "$USER" != "root" ]]; then
     file ~/.config/environment.d/electron.conf environment/electron.conf
   fi
 
-  cmd mkdir -p ~/.bashrc.d/
-  file ~/.bashrc.d/overrides.sh bash/overrides.sh
+  cmd mkdir -p ~/.bashrc.d
+  file ~/.bashrc.d/mise.sh bash/mise.sh
+
+  cmd mkdir -p ~/.config/mise
+  file ~/.config/mise/config.toml mise/config.toml
+
+  cmd mise install
 
   cmd mkdir -p ~/.config/git
   template ~/.config/git/config git/config
