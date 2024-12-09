@@ -261,6 +261,11 @@ if [[ "$USER" != "root" ]]; then
   if hippo || kangaroo; then
     cmd mkdir -p ~/.config/environment.d
     file ~/.config/environment.d/electron.conf environment/electron.conf
+
+    cmd code --install-extension github.github-vscode-theme
+
+    cmd mkdir -p ~/.config/Code/User/
+    file ~/.config/Code/User/settings.json code/settings.json
   fi
 
   cmd mkdir -p ~/.bashrc.d
